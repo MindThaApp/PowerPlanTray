@@ -9,6 +9,9 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using System.Text.Json;
 using System.Runtime.InteropServices;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace PowerPlanTray;
 
@@ -33,6 +36,7 @@ public sealed partial class SettingsWindow : Window
     public event EventHandler? PowerPlansChanged;
 
     public event EventHandler? AutomationSettingsChanged;
+    public event EventHandler? UiPreferencesChanged;
 
     public SettingsWindow(
         AppSettingsService appSettingsService,
@@ -45,9 +49,53 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
+        InitializeUiPreferences();
+        ApplyUiPreferences();
         Activated += OnWindowActivated;
         _automationRuleEngine.TimedSwitchStateChanged += OnTimedSwitchStateChanged;
         Closed += OnWindowClosed;
+    }
+
+    private void InitializeUiPreferences()
+    {
+        _isInitializing = true;
+        ThemeComboBox.SelectedIndex = (int)_appSettingsService.Theme;
+        PopupSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupSize;
+        PopupTextSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupTextSize;
+        SettingsWindowSizeComboBox.SelectedIndex = (int)_appSettingsService.SettingsWindowSize;
+        _isInitializing = false;
+    }
+
+    public void ApplyUiPreferences()
+    {
+        SettingsNavigationView.RequestedTheme = _appSettingsService.Theme switch
+        {
+            AppTheme.Light => ElementTheme.Light,
+            AppTheme.Dark => ElementTheme.Dark,
+            _ => ElementTheme.Default,
+        };
+
+        (int width, int height) = _appSettingsService.SettingsWindowSize switch
+        {
+            UiSize.Small => (760, 560),
+            UiSize.Large => (1200, 850),
+            _ => (960, 700),
+        };
+        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd)).Resize(new SizeInt32(width, height));
+    }
+
+    private void OnUiPreferenceChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isInitializing || ThemeComboBox.SelectedIndex < 0 || PopupSizeComboBox.SelectedIndex < 0 ||
+            PopupTextSizeComboBox.SelectedIndex < 0 || SettingsWindowSizeComboBox.SelectedIndex < 0) return;
+
+        _appSettingsService.Theme = (AppTheme)ThemeComboBox.SelectedIndex;
+        _appSettingsService.PopupSize = (UiSize)PopupSizeComboBox.SelectedIndex;
+        _appSettingsService.PopupTextSize = (UiSize)PopupTextSizeComboBox.SelectedIndex;
+        _appSettingsService.SettingsWindowSize = (UiSize)SettingsWindowSizeComboBox.SelectedIndex;
+        ApplyUiPreferences();
+        UiPreferencesChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private async void OnWindowActivated(object sender, WindowActivatedEventArgs args)
@@ -94,6 +142,7 @@ public sealed partial class SettingsWindow : Window
         PowerPlansPage.Visibility = tag == "PowerPlans" ? Visibility.Visible : Visibility.Collapsed;
         AutomationPage.Visibility = tag == "Automation" ? Visibility.Visible : Visibility.Collapsed;
         AdvancedPage.Visibility = tag == "Advanced" ? Visibility.Visible : Visibility.Collapsed;
+        UiPage.Visibility = tag == "UI" ? Visibility.Visible : Visibility.Collapsed;
 
         if (tag == "PowerPlans")
         {
@@ -480,7 +529,7 @@ public sealed partial class SettingsWindow : Window
             _allAdvancedSettings.Clear();
             AllAdvancedSettingsPanel.Children.Clear();
             AllAdvancedSection.Visibility = Visibility.Collapsed;
-            ShowAllAdvancedButton.Content = "Show all advanced settings";
+            AdvancedExpanderHeaderText.Text = "Show all advanced settings";
             RefreshAdvancedSettings();
         }
     }
@@ -526,12 +575,12 @@ public sealed partial class SettingsWindow : Window
         if (AllAdvancedSection.Visibility == Visibility.Visible)
         {
             AllAdvancedSection.Visibility = Visibility.Collapsed;
-            ShowAllAdvancedButton.Content = "Show all advanced settings";
+            AdvancedExpanderHeaderText.Text = "Show all advanced settings";
             return;
         }
 
         AllAdvancedSection.Visibility = Visibility.Visible;
-        ShowAllAdvancedButton.Content = "Hide all advanced settings";
+        AdvancedExpanderHeaderText.Text = "Hide all advanced settings";
         if (_allAdvancedSettingsLoaded || AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
         AdvancedStatusText.Text = "Loading all advanced settings...";
         await Task.Yield();

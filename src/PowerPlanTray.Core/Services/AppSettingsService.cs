@@ -14,6 +14,10 @@ public sealed class AppSettingsService
     private const string AcPlanGuidKey = nameof(AcPlanGuid);
     private const string AutomationRulesKey = "AutomationRules";
     private const string AdvancedProfilesFileName = "advanced-settings-profiles.json";
+    private const string ThemeKey = nameof(Theme);
+    private const string PopupSizeKey = nameof(PopupSize);
+    private const string PopupTextSizeKey = nameof(PopupTextSize);
+    private const string SettingsWindowSizeKey = nameof(SettingsWindowSize);
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
@@ -28,6 +32,30 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(StartHiddenKey, defaultValue: false);
         set => _localSettings.Values[StartHiddenKey] = value;
+    }
+
+    public AppTheme Theme
+    {
+        get => GetEnum(ThemeKey, AppTheme.FollowWindows);
+        set => _localSettings.Values[ThemeKey] = value.ToString();
+    }
+
+    public UiSize PopupSize
+    {
+        get => GetEnum(PopupSizeKey, UiSize.Medium);
+        set => _localSettings.Values[PopupSizeKey] = value.ToString();
+    }
+
+    public UiSize PopupTextSize
+    {
+        get => GetEnum(PopupTextSizeKey, UiSize.Medium);
+        set => _localSettings.Values[PopupTextSizeKey] = value.ToString();
+    }
+
+    public UiSize SettingsWindowSize
+    {
+        get => GetEnum(SettingsWindowSizeKey, UiSize.Medium);
+        set => _localSettings.Values[SettingsWindowSizeKey] = value.ToString();
     }
 
     public bool AutoSwitchBatteryAcEnabled
@@ -112,6 +140,12 @@ public sealed class AppSettingsService
     private bool GetBoolean(string key, bool defaultValue) =>
         _localSettings.Values.TryGetValue(key, out object? value) && value is bool boolean
             ? boolean
+            : defaultValue;
+
+    private T GetEnum<T>(string key, T defaultValue) where T : struct, Enum =>
+        _localSettings.Values.TryGetValue(key, out object? value) &&
+        value is string serialized && Enum.TryParse(serialized, out T result)
+            ? result
             : defaultValue;
 
     private Guid? GetNullableGuid(string key) =>
