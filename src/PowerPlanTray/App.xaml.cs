@@ -69,6 +69,20 @@ public partial class App : Application
             ToolTipText = "Power Plan Tray",
             IconSource = new BitmapImage(new Uri("ms-appx:///Assets/TrayIcon.ico")),
 
+            // IMPORTANT: TaskbarIcon.ContextMenuMode defaults to PopupMenu,
+            // which does NOT host the MenuFlyout as a real XAML popup at
+            // all - it mirrors each item into a native Win32 popup menu
+            // (that's why the flyout renders/screenshots fine even though
+            // the hidden window below is never Activate()d) and, on
+            // selection, invokes only the item's ICommand (Command
+            // property) - it never raises the WinUI Click routed event.
+            // Every MenuFlyoutItem/RadioMenuFlyoutItem/ToggleMenuFlyoutItem
+            // built below must therefore be wired via .Command (see the
+            // RelayCommand adapter at the bottom of this file), never via
+            // .Click - a Click-only handler will silently never fire from
+            // a real click even though everything else about it looks
+            // correct. (github.com/HavenDV/H.NotifyIcon issue #109.)
+            //
             // Both left- and right-click show ContextFlyout (the one path
             // this app has field-verified doesn't crash: H.NotifyIcon's
             // separate TrayPopup/PopupActivation mechanism was tried first
@@ -226,7 +240,7 @@ public partial class App : Application
                     IsChecked = scheme.Guid == activeGuid,
                     Tag = scheme.Guid,
                 };
-                item.Click += OnSchemeItemClick;
+                item.Command = new RelayCommand(() => SwitchScheme(scheme.Guid));
                 flyout.Items.Add(item);
             }
         }
@@ -273,7 +287,7 @@ public partial class App : Application
                     IsChecked = scheme.Guid == activeGuid,
                     Tag = scheme.Guid,
                 };
-                item.Click += OnSchemeItemClick;
+                item.Command = new RelayCommand(() => SwitchScheme(scheme.Guid));
                 flyout.Items.Add(item);
             }
         }
@@ -297,29 +311,21 @@ public partial class App : Application
                 IsEnabled = false,
             });
             var cancelItem = new MenuFlyoutItem { Text = "Cancel temporary plan" };
-            cancelItem.Click += (_, _) => _automationRuleEngine.CancelTimedSwitch();
+            cancelItem.Command = new RelayCommand(() => _automationRuleEngine.CancelTimedSwitch());
             flyout.Items.Add(cancelItem);
         }
 
         flyout.Items.Add(new MenuFlyoutSeparator());
 
         var settingsItem = new MenuFlyoutItem { Text = "Settings…" };
-        settingsItem.Click += OnSettingsItemClick;
+        settingsItem.Command = new RelayCommand(ShowSettingsWindow);
         flyout.Items.Add(settingsItem);
 
         flyout.Items.Add(new MenuFlyoutSeparator());
 
         var exitItem = new MenuFlyoutItem { Text = "Exit" };
-        exitItem.Click += (_, _) => Application.Current.Exit();
+        exitItem.Command = new RelayCommand(() => Application.Current.Exit());
         flyout.Items.Add(exitItem);
-    }
-
-    private void OnSchemeItemClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is RadioMenuFlyoutItem { Tag: Guid schemeGuid })
-        {
-            SwitchScheme(schemeGuid);
-        }
     }
 
     /// <summary>
@@ -349,7 +355,17 @@ public partial class App : Application
             IsChecked = enabled,
             IsEnabled = _powerSourceMonitor.HasBattery,
         };
-        toggle.Click += OnAutoSwitchToggleClick;
+        // Toggling via the native PopupMenu bridge (see the ContextMenuMode
+        // comment on the TaskbarIcon setup) invokes Command, not Click, and
+        // there is no reliable post-toggle IsChecked to read back from a
+        // shadow native menu item - so just flip the pre-toggle `enabled`
+        // captured above instead of reading item.IsChecked from a handler.
+        toggle.Command = new RelayCommand(() =>
+        {
+            bool newValue = !enabled;
+            _appSettingsService.AutoSwitchBatteryAcEnabled = newValue;
+            _automationRuleEngine.RefreshConfiguration(applyCurrentPowerState: newValue);
+        });
         sub.Items.Add(toggle);
         sub.Items.Add(new MenuFlyoutSeparator());
 
@@ -363,7 +379,12 @@ public partial class App : Application
                 IsChecked = batteryGuid.HasValue && scheme.Guid == batteryGuid.Value,
                 Tag = scheme.Guid,
             };
-            item.Click += OnBatteryPlanSelected;
+            item.Command = new RelayCommand(() =>
+            {
+                _appSettingsService.BatteryPlanGuid = scheme.Guid;
+                _automationRuleEngine.RefreshConfiguration(
+                    applyCurrentPowerState: _appSettingsService.AutoSwitchBatteryAcEnabled && _powerSourceMonitor.IsOnBattery);
+            });
             sub.Items.Add(item);
         }
 
@@ -379,41 +400,21 @@ public partial class App : Application
                 IsChecked = acGuid.HasValue && scheme.Guid == acGuid.Value,
                 Tag = scheme.Guid,
             };
-            item.Click += OnAcPlanSelected;
+            item.Command = new RelayCommand(() =>
+            {
+                _appSettingsService.AcPlanGuid = scheme.Guid;
+                _automationRuleEngine.RefreshConfiguration(
+                    applyCurrentPowerState: _appSettingsService.AutoSwitchBatteryAcEnabled && !_powerSourceMonitor.IsOnBattery);
+            });
             sub.Items.Add(item);
         }
 
         return sub;
     }
 
-    private void OnAutoSwitchToggleClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is not ToggleMenuFlyoutItem item) return;
-        _appSettingsService.AutoSwitchBatteryAcEnabled = item.IsChecked;
-        _automationRuleEngine.RefreshConfiguration(applyCurrentPowerState: item.IsChecked);
-    }
-
-    private void OnBatteryPlanSelected(object sender, RoutedEventArgs e)
-    {
-        if (sender is not RadioMenuFlyoutItem { Tag: Guid schemeGuid }) return;
-        _appSettingsService.BatteryPlanGuid = schemeGuid;
-        _automationRuleEngine.RefreshConfiguration(
-            applyCurrentPowerState: _appSettingsService.AutoSwitchBatteryAcEnabled && _powerSourceMonitor.IsOnBattery);
-    }
-
-    private void OnAcPlanSelected(object sender, RoutedEventArgs e)
-    {
-        if (sender is not RadioMenuFlyoutItem { Tag: Guid schemeGuid }) return;
-        _appSettingsService.AcPlanGuid = schemeGuid;
-        _automationRuleEngine.RefreshConfiguration(
-            applyCurrentPowerState: _appSettingsService.AutoSwitchBatteryAcEnabled && !_powerSourceMonitor.IsOnBattery);
-    }
-
     // ---------------------------------------------------------------------
     // Settings window / misc
     // ---------------------------------------------------------------------
-
-    private void OnSettingsItemClick(object sender, RoutedEventArgs e) => ShowSettingsWindow();
 
     private void ShowSettingsWindow()
     {
