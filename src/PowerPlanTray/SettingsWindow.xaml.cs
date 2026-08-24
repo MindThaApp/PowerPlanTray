@@ -56,7 +56,6 @@ public sealed partial class SettingsWindow : Window
         SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
-        TryApplyBackdrop();
         ConfigureNavigationPane();
         InitializeUiPreferences();
         ApplyUiPreferences();
@@ -80,10 +79,15 @@ public sealed partial class SettingsWindow : Window
         ElementTheme theme = _appSettingsService.Theme switch
         {
             AppTheme.Light => ElementTheme.Light,
-            AppTheme.Dark => ElementTheme.Dark,
+            AppTheme.Dark or AppTheme.OledBlack => ElementTheme.Dark,
             _ => IsWindowsLightTheme() ? ElementTheme.Light : ElementTheme.Dark,
         };
         WindowRoot.RequestedTheme = theme;
+        bool useSolidBlack = _appSettingsService.Theme == AppTheme.OledBlack;
+        WindowRoot.Background = useSolidBlack
+            ? new SolidColorBrush(Colors.Black)
+            : new SolidColorBrush(Colors.Transparent);
+        ApplyBackdrop(useSolidBlack);
         IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         AppWindow appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd));
         appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -100,9 +104,14 @@ public sealed partial class SettingsWindow : Window
         appWindow.Resize(new SizeInt32(width, height));
     }
 
-    private void TryApplyBackdrop()
+    private void ApplyBackdrop(bool useSolidBlack)
     {
-        try { SystemBackdrop = new MicaBackdrop { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base }; }
+        if (useSolidBlack)
+        {
+            SystemBackdrop = null;
+            return;
+        }
+        try { SystemBackdrop = new MicaBackdrop { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt }; }
         catch { try { SystemBackdrop = new DesktopAcrylicBackdrop(); } catch { } }
     }
 
@@ -169,6 +178,7 @@ public sealed partial class SettingsWindow : Window
     private async void OnWindowActivated(object sender, WindowActivatedEventArgs args)
     {
         if (args.WindowActivationState == WindowActivationState.Deactivated) return;
+        ApplyUiPreferences();
         if (!_hasInitialized)
         {
             _isInitializing = true;

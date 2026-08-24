@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.Win32;
 using PowerPlanTray.Core.Models;
 using PowerPlanTray.Core.Services;
 using Windows.Graphics;
@@ -70,7 +71,6 @@ public sealed partial class TrayPopupWindow : Window
         _deactivationTimer.Interval = TimeSpan.FromMilliseconds(100);
         _deactivationTimer.IsRepeating = false;
         _deactivationTimer.Tick += OnDeactivationTimerTick;
-        TryApplyBackdrop();
         Activated += OnActivated;
         PopupBorder.KeyDown += OnKeyDown;
     }
@@ -110,9 +110,12 @@ public sealed partial class TrayPopupWindow : Window
         PopupBorder.RequestedTheme = _settings.Theme switch
         {
             AppTheme.Light => ElementTheme.Light,
-            AppTheme.Dark => ElementTheme.Dark,
-            _ => ElementTheme.Default,
+            AppTheme.Dark or AppTheme.OledBlack => ElementTheme.Dark,
+            _ => IsWindowsLightTheme() ? ElementTheme.Light : ElementTheme.Dark,
         };
+        bool useSolidBlack = _settings.Theme == AppTheme.OledBlack;
+        PopupBorder.Background = new SolidColorBrush(useSolidBlack ? Colors.Black : Colors.Transparent);
+        ApplyBackdrop(useSolidBlack);
         PopupContent.Resources["ControlContentThemeFontSize"] = _settings.PopupTextSize switch
         {
             UiSize.Small => 13d,
@@ -317,13 +320,28 @@ public sealed partial class TrayPopupWindow : Window
         if (e.Key == Windows.System.VirtualKey.Escape) { e.Handled = true; Hide(); }
     }
 
-    private void TryApplyBackdrop()
+    private void ApplyBackdrop(bool useSolidBlack)
     {
+        if (useSolidBlack)
+        {
+            SystemBackdrop = null;
+            return;
+        }
         try { SystemBackdrop = new MicaBackdrop { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt }; }
         catch
         {
             try { SystemBackdrop = new DesktopAcrylicBackdrop(); } catch { }
         }
+    }
+
+    private static bool IsWindowsLightTheme()
+    {
+        try
+        {
+            object? value = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1);
+            return Convert.ToInt32(value) != 0;
+        }
+        catch { return Application.Current.RequestedTheme == ApplicationTheme.Light; }
     }
 
     [StructLayout(LayoutKind.Sequential)] private struct RECT { public int Left, Top, Right, Bottom; }

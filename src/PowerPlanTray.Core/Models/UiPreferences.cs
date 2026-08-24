@@ -5,6 +5,7 @@ public enum AppTheme
     FollowWindows,
     Light,
     Dark,
+    OledBlack,
 }
 
 public enum UiSize
