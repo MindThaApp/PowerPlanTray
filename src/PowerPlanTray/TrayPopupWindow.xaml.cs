@@ -31,6 +31,7 @@ public sealed partial class TrayPopupWindow : Window
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _deactivationTimer;
     private bool _isShowing;
     private bool _fullMenu;
+    private bool _resizeToContentPending;
 
     public TrayPopupWindow(
         PowerSchemeService powerSchemes,
@@ -201,12 +202,16 @@ public sealed partial class TrayPopupWindow : Window
             _settings.AcPlanGuid = guid;
             _automation.RefreshConfiguration(_settings.AutoSwitchBatteryAcEnabled && !_powerSource.IsOnBattery);
         }));
-        PopupContent.Children.Add(new Expander
+        var expander = new Expander
         {
             Header = _settings.AutoSwitchBatteryAcEnabled ? "✓  Auto-switch on Battery/AC" : "Auto-switch on Battery/AC",
             Content = panel,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-        });
+        };
+        expander.Expanding += (_, _) => ScheduleResizeToContent();
+        expander.Collapsed += (_, _) => ScheduleResizeToContent();
+        expander.SizeChanged += (_, _) => ScheduleResizeToContent();
+        PopupContent.Children.Add(expander);
     }
 
     private static FrameworkElement CreatePlanPicker(string header, IReadOnlyList<PowerScheme> schemes, Guid? selected, Action<Guid> changed)
@@ -266,6 +271,23 @@ public sealed partial class TrayPopupWindow : Window
         int gap = (int)Math.Round(8 * scale);
         _appWindow.MoveAndResize(new RectInt32(workArea.Right - width - gap, workArea.Bottom - height - gap, width, height));
         System.Diagnostics.Debug.WriteLine($"PowerPlanTray popup ({(_fullMenu ? "right" : "left")}): natural {desired.Width:F0}x{desired.Height:F0} DIP, scaled {widthDip:F0}x{heightDip:F0} DIP, {width}x{height} px, DPI scale {scale:F2}");
+    }
+
+    private void ScheduleResizeToContent()
+    {
+        if (_resizeToContentPending) return;
+        _resizeToContentPending = true;
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            _resizeToContentPending = false;
+            if (!_isShowing) return;
+
+            // Expander events are raised while its visual state is changing. Run
+            // after that work and force layout so DesiredSize reflects the newly
+            // shown or hidden controls before resizing and re-anchoring the window.
+            PopupBorder.UpdateLayout();
+            PositionAboveTaskbar();
+        });
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
