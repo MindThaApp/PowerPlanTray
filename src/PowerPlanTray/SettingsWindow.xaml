@@ -48,7 +48,19 @@
                     x:Name="DisableCpuBoostCheckBox"
                     Content="Disable CPU Boost"
                     Click="OnDisableCpuBoostClick" />
-                <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
+                <StackPanel Spacing="6">
+                    <TextBlock Text="This reflects the active power plan, not a separate app setting. CPU/turbo boost is considered disabled when Maximum processor state is 99% or lower, and enabled at 100%; switching plans or editing that value on the Advanced page updates this checkbox."
+                               TextWrapping="Wrap"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ComboBox x:Name="GeneralPlanComboBox"
+                          Header="Active power plan"
+                          DisplayMemberPath="Name"
+                          MinWidth="320"
+                          HorizontalAlignment="Left"
+                          SelectionChanged="OnGeneralPlanSelectionChanged" />
 
                 <CheckBox
                     x:Name="StartWithWindowsCheckBox"

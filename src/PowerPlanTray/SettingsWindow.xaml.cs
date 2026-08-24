@@ -190,11 +190,12 @@ public sealed partial class SettingsWindow : Window
             InitializeAdvancedPlans();
             _hasInitialized = true;
         }
-        RefreshCpuBoostState();
+        RefreshActiveSchemeSettings();
     }
 
     public void RefreshActiveSchemeSettings()
     {
+        RefreshGeneralPlanSelector();
         RefreshCpuBoostState();
         if (AdvancedPlanComboBox.ItemsSource is IEnumerable<PowerScheme> schemes)
         {
@@ -292,6 +293,39 @@ public sealed partial class SettingsWindow : Window
             AddPriorityButtons(row, rule);
             row.Children.Add(remove);
             AppRulesPanel.Children.Add(row);
+        }
+    }
+
+    private void RefreshGeneralPlanSelector()
+    {
+        try
+        {
+            IReadOnlyList<PowerScheme> schemes = _powerSchemeService.GetAllSchemes();
+            Guid active = _powerSchemeService.GetActiveSchemeGuid();
+            bool wasInitializing = _isInitializing;
+            _isInitializing = true;
+            GeneralPlanComboBox.ItemsSource = schemes;
+            GeneralPlanComboBox.SelectedItem = schemes.FirstOrDefault(scheme => scheme.Guid == active);
+            _isInitializing = wasInitializing;
+        }
+        catch (Exception ex)
+        {
+            CpuBoostStatusText.Text = $"Couldn't read power plans: {ex.Message}";
+        }
+    }
+
+    private void OnGeneralPlanSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isInitializing || GeneralPlanComboBox.SelectedItem is not PowerScheme scheme) return;
+        try
+        {
+            _powerSchemeService.SetActiveScheme(scheme.Guid);
+            RefreshActiveSchemeSettings();
+        }
+        catch (Exception ex)
+        {
+            CpuBoostStatusText.Text = $"Couldn't switch power plans: {ex.Message}";
+            RefreshActiveSchemeSettings();
         }
     }
 
@@ -1098,9 +1132,10 @@ public sealed partial class SettingsWindow : Window
         {
             Guid active = _powerSchemeService.GetActiveSchemeGuid();
             uint value = _powerSchemeService.GetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid);
+            bool wasInitializing = _isInitializing;
             _isInitializing = true;
             DisableCpuBoostCheckBox.IsChecked = value <= 99;
-            _isInitializing = false;
+            _isInitializing = wasInitializing;
             CpuBoostStatusText.Text = string.Empty;
         }
         catch (Exception ex) { CpuBoostStatusText.Text = $"Couldn't read CPU boost state: {ex.Message}"; _isInitializing = false; }
