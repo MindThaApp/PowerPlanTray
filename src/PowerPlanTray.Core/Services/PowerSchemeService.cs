@@ -17,6 +17,12 @@ public class PowerSchemeService
         EnumerateGuids(schemeGuid, subgroupGuid, NativeMethods.ACCESS_INDIVIDUAL_SETTING)
             .Select(guid => (guid, ReadFriendlyName(schemeGuid, subgroupGuid, guid))).ToArray();
 
+    public string GetSubgroupName(Guid schemeGuid, Guid subgroupGuid) =>
+        ReadFriendlyName(schemeGuid, subgroupGuid, null);
+
+    public string GetSettingName(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid) =>
+        ReadFriendlyName(schemeGuid, subgroupGuid, settingGuid);
+
     public string? GetSettingDescription(Guid subgroupGuid, Guid settingGuid)
     {
         return ReadString((IntPtr buffer, ref uint size) =>
@@ -31,8 +37,13 @@ public class PowerSchemeService
         string? units = ReadString((IntPtr buffer, ref uint size) =>
             NativeMethods.PowerReadValueUnitsSpecifier(IntPtr.Zero, ref subgroupGuid, ref settingGuid, buffer, ref size));
 
+        // Range metadata and indexed choices are mutually exclusive editor types.
+        // Some range settings expose registry data that looks enumerable; never
+        // interpret it as choices after all three range calls have succeeded.
+        bool isRange = min.HasValue && max.HasValue && increment.HasValue;
         var choices = new List<PowerSettingChoice>();
-        for (uint index = 0; index < 256; index++)
+        if (!isRange)
+        for (uint index = 0; ; index++)
         {
             uint size = sizeof(uint);
             IntPtr buffer = Marshal.AllocHGlobal((int)size);

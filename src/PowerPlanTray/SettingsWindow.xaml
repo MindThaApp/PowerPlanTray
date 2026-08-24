@@ -107,14 +107,33 @@
         <ScrollViewer x:Name="AdvancedPage" Visibility="Collapsed">
             <StackPanel MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
                 <TextBlock Text="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Edit every setting exposed by Windows. Changes are applied immediately." TextWrapping="Wrap" />
+                <TextBlock Text="Common Windows power options load immediately. Expand the section below only when you need every setting exposed by this PC." TextWrapping="Wrap" />
                 <ComboBox x:Name="AdvancedPlanComboBox"
                           Header="Power plan"
                           DisplayMemberPath="Name"
                           MinWidth="320"
                           SelectionChanged="OnAdvancedPlanSelectionChanged" />
                 <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
+                <Button Content="Restore Windows Defaults" Click="OnRestoreWindowsDefaultsClick" HorizontalAlignment="Left" />
                 <StackPanel x:Name="AdvancedSettingsPanel" Spacing="16" />
+                <Button x:Name="ShowAllAdvancedButton" Content="Show all advanced settings" Click="OnShowAllAdvancedClick" HorizontalAlignment="Left" />
+                <StackPanel x:Name="AllAdvancedSection" Visibility="Collapsed" Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Enable All" Click="OnEnableAllAdvancedClick" />
+                        <Button Content="Disable All" Click="OnDisableAllAdvancedClick" />
+                    </StackPanel>
+                    <TextBlock Text="Profiles capture the visibility and AC/DC values of the settings loaded below." TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Save custom configuration/profile" Click="OnSaveProfileClick" />
+                        <ComboBox x:Name="AdvancedProfileComboBox" Header="Saved profiles" DisplayMemberPath="Name" MinWidth="220" />
+                        <Button Content="Load custom configuration/profile" Click="OnLoadProfileClick" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Save to file..." Click="OnExportProfileClick" />
+                        <Button Content="Load from file..." Click="OnImportProfileClick" />
+                    </StackPanel>
+                    <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
         </Grid>

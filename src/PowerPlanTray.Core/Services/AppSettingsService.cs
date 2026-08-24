@@ -13,6 +13,7 @@ public sealed class AppSettingsService
     private const string BatteryPlanGuidKey = nameof(BatteryPlanGuid);
     private const string AcPlanGuidKey = nameof(AcPlanGuid);
     private const string AutomationRulesKey = "AutomationRules";
+    private const string AdvancedProfilesFileName = "advanced-settings-profiles.json";
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
@@ -89,6 +90,24 @@ public sealed class AppSettingsService
 
     public void SetAutomationRules(List<AutoSwitchRule> rules) =>
         _localSettings.Values[AutomationRulesKey] = JsonSerializer.Serialize(rules);
+
+    public async Task<List<AdvancedSettingsProfile>> GetAdvancedSettingsProfilesAsync()
+    {
+        try
+        {
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(AdvancedProfilesFileName);
+            return JsonSerializer.Deserialize<List<AdvancedSettingsProfile>>(await FileIO.ReadTextAsync(file)) ?? new();
+        }
+        catch (FileNotFoundException) { return new(); }
+        catch (JsonException) { return new(); }
+    }
+
+    public async Task SetAdvancedSettingsProfilesAsync(IEnumerable<AdvancedSettingsProfile> profiles)
+    {
+        StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
+            AdvancedProfilesFileName, CreationCollisionOption.ReplaceExisting);
+        await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(profiles, new JsonSerializerOptions { WriteIndented = true }));
+    }
 
     private bool GetBoolean(string key, bool defaultValue) =>
         _localSettings.Values.TryGetValue(key, out object? value) && value is bool boolean

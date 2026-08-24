@@ -7,10 +7,19 @@ namespace PowerPlanTray.Core.Content;
 // to actually want to understand and change.
 public static class SettingDescriptions
 {
+    private static readonly Guid Processor = new("54533251-82be-4824-96c1-47b60b740d00");
+    private static readonly Guid Disk = new("0012ee47-9041-4b5d-9b77-535fba8b1442");
+    private static readonly Guid Sleep = new("238c9fa8-0aad-41ed-83f4-97be242c8f20");
+    private static readonly Guid PciExpress = new("501a4d13-42af-4429-9fd1-a8218c268e20");
+    private static readonly Guid Usb = new("2a737441-1930-4402-8d77-b2bebba308a3");
+    private static readonly Guid Display = new("7516b95f-f776-4464-8c53-06167f40cc99");
+    private static readonly Guid Buttons = new("4f971e89-eebd-4455-a8de-9e59040e7347");
+    private static readonly Guid EnergySaver = new("de830923-a562-41af-a086-e3a2c6bad2da");
+
     private static readonly Dictionary<string, string> ByGuid = new(StringComparer.OrdinalIgnoreCase)
     {
         // SUB_PROCESSOR (54533251-82be-4824-96c1-47b60b740d00)
-        ["893dee8e-2bef-41e0-89c6-b8555b9c33fd"] =
+        ["893dee8e-2bef-41e0-89c6-b55d0929964c"] =
             "The lowest speed your CPU is allowed to idle down to, as a percentage of its full speed. Lower values save power and reduce heat/fan noise when the computer is mostly idle, but can make the CPU feel slightly slower to 'wake up' for sudden bursts of work. Most people can leave this low (5-10%); raising it trades battery life / cooler running for slightly snappier response.",
         ["bc5038f7-23e0-4960-96da-33abaf5935ec"] =
             "The highest speed your CPU is allowed to run at, as a percentage of its full rated speed. Set to 100% for full performance. Lowering it (e.g. to 99% or below) is a well-known trick to disable 'Turbo Boost'/'Precision Boost' — the CPU's automatic short-term speed-up above its base clock — which reduces peak performance but also reduces peak heat, fan noise, and power draw. This is exactly what this app's 'Disable CPU Boost' checkbox controls.",
@@ -61,6 +70,29 @@ public static class SettingDescriptions
         ["e69653ca-cf7f-4f05-aa73-cb833fa90ad4"] =
             "The battery percentage at which Windows automatically turns on Battery Saver mode (which dims the screen, throttles background activity, and reduces performance a bit to stretch remaining battery life). Lowering this delays Battery Saver kicking in; raising it triggers it earlier.",
     };
+
+    // This is also the source of truth for the Advanced page's curated view.
+    public static IReadOnlyList<PowerPlanTray.Core.Models.CommonPowerSetting> CommonSettings { get; } =
+    [
+        new(Processor, new("893dee8e-2bef-41e0-89c6-b55d0929964c")),
+        new(Processor, new("bc5038f7-23e0-4960-96da-33abaf5935ec")),
+        new(Processor, new("be337238-0d82-4146-a960-4f3749d470c7")),
+        new(Processor, new("45bcc044-d885-43e2-8605-ee0ec6e96b59")),
+        new(Processor, new("94d3a615-a899-4ac5-ae2b-e4d8f634367f")),
+        new(Disk, new("6738e2c4-e8a5-4a42-b16a-e040e769756e")),
+        new(Sleep, new("29f6c1db-86da-48c5-9fdb-f2b67b1f44da")),
+        new(Sleep, new("9d7815a6-7ee4-497e-8888-515a05f02364")),
+        new(Sleep, new("94ac6d29-73ce-41a6-809f-6363ba21b47e")),
+        new(Sleep, new("bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d")),
+        new(PciExpress, new("ee12f906-d277-404b-b6da-e5fa1a576df5")),
+        new(Usb, new("48e6b7a6-50f5-4782-a5d4-53bb8f07e226")),
+        new(Display, new("3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e")),
+        new(Display, new("fbd9aa66-9553-4097-ba44-ed6e9d65eab8")),
+        new(Buttons, new("5ca83367-6e45-459f-a27b-476b1d01c936")),
+        new(Buttons, new("7648efa3-dd9c-4e3e-b566-50f929386280")),
+        new(Buttons, new("96996bc0-ad50-47ec-923b-6f41874dd9eb")),
+        new(EnergySaver, new("e69653ca-cf7f-4f05-aa73-cb833fa90ad4")),
+    ];
 
     public static string? GetLaymanDescription(Guid settingGuid) =>
         ByGuid.TryGetValue(settingGuid.ToString(), out var text) ? text : null;
