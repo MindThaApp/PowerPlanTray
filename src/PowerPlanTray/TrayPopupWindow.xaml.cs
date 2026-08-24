@@ -124,6 +124,8 @@ public sealed partial class TrayPopupWindow : Window
     private void BuildContent(bool fullMenu)
     {
         PopupContent.Children.Clear();
+        AddAction("Open app", () => { _showSettings(); Hide(); }, automationId: "Open Power Plan Tray");
+        AddSeparator();
         IReadOnlyList<PowerScheme> all;
         Guid active;
         try
