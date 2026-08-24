@@ -49,7 +49,17 @@ public sealed partial class SettingsWindow : Window
         if (!_hasInitialized)
         {
             _isInitializing = true;
-            StartWithWindowsCheckBox.IsChecked = await _startupService.IsEnabledAsync();
+            try
+            {
+                StartWithWindowsCheckBox.IsChecked = await _startupService.IsEnabledAsync();
+            }
+            catch (Exception)
+            {
+                // The startup task extension may not be registered/queryable in
+                // every environment (e.g. dev-signed sideloads) - don't let an
+                // async-void exception here take down the whole app.
+                StartWithWindowsCheckBox.IsChecked = false;
+            }
             LaunchBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHidden ? 0 : 1;
             _isInitializing = false;
             RefreshPowerPlans();
@@ -520,29 +530,39 @@ public sealed partial class SettingsWindow : Window
             return;
         }
 
-        if (StartWithWindowsCheckBox.IsChecked == true)
+        try
         {
-            StartupTaskState state = await _startupService.RequestEnableAsync();
-            bool enabled = state is StartupTaskState.Enabled or StartupTaskState.EnabledByPolicy;
-            StartWithWindowsCheckBox.IsChecked = enabled;
-            _appSettingsService.StartWithWindows = enabled;
-
-            if (!enabled)
+            if (StartWithWindowsCheckBox.IsChecked == true)
             {
-                var dialog = new ContentDialog
+                StartupTaskState state = await _startupService.RequestEnableAsync();
+                bool enabled = state is StartupTaskState.Enabled or StartupTaskState.EnabledByPolicy;
+                StartWithWindowsCheckBox.IsChecked = enabled;
+                _appSettingsService.StartWithWindows = enabled;
+
+                if (!enabled)
                 {
-                    Title = "Startup permission needed",
-                    Content = "Enable Power Plan Tray in Windows Settings > Apps > Startup, then try again.",
-                    CloseButtonText = "OK",
-                    XamlRoot = Content.XamlRoot,
-                };
-                await dialog.ShowAsync();
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Startup permission needed",
+                        Content = "Enable Power Plan Tray in Windows Settings > Apps > Startup, then try again.",
+                        CloseButtonText = "OK",
+                        XamlRoot = Content.XamlRoot,
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
+            else
+            {
+                _startupService.Disable();
+                _appSettingsService.StartWithWindows = false;
             }
         }
-        else
+        catch (Exception)
         {
-            _startupService.Disable();
-            _appSettingsService.StartWithWindows = false;
+            // The startup task extension may not be queryable in every
+            // environment (e.g. dev-signed sideloads) - don't let an
+            // async-void exception here take down the whole app.
+            StartWithWindowsCheckBox.IsChecked = _appSettingsService.StartWithWindows;
         }
     }
 
