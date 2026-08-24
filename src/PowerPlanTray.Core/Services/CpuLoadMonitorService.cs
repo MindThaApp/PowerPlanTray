@@ -120,7 +120,7 @@ public sealed class CpuLoadMonitorService : IDisposable
     }
 
     private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
-    private static AutoSwitchRule CloneRule(AutoSwitchRule r) => new() { Id = r.Id, Trigger = r.Trigger, TargetPlanGuid = r.TargetPlanGuid, AppExecutableName = r.AppExecutableName, CpuThresholdPercent = r.CpuThresholdPercent, Name = r.Name, Enabled = r.Enabled };
+    private static AutoSwitchRule CloneRule(AutoSwitchRule r) => new() { Id = r.Id, Trigger = r.Trigger, TargetPlanGuid = r.TargetPlanGuid, AppExecutableName = r.AppExecutableName, CpuThresholdPercent = r.CpuThresholdPercent, Priority = r.Priority, Name = r.Name, Enabled = r.Enabled };
     private static ulong ToUInt64(FILETIME ft) => ((ulong)ft.High << 32) | ft.Low;
     public void Dispose() => Stop();
     private readonly record struct ProcessSample(TimeSpan Cpu, DateTime At);

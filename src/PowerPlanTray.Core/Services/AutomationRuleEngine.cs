@@ -16,11 +16,14 @@ public sealed class AutomationRuleEngine : IDisposable
     private readonly AppSettingsService _appSettingsService;
     private readonly ProcessWatcherService _processWatcher;
     private readonly CpuLoadMonitorService _cpuLoadMonitor;
-    private readonly HashSet<Guid> _activeCpuRules = new();
+    private readonly Dictionary<Guid, ActiveCpuRule> _activeCpuRules = new();
     private readonly Stack<Guid> _restorePlans = new();
     private readonly object _sync = new();
     private CancellationTokenSource? _timedSwitchCancellation;
     private long _timedSwitchGeneration;
+    private long _cpuActivationSequence;
+    private Guid? _cpuRestorePlan;
+    private Guid? _appliedCpuRuleId;
     private bool _started;
 
     public event EventHandler? TimedSwitchStateChanged;
@@ -53,6 +56,18 @@ public sealed class AutomationRuleEngine : IDisposable
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
         _processWatcher.UpdateRules(rules);
         _cpuLoadMonitor.UpdateRules(rules);
+        lock (_sync)
+        {
+            Dictionary<Guid, AutoSwitchRule> configuredCpuRules = rules
+                .Where(rule => rule.Enabled && IsCpuTrigger(rule.Trigger))
+                .ToDictionary(rule => rule.Id);
+            foreach (Guid id in _activeCpuRules.Keys.ToArray())
+            {
+                if (configuredCpuRules.TryGetValue(id, out AutoSwitchRule? configured))
+                    _activeCpuRules[id] = _activeCpuRules[id] with { Rule = configured };
+            }
+            if (_activeCpuRules.Count > 0) ApplyHighestPriorityCpuRule();
+        }
         if (rules.Any(rule => rule.Trigger == AutomationTrigger.AppRunning && rule.Enabled))
             _processWatcher.Start();
         else
@@ -164,9 +179,10 @@ public sealed class AutomationRuleEngine : IDisposable
     {
         lock (_sync)
         {
-            if (!_activeCpuRules.Add(rule.Id)) return;
-            _restorePlans.Push(_powerSchemeService.GetActiveSchemeGuid());
-            _powerSchemeService.SetActiveScheme(rule.TargetPlanGuid);
+            if (_activeCpuRules.ContainsKey(rule.Id)) return;
+            if (_activeCpuRules.Count == 0) _cpuRestorePlan = _powerSchemeService.GetActiveSchemeGuid();
+            _activeCpuRules.Add(rule.Id, new ActiveCpuRule(rule, ++_cpuActivationSequence));
+            ApplyHighestPriorityCpuRule();
             System.Diagnostics.Debug.WriteLine($"PowerPlanTray CPU rule entered: {rule.Id}, target {rule.TargetPlanGuid}");
         }
     }
@@ -176,9 +192,29 @@ public sealed class AutomationRuleEngine : IDisposable
         lock (_sync)
         {
             if (!_activeCpuRules.Remove(ruleId)) return;
-            RestoreTopPlan();
+            if (_activeCpuRules.Count == 0)
+            {
+                if (_cpuRestorePlan is Guid restorePlan) _powerSchemeService.SetActiveScheme(restorePlan);
+                _cpuRestorePlan = null;
+                _appliedCpuRuleId = null;
+            }
+            else
+            {
+                ApplyHighestPriorityCpuRule();
+            }
             System.Diagnostics.Debug.WriteLine($"PowerPlanTray CPU rule exited: {ruleId}");
         }
+    }
+
+    private void ApplyHighestPriorityCpuRule()
+    {
+        ActiveCpuRule winner = _activeCpuRules.Values
+            .OrderBy(active => active.Rule.Priority)
+            .ThenByDescending(active => active.ActivationSequence)
+            .First();
+        if (_appliedCpuRuleId == winner.Rule.Id) return;
+        _powerSchemeService.SetActiveScheme(winner.Rule.TargetPlanGuid);
+        _appliedCpuRuleId = winner.Rule.Id;
     }
 
     private void RestoreTopPlan()
@@ -186,6 +222,10 @@ public sealed class AutomationRuleEngine : IDisposable
         if (_restorePlans.TryPop(out Guid restorePlan))
             _powerSchemeService.SetActiveScheme(restorePlan);
     }
+
+    private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is
+        AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or
+        AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
 
     public void Dispose()
     {
@@ -196,4 +236,6 @@ public sealed class AutomationRuleEngine : IDisposable
         _timedSwitchCancellation?.Cancel();
         _timedSwitchCancellation?.Dispose();
     }
+
+    private sealed record ActiveCpuRule(AutoSwitchRule Rule, long ActivationSequence);
 }

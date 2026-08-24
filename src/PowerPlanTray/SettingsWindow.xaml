@@ -96,19 +96,21 @@
                 <StackPanel Spacing="12">
                     <TextBlock Text="System load" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <TextBlock Text="Switch plans after overall CPU load stays above or below a threshold for about nine seconds." TextWrapping="Wrap" />
-                    <ToggleSwitch x:Name="SystemCpuToggle" Header="Enable system CPU rule" />
+                    <StackPanel x:Name="SystemCpuRulesPanel" Spacing="8" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ComboBox x:Name="SystemCpuDirectionComboBox" Header="Condition" Width="120">
+                        <ComboBox x:Name="SystemCpuDirectionComboBox" Header="Condition" Width="110" SelectedIndex="0">
                             <x:String>Below</x:String><x:String>Above</x:String>
                         </ComboBox>
-                        <NumberBox x:Name="SystemCpuThresholdNumberBox" Header="CPU (%)" Width="120" Minimum="0" Maximum="100" SpinButtonPlacementMode="Compact" />
-                        <ComboBox x:Name="SystemCpuPlanComboBox" Header="Power plan" Width="220" DisplayMemberPath="Name" />
+                        <NumberBox x:Name="SystemCpuThresholdNumberBox" Header="CPU (%)" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" />
+                        <ComboBox x:Name="SystemCpuPlanComboBox" Header="Power plan" Width="210" DisplayMemberPath="Name" />
+                        <Button Content="Add" VerticalAlignment="Bottom" Click="OnAddSystemCpuRuleClick" />
                     </StackPanel>
+                    <TextBlock x:Name="SystemCpuRuleStatusText" TextWrapping="Wrap" />
                 </StackPanel>
 
                 <StackPanel Spacing="12">
                     <TextBlock Text="App rules" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <TextBlock Text="Switch while an app is running, or after its CPU load stays above or below a threshold." TextWrapping="Wrap" />
+                    <TextBlock Text="Switch while an app is running, or after its CPU load stays above or below a threshold. CPU rules can be reordered with the arrow buttons; top priority wins when CPU conditions overlap." TextWrapping="Wrap" />
                     <StackPanel x:Name="AppRulesPanel" Spacing="8" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBox x:Name="AppExecutableTextBox" Width="180" PlaceholderText="steam.exe" />

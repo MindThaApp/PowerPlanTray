@@ -100,6 +100,7 @@ public sealed class ProcessWatcherService : IDisposable
         Name = rule.Name,
         Enabled = rule.Enabled,
         CpuThresholdPercent = rule.CpuThresholdPercent,
+        Priority = rule.Priority,
     };
 
     public void Dispose() => Stop();

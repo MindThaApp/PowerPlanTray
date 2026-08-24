@@ -51,10 +51,6 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
-        SystemCpuToggle.Toggled += OnSystemCpuRuleChanged;
-        SystemCpuDirectionComboBox.SelectionChanged += OnSystemCpuRuleChanged;
-        SystemCpuThresholdNumberBox.ValueChanged += OnSystemCpuThresholdChanged;
-        SystemCpuPlanComboBox.SelectionChanged += OnSystemCpuRuleChanged;
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
         WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
         SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
@@ -243,11 +239,8 @@ public sealed partial class SettingsWindow : Window
             PopulatePlanComboBox(AppRulePlanComboBox, null);
             PopulatePlanComboBox(SystemCpuPlanComboBox, null);
             PopulatePlanComboBox(TimedPlanComboBox, _automationRuleEngine.CurrentTimedSwitch?.TargetPlanGuid);
-            AutoSwitchRule? systemRule = _appSettingsService.GetAutomationRules().FirstOrDefault(r => r.Trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove);
-            SystemCpuToggle.IsOn = systemRule?.Enabled == true;
-            SystemCpuDirectionComboBox.SelectedIndex = systemRule?.Trigger == AutomationTrigger.SystemCpuAbove ? 1 : 0;
-            SystemCpuThresholdNumberBox.Value = systemRule?.CpuThresholdPercent ?? 15;
-            if (systemRule is not null) PopulatePlanComboBox(SystemCpuPlanComboBox, systemRule.TargetPlanGuid);
+            EnsureCpuPriorities();
+            RefreshSystemCpuRules();
             RefreshAppRules();
             RefreshTimedSwitchStatus();
         }
@@ -272,7 +265,8 @@ public sealed partial class SettingsWindow : Window
     {
         AppRulesPanel.Children.Clear();
         foreach (AutoSwitchRule rule in _appSettingsService.GetAutomationRules()
-            .Where(rule => rule.Trigger is AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove))
+            .Where(rule => rule.Trigger is AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)
+            .OrderBy(rule => IsCpuTrigger(rule.Trigger) ? rule.Priority : int.MaxValue))
         {
             string planName = _automationSchemes.FirstOrDefault(scheme => scheme.Guid == rule.TargetPlanGuid)?.Name
                 ?? "Unavailable plan";
@@ -281,17 +275,126 @@ public sealed partial class SettingsWindow : Window
             {
                 Content = rule.Trigger == AutomationTrigger.AppRunning
                     ? $"{rule.AppExecutableName} running → {planName}"
-                    : $"{rule.AppExecutableName} CPU {(rule.Trigger == AutomationTrigger.ProcessCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
+                    : $"Priority {rule.Priority}: {rule.AppExecutableName} CPU {(rule.Trigger == AutomationTrigger.ProcessCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
                 IsChecked = rule.Enabled,
                 Tag = rule.Id,
-                Width = 380,
+                Width = IsCpuTrigger(rule.Trigger) ? 300 : 380,
             };
             enabled.Click += OnAppRuleEnabledClick;
             var remove = new Button { Content = "Remove", Tag = rule.Id };
             remove.Click += OnRemoveAppRuleClick;
             row.Children.Add(enabled);
+            AddPriorityButtons(row, rule);
             row.Children.Add(remove);
             AppRulesPanel.Children.Add(row);
+        }
+    }
+
+    private void RefreshSystemCpuRules()
+    {
+        SystemCpuRulesPanel.Children.Clear();
+        foreach (AutoSwitchRule rule in _appSettingsService.GetAutomationRules()
+            .Where(rule => rule.Trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove)
+            .OrderBy(rule => rule.Priority))
+        {
+            string planName = _automationSchemes.FirstOrDefault(scheme => scheme.Guid == rule.TargetPlanGuid)?.Name ?? "Unavailable plan";
+            var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+            var enabled = new CheckBox
+            {
+                Content = $"Priority {rule.Priority}: CPU {(rule.Trigger == AutomationTrigger.SystemCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
+                IsChecked = rule.Enabled,
+                Tag = rule.Id,
+                Width = 300,
+            };
+            enabled.Click += OnCpuRuleEnabledClick;
+            row.Children.Add(enabled);
+            AddPriorityButtons(row, rule);
+            var remove = new Button { Content = "Remove", Tag = rule.Id };
+            remove.Click += OnRemoveCpuRuleClick;
+            row.Children.Add(remove);
+            SystemCpuRulesPanel.Children.Add(row);
+        }
+    }
+
+    private void AddPriorityButtons(StackPanel row, AutoSwitchRule rule)
+    {
+        if (!IsCpuTrigger(rule.Trigger)) return;
+        List<AutoSwitchRule> cpuRules = GetCpuRulesInPriorityOrder(_appSettingsService.GetAutomationRules());
+        int index = cpuRules.FindIndex(candidate => candidate.Id == rule.Id);
+        var up = new Button { Content = "↑", Tag = rule.Id, IsEnabled = index > 0 };
+        ToolTipService.SetToolTip(up, "Raise priority");
+        up.Click += OnRaiseCpuRulePriorityClick;
+        var down = new Button { Content = "↓", Tag = rule.Id, IsEnabled = index >= 0 && index < cpuRules.Count - 1 };
+        ToolTipService.SetToolTip(down, "Lower priority");
+        down.Click += OnLowerCpuRulePriorityClick;
+        row.Children.Add(up);
+        row.Children.Add(down);
+    }
+
+    private void OnCpuRuleEnabledClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not CheckBox { Tag: Guid id } checkBox) return;
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        AutoSwitchRule? rule = rules.FirstOrDefault(candidate => candidate.Id == id);
+        if (rule is null) return;
+        rule.Enabled = checkBox.IsChecked == true;
+        SaveRules(rules);
+    }
+
+    private void OnRemoveCpuRuleClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: Guid id }) return;
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        rules.RemoveAll(rule => rule.Id == id);
+        SaveRules(rules);
+    }
+
+    private void OnRaiseCpuRulePriorityClick(object sender, RoutedEventArgs e) => MoveCpuRule(sender, -1);
+    private void OnLowerCpuRulePriorityClick(object sender, RoutedEventArgs e) => MoveCpuRule(sender, 1);
+
+    private void MoveCpuRule(object sender, int offset)
+    {
+        if (sender is not Button { Tag: Guid id }) return;
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        NormalizeCpuPriorities(rules);
+        List<AutoSwitchRule> cpuRules = GetCpuRulesInPriorityOrder(rules);
+        int index = cpuRules.FindIndex(rule => rule.Id == id);
+        int otherIndex = index + offset;
+        if (index < 0 || otherIndex < 0 || otherIndex >= cpuRules.Count) return;
+        (cpuRules[index].Priority, cpuRules[otherIndex].Priority) = (cpuRules[otherIndex].Priority, cpuRules[index].Priority);
+        SaveRules(rules);
+    }
+
+    private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is
+        AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or
+        AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
+
+    private static List<AutoSwitchRule> GetCpuRulesInPriorityOrder(IEnumerable<AutoSwitchRule> rules) => rules
+        .Where(rule => IsCpuTrigger(rule.Trigger))
+        .OrderBy(rule => rule.Priority <= 0 ? int.MaxValue : rule.Priority)
+        .ToList();
+
+    private static int NextCpuPriority(IEnumerable<AutoSwitchRule> rules) =>
+        rules.Where(rule => IsCpuTrigger(rule.Trigger)).Select(rule => rule.Priority).DefaultIfEmpty(0).Max() + 1;
+
+    private static void NormalizeCpuPriorities(IEnumerable<AutoSwitchRule> rules)
+    {
+        List<AutoSwitchRule> cpuRules = rules.Where(rule => IsCpuTrigger(rule.Trigger)).ToList();
+        if (cpuRules.All(rule => rule.Priority > 0) && cpuRules.Select(rule => rule.Priority).Distinct().Count() == cpuRules.Count)
+            cpuRules = cpuRules.OrderBy(rule => rule.Priority).ToList();
+        int priority = 1;
+        foreach (AutoSwitchRule rule in cpuRules) rule.Priority = priority++;
+    }
+
+    private void EnsureCpuPriorities()
+    {
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        Dictionary<Guid, int> original = rules.Where(rule => IsCpuTrigger(rule.Trigger)).ToDictionary(rule => rule.Id, rule => rule.Priority);
+        NormalizeCpuPriorities(rules);
+        if (rules.Any(rule => IsCpuTrigger(rule.Trigger) && original[rule.Id] != rule.Priority))
+        {
+            _appSettingsService.SetAutomationRules(rules);
+            _automationRuleEngine.RefreshConfiguration();
         }
     }
 
@@ -339,6 +442,7 @@ public sealed partial class SettingsWindow : Window
             AppExecutableName = executable,
             TargetPlanGuid = plan.Guid,
             CpuThresholdPercent = cpuRule ? threshold : 15,
+            Priority = cpuRule ? NextCpuPriority(rules) : 0,
         });
         SaveRules(rules);
         AppExecutableTextBox.Text = string.Empty;
@@ -365,8 +469,10 @@ public sealed partial class SettingsWindow : Window
 
     private void SaveRules(List<AutoSwitchRule> rules)
     {
+        NormalizeCpuPriorities(rules);
         _appSettingsService.SetAutomationRules(rules);
         _automationRuleEngine.RefreshConfiguration();
+        RefreshSystemCpuRules();
         RefreshAppRules();
         AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -378,28 +484,26 @@ public sealed partial class SettingsWindow : Window
         AppCpuThresholdNumberBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void OnSystemCpuRuleChanged(object sender, RoutedEventArgs e) => SaveSystemCpuRule();
-    private void OnSystemCpuThresholdChanged(NumberBox sender, NumberBoxValueChangedEventArgs args) => SaveSystemCpuRule();
-
-    private void SaveSystemCpuRule()
+    private void OnAddSystemCpuRuleClick(object sender, RoutedEventArgs e)
     {
-        if (_isInitializing || SystemCpuDirectionComboBox.SelectedIndex < 0 || SystemCpuPlanComboBox.SelectedItem is not PowerScheme plan) return;
+        if (SystemCpuDirectionComboBox.SelectedIndex < 0 || SystemCpuPlanComboBox.SelectedItem is not PowerScheme plan) return;
         double threshold = SystemCpuThresholdNumberBox.Value;
-        if (double.IsNaN(threshold) || threshold is < 0 or > 100) return;
-        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
-        AutoSwitchRule? rule = rules.FirstOrDefault(r => r.Trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove);
-        if (rule is null)
+        if (double.IsNaN(threshold) || threshold is < 0 or > 100)
         {
-            rule = new AutoSwitchRule { Name = "System CPU load" };
-            rules.Add(rule);
+            SystemCpuRuleStatusText.Text = "Enter a CPU threshold from 0 to 100%.";
+            return;
         }
-        rule.Trigger = SystemCpuDirectionComboBox.SelectedIndex == 1 ? AutomationTrigger.SystemCpuAbove : AutomationTrigger.SystemCpuBelow;
-        rule.CpuThresholdPercent = threshold;
-        rule.TargetPlanGuid = plan.Guid;
-        rule.Enabled = SystemCpuToggle.IsOn;
-        _appSettingsService.SetAutomationRules(rules);
-        _automationRuleEngine.RefreshConfiguration();
-        AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        rules.Add(new AutoSwitchRule
+        {
+            Name = "System CPU load",
+            Trigger = SystemCpuDirectionComboBox.SelectedIndex == 1 ? AutomationTrigger.SystemCpuAbove : AutomationTrigger.SystemCpuBelow,
+            CpuThresholdPercent = threshold,
+            TargetPlanGuid = plan.Guid,
+            Priority = NextCpuPriority(rules),
+        });
+        SaveRules(rules);
+        SystemCpuRuleStatusText.Text = string.Empty;
     }
 
     private async void OnBrowseInstalledAppsClick(object sender, RoutedEventArgs e)
