@@ -86,9 +86,14 @@ internal static class NativeMethods
     internal static extern uint PowerReadValueUnitsSpecifier(IntPtr rootPowerKey, ref Guid subgroupGuid,
         ref Guid settingGuid, IntPtr buffer, ref uint bufferSize);
 
+    // Note: the native signature orders Type *before* PossibleSettingIndex
+    // (Type is a PULONG - a pointer - while PossibleSettingIndex is a plain
+    // ULONG). Getting this order wrong causes the index to be read as a
+    // pointer and vice versa, which corrupts the call and crashes the
+    // process with an AccessViolationException.
     [DllImport("PowrProf.dll")]
     internal static extern uint PowerReadPossibleValue(IntPtr rootPowerKey, ref Guid subgroupGuid,
-        ref Guid settingGuid, uint possibleSettingIndex, out uint type, IntPtr buffer, ref uint bufferSize);
+        ref Guid settingGuid, out uint type, uint possibleSettingIndex, IntPtr buffer, ref uint bufferSize);
 
     [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
     internal static extern uint PowerReadPossibleFriendlyName(IntPtr rootPowerKey, ref Guid subgroupGuid,

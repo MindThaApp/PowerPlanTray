@@ -39,7 +39,7 @@ public class PowerSchemeService
             try
             {
                 uint result = NativeMethods.PowerReadPossibleValue(IntPtr.Zero, ref subgroupGuid, ref settingGuid,
-                    index, out _, buffer, ref size);
+                    out _, index, buffer, ref size);
                 if (result != NativeMethods.ERROR_SUCCESS || size < sizeof(uint)) break;
                 uint value = unchecked((uint)Marshal.ReadInt32(buffer));
                 string? name = ReadString((IntPtr nameBuffer, ref uint nameSize) =>
