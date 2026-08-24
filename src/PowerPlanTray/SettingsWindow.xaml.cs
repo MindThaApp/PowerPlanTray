@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using PowerPlanTray.Core.Services;
 using PowerPlanTray.Core;
 using PowerPlanTray.Core.Models;
+using PowerPlanTray.Core.Content;
 using Windows.ApplicationModel;
 
 namespace PowerPlanTray;
@@ -14,26 +15,46 @@ public sealed partial class SettingsWindow : Window
     private readonly PowerSchemeService _powerSchemeService = new();
     private readonly ElevationService _elevationService = new();
     private bool _isInitializing;
+    private bool _hasInitialized;
+    private const string NoLaymanDescription = "No plain-language explanation written yet for this setting.";
+    private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
+    private static readonly Guid ProcessorMaximumStateGuid = new("bc5038f7-23e0-4960-96da-33abaf5935ec");
 
     public event EventHandler? PowerPlansChanged;
 
     public SettingsWindow()
     {
         InitializeComponent();
-        Activated += OnFirstActivated;
+        Activated += OnWindowActivated;
 
         // TODO(phase4): add the Automation NavigationViewItem and page.
         // TODO(phase5): add the Advanced NavigationViewItem and page.
     }
 
-    private async void OnFirstActivated(object sender, WindowActivatedEventArgs args)
+    private async void OnWindowActivated(object sender, WindowActivatedEventArgs args)
     {
-        Activated -= OnFirstActivated;
-        _isInitializing = true;
-        StartWithWindowsCheckBox.IsChecked = await _startupService.IsEnabledAsync();
-        LaunchBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHidden ? 0 : 1;
-        _isInitializing = false;
-        RefreshPowerPlans();
+        if (args.WindowActivationState == WindowActivationState.Deactivated) return;
+        if (!_hasInitialized)
+        {
+            _isInitializing = true;
+            StartWithWindowsCheckBox.IsChecked = await _startupService.IsEnabledAsync();
+            LaunchBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHidden ? 0 : 1;
+            _isInitializing = false;
+            RefreshPowerPlans();
+            InitializeAdvancedPlans();
+            _hasInitialized = true;
+        }
+        RefreshCpuBoostState();
+    }
+
+    public void RefreshActiveSchemeSettings()
+    {
+        RefreshCpuBoostState();
+        if (AdvancedPlanComboBox.ItemsSource is IEnumerable<PowerScheme> schemes)
+        {
+            Guid active = _powerSchemeService.GetActiveSchemeGuid();
+            AdvancedPlanComboBox.SelectedItem = schemes.FirstOrDefault(scheme => scheme.Guid == active);
+        }
     }
 
     private void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -41,11 +62,183 @@ public sealed partial class SettingsWindow : Window
         string? tag = (args.SelectedItemContainer as NavigationViewItem)?.Tag as string;
         GeneralPage.Visibility = tag == "General" ? Visibility.Visible : Visibility.Collapsed;
         PowerPlansPage.Visibility = tag == "PowerPlans" ? Visibility.Visible : Visibility.Collapsed;
+        AdvancedPage.Visibility = tag == "Advanced" ? Visibility.Visible : Visibility.Collapsed;
 
         if (tag == "PowerPlans")
         {
             RefreshPowerPlans();
         }
+        else if (tag == "Advanced")
+        {
+            RefreshAdvancedSettings();
+        }
+    }
+
+    private void InitializeAdvancedPlans()
+    {
+        try
+        {
+            IReadOnlyList<PowerScheme> schemes = _powerSchemeService.GetAllSchemes();
+            Guid active = _powerSchemeService.GetActiveSchemeGuid();
+            AdvancedPlanComboBox.ItemsSource = schemes;
+            AdvancedPlanComboBox.SelectedItem = schemes.FirstOrDefault(scheme => scheme.Guid == active);
+        }
+        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read power plans: {ex.Message}"; }
+    }
+
+    private void OnAdvancedPlanSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_hasInitialized) RefreshAdvancedSettings();
+    }
+
+    private void RefreshAdvancedSettings()
+    {
+        if (AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
+        AdvancedSettingsPanel.Children.Clear();
+        AdvancedStatusText.Text = string.Empty;
+        try
+        {
+            foreach ((Guid subgroupGuid, string subgroupName) in _powerSchemeService.GetSubgroups(scheme.Guid))
+            {
+                var group = new StackPanel { Spacing = 10 };
+                group.Children.Add(new TextBlock { Text = subgroupName, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] });
+                foreach ((Guid settingGuid, string settingName) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
+                    group.Children.Add(CreateSettingRow(scheme.Guid, subgroupGuid, settingGuid, settingName));
+                AdvancedSettingsPanel.Children.Add(group);
+            }
+        }
+        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read advanced settings: {ex.Message}"; }
+    }
+
+    private FrameworkElement CreateSettingRow(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string settingName)
+    {
+        var panel = new StackPanel { Spacing = 6, Padding = new Thickness(12) };
+        var heading = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        heading.Children.Add(new TextBlock { Text = settingName, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+            VerticalAlignment = VerticalAlignment.Center, MaxWidth = 650, TextWrapping = TextWrapping.Wrap });
+        var info = new Button { Content = "i", Width = 32, Height = 32, CornerRadius = new CornerRadius(16), Padding = new Thickness(0) };
+        info.Click += (_, _) => ShowSettingInfo(info, subgroupGuid, settingGuid);
+        heading.Children.Add(info);
+        panel.Children.Add(heading);
+
+        PowerSettingMetadata metadata = _powerSchemeService.GetSettingMetadata(subgroupGuid, settingGuid);
+        var values = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
+        values.Children.Add(CreateValueEditor("Plugged in", schemeGuid, subgroupGuid, settingGuid, true, metadata));
+        values.Children.Add(CreateValueEditor("On battery", schemeGuid, subgroupGuid, settingGuid, false, metadata));
+        panel.Children.Add(values);
+
+        var footer = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid) };
+        var status = new TextBlock { VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap };
+        unhide.Click += async (_, _) =>
+        {
+            unhide.IsEnabled = false;
+            bool succeeded = await _elevationService.SetSettingHiddenAsync(subgroupGuid, settingGuid, unhide.IsChecked != true);
+            status.Text = succeeded ? "Updated." : _elevationService.LastOperationWasCancelled
+                ? "Administrator permission was cancelled." : "Couldn't update visibility.";
+            unhide.IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
+            unhide.IsEnabled = true;
+        };
+        footer.Children.Add(unhide);
+        footer.Children.Add(status);
+        panel.Children.Add(footer);
+        return panel;
+    }
+
+    private FrameworkElement CreateValueEditor(string header, Guid schemeGuid, Guid subgroupGuid, Guid settingGuid,
+        bool ac, PowerSettingMetadata metadata)
+    {
+        uint current = ac ? _powerSchemeService.GetACValue(schemeGuid, subgroupGuid, settingGuid)
+                          : _powerSchemeService.GetDCValue(schemeGuid, subgroupGuid, settingGuid);
+        if (metadata.Choices.Count > 0)
+        {
+            var combo = new ComboBox { Header = header, ItemsSource = metadata.Choices, DisplayMemberPath = "Name", Width = 220 };
+            combo.SelectedItem = metadata.Choices.FirstOrDefault(choice => choice.Value == current);
+            combo.SelectionChanged += (_, _) =>
+            {
+                if (combo.SelectedItem is PowerSettingChoice choice) SetValue(ac, schemeGuid, subgroupGuid, settingGuid, choice.Value);
+            };
+            return combo;
+        }
+
+        var number = new NumberBox { Header = string.IsNullOrWhiteSpace(metadata.Units) ? header : $"{header} ({metadata.Units})",
+            Value = current, Width = 220, SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact };
+        if (metadata.Minimum is uint min) number.Minimum = min;
+        if (metadata.Maximum is uint max) number.Maximum = max;
+        if (metadata.Increment is uint increment && increment > 0) number.SmallChange = increment;
+        number.ValueChanged += (_, args) =>
+        {
+            if (!double.IsNaN(args.NewValue) && args.NewValue >= 0 && args.NewValue <= uint.MaxValue)
+                SetValue(ac, schemeGuid, subgroupGuid, settingGuid, checked((uint)Math.Round(args.NewValue)));
+        };
+        return number;
+    }
+
+    private void SetValue(bool ac, Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, uint value)
+    {
+        try
+        {
+            if (ac) _powerSchemeService.SetACValue(schemeGuid, subgroupGuid, settingGuid, value);
+            else _powerSchemeService.SetDCValue(schemeGuid, subgroupGuid, settingGuid, value);
+            AdvancedStatusText.Text = "Setting applied.";
+            RefreshCpuBoostState();
+        }
+        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't apply setting: {ex.Message}"; }
+    }
+
+    private void ShowSettingInfo(Button target, Guid subgroupGuid, Guid settingGuid)
+    {
+        var content = new StackPanel { Spacing = 8, MaxWidth = 480 };
+        content.Children.Add(new TextBlock { Text = "Windows description", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold });
+        content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", TextWrapping = TextWrapping.Wrap });
+        content.Children.Add(new TextBlock { Text = "In plain terms", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 0) });
+        content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, TextWrapping = TextWrapping.Wrap });
+        target.Flyout = new Flyout { Content = content };
+        target.Flyout.ShowAt(target);
+    }
+
+    private void RefreshCpuBoostState()
+    {
+        try
+        {
+            Guid active = _powerSchemeService.GetActiveSchemeGuid();
+            uint value = _powerSchemeService.GetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid);
+            _isInitializing = true;
+            DisableCpuBoostCheckBox.IsChecked = value <= 99;
+            _isInitializing = false;
+            CpuBoostStatusText.Text = string.Empty;
+        }
+        catch (Exception ex) { CpuBoostStatusText.Text = $"Couldn't read CPU boost state: {ex.Message}"; _isInitializing = false; }
+    }
+
+    private async void OnDisableCpuBoostClick(object sender, RoutedEventArgs e)
+    {
+        if (_isInitializing) return;
+        try
+        {
+            Guid active = _powerSchemeService.GetActiveSchemeGuid();
+            uint current = _powerSchemeService.GetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid);
+            if (DisableCpuBoostCheckBox.IsChecked == true)
+            {
+                if (current == 100) _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid, 99);
+            }
+            else if (current <= 99)
+            {
+                var dialog = new ContentDialog { Title = "Re-enable CPU boost?",
+                    Content = $"This will increase the maximum processor state from {current}% to 100% to re-enable CPU boost. Continue?",
+                    PrimaryButtonText = "Yes", CloseButtonText = "Cancel", DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = Content.XamlRoot };
+                if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                    _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid, 100);
+                else
+                {
+                    _isInitializing = true;
+                    DisableCpuBoostCheckBox.IsChecked = true;
+                    _isInitializing = false;
+                }
+            }
+        }
+        catch (Exception ex) { CpuBoostStatusText.Text = $"Couldn't update CPU boost: {ex.Message}"; RefreshCpuBoostState(); }
     }
 
     private void RefreshPowerPlans()

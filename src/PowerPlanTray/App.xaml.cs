@@ -163,6 +163,7 @@ public partial class App : Application
             finally
             {
                 RebuildTrayMenu();
+                _settingsWindow?.RefreshActiveSchemeSettings();
             }
         }
     }

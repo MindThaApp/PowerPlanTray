@@ -13,6 +13,9 @@ public sealed class ElevationService
     public Task<bool> DeleteSchemeAsync(Guid schemeGuid) =>
         RunPowerCfgAsync($"-delete {schemeGuid:D}");
 
+    public Task<bool> SetSettingHiddenAsync(Guid subgroupGuid, Guid settingGuid, bool hidden) =>
+        RunPowerCfgAsync($"-attributes {subgroupGuid:D} {settingGuid:D} {(hidden ? "+ATTRIB_HIDE" : "-ATTRIB_HIDE")}");
+
     private async Task<bool> RunPowerCfgAsync(string arguments)
     {
         LastOperationWasCancelled = false;
