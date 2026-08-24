@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using System.Text.Json;
+using System.Runtime.InteropServices;
 
 namespace PowerPlanTray;
 
@@ -233,6 +234,151 @@ public sealed partial class SettingsWindow : Window
         AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private async void OnBrowseInstalledAppsClick(object sender, RoutedEventArgs e)
+    {
+        AppRuleStatusText.Text = "Finding Start Menu apps…";
+        IReadOnlyList<InstalledAppChoice> apps;
+        try
+        {
+            apps = await Task.Run(FindInstalledApps);
+        }
+        catch (Exception ex)
+        {
+            AppRuleStatusText.Text = $"Couldn't read installed apps: {ex.Message}";
+            return;
+        }
+
+        if (apps.Count == 0)
+        {
+            AppRuleStatusText.Text = "No Start Menu shortcuts targeting executable files were found.";
+            return;
+        }
+
+        var search = new AutoSuggestBox { PlaceholderText = "Search installed apps" };
+        var list = new ListView
+        {
+            ItemsSource = apps,
+            SelectionMode = ListViewSelectionMode.Single,
+            Height = 360,
+            MinWidth = 520,
+        };
+        search.TextChanged += (_, args) =>
+        {
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput) return;
+            string query = search.Text.Trim();
+            list.ItemsSource = string.IsNullOrEmpty(query)
+                ? apps
+                : apps.Where(app => app.DisplayName.Contains(query, StringComparison.CurrentCultureIgnoreCase)
+                    || app.ExecutableName.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
+        };
+
+        var content = new StackPanel { Spacing = 8 };
+        content.Children.Add(search);
+        content.Children.Add(list);
+        var dialog = new ContentDialog
+        {
+            Title = "Browse installed apps",
+            Content = content,
+            PrimaryButtonText = "Select",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = Content.XamlRoot,
+        };
+        ContentDialogResult result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary && list.SelectedItem is InstalledAppChoice selected)
+        {
+            AppExecutableTextBox.Text = selected.ExecutableName;
+            AppRuleStatusText.Text = $"Selected {selected.DisplayName} ({selected.ExecutableName}).";
+        }
+        else if (result == ContentDialogResult.Primary)
+        {
+            AppRuleStatusText.Text = "Select an app from the list.";
+        }
+        else
+        {
+            AppRuleStatusText.Text = string.Empty;
+        }
+    }
+
+    private static IReadOnlyList<InstalledAppChoice> FindInstalledApps()
+    {
+        string[] roots =
+        {
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
+            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
+        };
+        var results = new Dictionary<string, InstalledAppChoice>(StringComparer.OrdinalIgnoreCase);
+        Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
+        if (shellType is null) return Array.Empty<InstalledAppChoice>();
+
+        object? shellObject = null;
+        try
+        {
+            shellObject = Activator.CreateInstance(shellType);
+            dynamic shell = shellObject!;
+            foreach (string root in roots.Where(Directory.Exists))
+            {
+                foreach (string shortcutPath in Directory.EnumerateFiles(root, "*.lnk", SearchOption.AllDirectories))
+                {
+                    string displayName = Path.GetFileNameWithoutExtension(shortcutPath);
+                    if (IsUnhelpfulShortcut(displayName)) continue;
+
+                    object? shortcutObject = null;
+                    try
+                    {
+                        shortcutObject = shell.CreateShortcut(shortcutPath);
+                        dynamic shortcut = shortcutObject;
+                        string targetPath = Environment.ExpandEnvironmentVariables((string)shortcut.TargetPath);
+                        if (!string.Equals(Path.GetExtension(targetPath), ".exe", StringComparison.OrdinalIgnoreCase)) continue;
+                        string executableName = Path.GetFileName(targetPath);
+                        if (string.IsNullOrWhiteSpace(executableName)) continue;
+                        results.TryAdd($"{displayName}\0{executableName}", new InstalledAppChoice(displayName, executableName));
+                    }
+                    catch (COMException) { }
+                    finally
+                    {
+                        if (shortcutObject is not null && Marshal.IsComObject(shortcutObject))
+                            Marshal.FinalReleaseComObject(shortcutObject);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            if (shellObject is not null && Marshal.IsComObject(shellObject))
+                Marshal.FinalReleaseComObject(shellObject);
+        }
+
+        return results.Values.OrderBy(app => app.DisplayName, StringComparer.CurrentCultureIgnoreCase).ToArray();
+    }
+
+    private static bool IsUnhelpfulShortcut(string name) =>
+        new[] { "uninstall", "help", "readme", "documentation", "manual" }
+            .Any(term => name.Contains(term, StringComparison.OrdinalIgnoreCase));
+
+    private async void OnBrowseExecutableClick(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".exe");
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+            StorageFile? file = await picker.PickSingleFileAsync();
+            if (file is null) return;
+            AppExecutableTextBox.Text = file.Name;
+            AppRuleStatusText.Text = $"Selected {Path.GetFileNameWithoutExtension(file.Name)} ({file.Name}).";
+        }
+        catch (Exception ex)
+        {
+            AppRuleStatusText.Text = $"Couldn't open the executable picker: {ex.Message}";
+        }
+    }
+
+    private sealed record InstalledAppChoice(string DisplayName, string ExecutableName)
+    {
+        public override string ToString() => $"{DisplayName} — {ExecutableName}";
+    }
+
     private async void OnApplyTimedSwitchClick(object sender, RoutedEventArgs e)
     {
         if (TimedPlanComboBox.SelectedItem is not PowerScheme plan) return;
@@ -243,8 +389,47 @@ public sealed partial class SettingsWindow : Window
             3 => TimeSpan.FromHours(4),
             _ => TimeSpan.FromMinutes(30),
         };
+        await ApplyTimedSwitchAsync(plan, duration);
+    }
+
+    private async void OnApplyCustomTimedSwitchClick(object sender, RoutedEventArgs e)
+    {
+        TimedSwitchErrorText.Text = string.Empty;
+        if (TimedPlanComboBox.SelectedItem is not PowerScheme plan)
+        {
+            TimedSwitchErrorText.Text = "Choose a power plan first.";
+            return;
+        }
+
+        double hours = CustomHoursNumberBox.Value;
+        double minutes = CustomMinutesNumberBox.Value;
+        if (double.IsNaN(hours) || double.IsNaN(minutes) || hours < 0 || minutes < 0)
+        {
+            TimedSwitchErrorText.Text = "Enter a duration greater than zero.";
+            return;
+        }
+
+        TimeSpan duration;
+        try { duration = TimeSpan.FromHours(hours) + TimeSpan.FromMinutes(minutes); }
+        catch (OverflowException)
+        {
+            TimedSwitchErrorText.Text = "The custom duration is too large.";
+            return;
+        }
+        if (duration <= TimeSpan.Zero)
+        {
+            TimedSwitchErrorText.Text = "Enter a duration greater than zero.";
+            return;
+        }
+
+        await ApplyTimedSwitchAsync(plan, duration);
+    }
+
+    private async Task ApplyTimedSwitchAsync(PowerScheme plan, TimeSpan duration)
+    {
+        TimedSwitchErrorText.Text = string.Empty;
         try { await _automationRuleEngine.ApplyTimedSwitchAsync(plan.Guid, duration); }
-        catch (Exception ex) { AppRuleStatusText.Text = $"Couldn't apply the temporary plan: {ex.Message}"; }
+        catch (Exception ex) { TimedSwitchErrorText.Text = $"Couldn't apply the temporary plan: {ex.Message}"; }
     }
 
     private void OnCancelTimedSwitchClick(object sender, RoutedEventArgs e) => _automationRuleEngine.CancelTimedSwitch();

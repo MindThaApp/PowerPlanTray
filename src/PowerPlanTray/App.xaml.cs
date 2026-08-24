@@ -182,8 +182,8 @@ public partial class App : Application
 
     // ---------------------------------------------------------------------
     // Left-click: minimal plan-picker flyout (plans only, no separator/
-    // Settings/Exit/automation - just RadioMenuFlyoutItems, same widget kind
-    // the full menu uses, swapped onto ContextFlyout via LeftClickCommand).
+    // Settings/Exit/automation - just checked plan items, swapped onto
+    // ContextFlyout via LeftClickCommand).
     // ---------------------------------------------------------------------
 
     private MenuFlyout BuildPlanPickerFlyout()
@@ -233,10 +233,14 @@ public partial class App : Application
         {
             foreach (PowerScheme scheme in schemes)
             {
-                var item = new RadioMenuFlyoutItem
+                // H.NotifyIcon 2.2's PopupMenu bridge copies Checked only
+                // from ToggleMenuFlyoutItem. RadioMenuFlyoutItem is treated
+                // as a plain MenuFlyoutItem, so it can never display a native
+                // checkmark in this mode. Rebuilding these toggle items from
+                // the live active GUID preserves radio-style exclusivity.
+                var item = new ToggleMenuFlyoutItem
                 {
                     Text = scheme.Name,
-                    GroupName = "PowerPlanTray.PowerSchemes.Picker",
                     IsChecked = scheme.Guid == activeGuid,
                     Tag = scheme.Guid,
                 };
@@ -280,10 +284,9 @@ public partial class App : Application
         {
             foreach (PowerScheme scheme in visibleSchemes)
             {
-                var item = new RadioMenuFlyoutItem
+                var item = new ToggleMenuFlyoutItem
                 {
                     Text = scheme.Name,
-                    GroupName = "PowerPlanTray.PowerSchemes.Full",
                     IsChecked = scheme.Guid == activeGuid,
                     Tag = scheme.Guid,
                 };
@@ -372,10 +375,9 @@ public partial class App : Application
         sub.Items.Add(new MenuFlyoutItem { Text = "On Battery", IsEnabled = false });
         foreach (PowerScheme scheme in allSchemes)
         {
-            var item = new RadioMenuFlyoutItem
+            var item = new ToggleMenuFlyoutItem
             {
                 Text = scheme.Name,
-                GroupName = "PowerPlanTray.Automation.Battery",
                 IsChecked = batteryGuid.HasValue && scheme.Guid == batteryGuid.Value,
                 Tag = scheme.Guid,
             };
@@ -393,10 +395,9 @@ public partial class App : Application
         sub.Items.Add(new MenuFlyoutItem { Text = "On AC Power", IsEnabled = false });
         foreach (PowerScheme scheme in allSchemes)
         {
-            var item = new RadioMenuFlyoutItem
+            var item = new ToggleMenuFlyoutItem
             {
                 Text = scheme.Name,
-                GroupName = "PowerPlanTray.Automation.Ac",
                 IsChecked = acGuid.HasValue && scheme.Guid == acGuid.Value,
                 Tag = scheme.Guid,
             };
