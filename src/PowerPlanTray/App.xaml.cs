@@ -38,7 +38,7 @@ public partial class App : Application
             // Commands still receive tray mouse messages; None prevents the
             // library from also opening its native OS-drawn PopupMenu.
             MenuActivation = PopupActivationMode.None,
-            LeftClickCommand = new RelayCommand(() => _trayPopup.Show(fullMenu: false)),
+            LeftClickCommand = new RelayCommand(() => _trayPopup.Toggle(fullMenu: false)),
             RightClickCommand = new RelayCommand(() => _trayPopup.Show(fullMenu: true)),
         };
 

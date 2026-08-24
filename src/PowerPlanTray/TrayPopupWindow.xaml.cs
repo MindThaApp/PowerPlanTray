@@ -17,6 +17,7 @@ public sealed partial class TrayPopupWindow : Window
     private const int SpiGetWorkArea = 0x0030;
     private const int GwlExStyle = -20;
     private const int WsExToolWindow = 0x00000080;
+    private const double DefaultDpi = 96d;
 
     private readonly PowerSchemeService _powerSchemes;
     private readonly AppSettingsService _settings;
@@ -26,6 +27,8 @@ public sealed partial class TrayPopupWindow : Window
     private readonly Action _exit;
     private readonly Action<Guid> _switchScheme;
     private readonly AppWindow _appWindow;
+    private readonly IntPtr _hwnd;
+    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _deactivationTimer;
     private bool _isShowing;
 
     public TrayPopupWindow(
@@ -46,8 +49,8 @@ public sealed partial class TrayPopupWindow : Window
         _exit = exit;
         InitializeComponent();
 
-        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-        WindowId id = Win32Interop.GetWindowIdFromWindow(hwnd);
+        _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        WindowId id = Win32Interop.GetWindowIdFromWindow(_hwnd);
         _appWindow = AppWindow.GetFromWindowId(id);
         _appWindow.IsShownInSwitchers = false;
         if (_appWindow.Presenter is OverlappedPresenter presenter)
@@ -59,8 +62,12 @@ public sealed partial class TrayPopupWindow : Window
             presenter.IsAlwaysOnTop = true;
         }
 
-        long style = GetWindowLongPtr(hwnd, GwlExStyle).ToInt64();
-        SetWindowLongPtr(hwnd, GwlExStyle, new IntPtr(style | WsExToolWindow));
+        long style = GetWindowLongPtr(_hwnd, GwlExStyle).ToInt64();
+        SetWindowLongPtr(_hwnd, GwlExStyle, new IntPtr(style | WsExToolWindow));
+        _deactivationTimer = DispatcherQueue.CreateTimer();
+        _deactivationTimer.Interval = TimeSpan.FromMilliseconds(100);
+        _deactivationTimer.IsRepeating = false;
+        _deactivationTimer.Tick += OnDeactivationTimerTick;
         TryApplyBackdrop();
         Activated += OnActivated;
         PopupBorder.KeyDown += OnKeyDown;
@@ -68,18 +75,31 @@ public sealed partial class TrayPopupWindow : Window
 
     public void Show(bool fullMenu)
     {
+        _deactivationTimer.Stop();
         ApplyPreferences();
         BuildContent(fullMenu);
         PositionAboveTaskbar();
         _isShowing = true;
         Activate();
+        // Window.Activate alone can leave an always-on-top tool window visible
+        // without making it the foreground window when invoked from the shell.
+        // Without foreground activation there is no later Deactivated transition
+        // when the user clicks elsewhere.
+        SetForegroundWindow(_hwnd);
         PopupBorder.Focus(FocusState.Programmatic);
     }
 
     public void Hide()
     {
+        _deactivationTimer.Stop();
         _isShowing = false;
         _appWindow.Hide();
+    }
+
+    public void Toggle(bool fullMenu)
+    {
+        if (_isShowing) Hide();
+        else Show(fullMenu);
     }
 
     public void ApplyPreferences()
@@ -218,22 +238,41 @@ public sealed partial class TrayPopupWindow : Window
 
     private void PositionAboveTaskbar()
     {
-        (int width, int height) = _settings.PopupSize switch
+        (double widthDip, double heightDip) = _settings.PopupSize switch
         {
             UiSize.Small => (300, 390),
             UiSize.Large => (440, 650),
             _ => (360, 520),
         };
+        double scale = GetDpiForWindow(_hwnd) / DefaultDpi;
+        int width = (int)Math.Round(widthDip * scale);
+        int height = (int)Math.Round(heightDip * scale);
         RECT workArea;
         if (!SystemParametersInfo(SpiGetWorkArea, 0, out workArea, 0))
             workArea = new RECT { Left = 0, Top = 0, Right = GetSystemMetrics(0), Bottom = GetSystemMetrics(1) };
-        const int gap = 8;
+        int gap = (int)Math.Round(8 * scale);
         _appWindow.MoveAndResize(new RectInt32(workArea.Right - width - gap, workArea.Bottom - height - gap, width, height));
+        System.Diagnostics.Debug.WriteLine($"PowerPlanTray popup: {widthDip}x{heightDip} DIP, {width}x{height} px, scale {scale:F2}");
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
-        if (_isShowing && args.WindowActivationState == WindowActivationState.Deactivated) Hide();
+        if (args.WindowActivationState == WindowActivationState.Deactivated)
+        {
+            // A tray-icon mouse-down deactivates the popup before its click command
+            // runs. Defer hiding so that command can observe the still-visible popup
+            // and toggle it closed instead of immediately reopening it.
+            if (_isShowing) _deactivationTimer.Start();
+        }
+        else
+        {
+            _deactivationTimer.Stop();
+        }
+    }
+
+    private void OnDeactivationTimerTick(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
+    {
+        if (_isShowing && GetForegroundWindow() != _hwnd) Hide();
     }
 
     private void OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -253,6 +292,9 @@ public sealed partial class TrayPopupWindow : Window
     [StructLayout(LayoutKind.Sequential)] private struct RECT { public int Left, Top, Right, Bottom; }
     [DllImport("user32.dll")] private static extern bool SystemParametersInfo(int action, int param, out RECT rect, int flags);
     [DllImport("user32.dll")] private static extern int GetSystemMetrics(int index);
+    [DllImport("user32.dll")] private static extern uint GetDpiForWindow(IntPtr hwnd);
+    [DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
+    [DllImport("user32.dll")] private static extern bool SetForegroundWindow(IntPtr hwnd);
     [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")] private static extern IntPtr GetWindowLongPtr(IntPtr hwnd, int index);
     [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")] private static extern IntPtr SetWindowLongPtr(IntPtr hwnd, int index, IntPtr value);
 }
