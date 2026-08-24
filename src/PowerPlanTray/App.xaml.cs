@@ -171,19 +171,29 @@ public partial class App : Application
 
     private void ShowSettingsWindow()
     {
-        if (_settingsWindow is null)
+        try
         {
-            _settingsWindow = new SettingsWindow(
-                _appSettingsService,
-                _powerSchemeService,
-                _powerSourceMonitor,
-                _automationRuleEngine);
-            _settingsWindow.PowerPlansChanged += (_, _) => RebuildTrayMenu();
-            _settingsWindow.AutomationSettingsChanged += (_, _) => RebuildTrayMenu();
-            _settingsWindow.Closed += (_, _) => _settingsWindow = null;
-        }
+            if (_settingsWindow is null)
+            {
+                _settingsWindow = new SettingsWindow(
+                    _appSettingsService,
+                    _powerSchemeService,
+                    _powerSourceMonitor,
+                    _automationRuleEngine);
+                _settingsWindow.PowerPlansChanged += (_, _) => RebuildTrayMenu();
+                _settingsWindow.AutomationSettingsChanged += (_, _) => RebuildTrayMenu();
+                _settingsWindow.Closed += (_, _) => _settingsWindow = null;
+            }
 
-        _settingsWindow.Activate();
+            _settingsWindow.Activate();
+        }
+        catch (Exception)
+        {
+            // TODO(phase2): surface a notification that Settings failed to open
+            // instead of silently swallowing - better than crashing the whole
+            // tray app on a XAML/window construction failure.
+            _settingsWindow = null;
+        }
     }
 
     private void OnAutoSwitchToggleClick(object sender, RoutedEventArgs e)

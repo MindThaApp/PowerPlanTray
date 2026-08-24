@@ -10,7 +10,11 @@
                     SelectionChanged="OnNavigationSelectionChanged">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="General" Icon="Setting" Tag="General" IsSelected="True" />
-            <NavigationViewItem Content="Power Plans" Icon="PowerButton" Tag="PowerPlans" />
+            <NavigationViewItem Content="Power Plans" Tag="PowerPlans">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE7E8;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem Content="Automation" Icon="Sync" Tag="Automation" />
             <NavigationViewItem Content="Advanced" Icon="Repair" Tag="Advanced" />
         </NavigationView.MenuItems>
