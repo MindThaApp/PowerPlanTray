@@ -1,4 +1,6 @@
 using Windows.Storage;
+using PowerPlanTray.Core.Models;
+using System.Text.Json;
 
 namespace PowerPlanTray.Core.Services;
 
@@ -7,6 +9,10 @@ public sealed class AppSettingsService
     private const string StartWithWindowsKey = nameof(StartWithWindows);
     private const string StartHiddenKey = nameof(StartHidden);
     private const string VisiblePlanGuidsKey = "VisiblePlanGuids";
+    private const string AutoSwitchBatteryAcEnabledKey = nameof(AutoSwitchBatteryAcEnabled);
+    private const string BatteryPlanGuidKey = nameof(BatteryPlanGuid);
+    private const string AcPlanGuidKey = nameof(AcPlanGuid);
+    private const string AutomationRulesKey = "AutomationRules";
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
@@ -21,6 +27,24 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(StartHiddenKey, defaultValue: false);
         set => _localSettings.Values[StartHiddenKey] = value;
+    }
+
+    public bool AutoSwitchBatteryAcEnabled
+    {
+        get => GetBoolean(AutoSwitchBatteryAcEnabledKey, defaultValue: false);
+        set => _localSettings.Values[AutoSwitchBatteryAcEnabledKey] = value;
+    }
+
+    public Guid? BatteryPlanGuid
+    {
+        get => GetNullableGuid(BatteryPlanGuidKey);
+        set => SetNullableGuid(BatteryPlanGuidKey, value);
+    }
+
+    public Guid? AcPlanGuid
+    {
+        get => GetNullableGuid(AcPlanGuidKey);
+        set => SetNullableGuid(AcPlanGuidKey, value);
     }
 
     /// <summary>
@@ -45,8 +69,47 @@ public sealed class AppSettingsService
         _localSettings.Values[VisiblePlanGuidsKey] =
             string.Join(',', guids.Distinct().Select(guid => guid.ToString("D")));
 
+    public List<AutoSwitchRule> GetAutomationRules()
+    {
+        if (!_localSettings.Values.TryGetValue(AutomationRulesKey, out object? value) ||
+            value is not string json || string.IsNullOrWhiteSpace(json))
+        {
+            return new List<AutoSwitchRule>();
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<List<AutoSwitchRule>>(json) ?? new List<AutoSwitchRule>();
+        }
+        catch (JsonException)
+        {
+            return new List<AutoSwitchRule>();
+        }
+    }
+
+    public void SetAutomationRules(List<AutoSwitchRule> rules) =>
+        _localSettings.Values[AutomationRulesKey] = JsonSerializer.Serialize(rules);
+
     private bool GetBoolean(string key, bool defaultValue) =>
         _localSettings.Values.TryGetValue(key, out object? value) && value is bool boolean
             ? boolean
             : defaultValue;
+
+    private Guid? GetNullableGuid(string key) =>
+        _localSettings.Values.TryGetValue(key, out object? value) &&
+        value is string serialized && Guid.TryParse(serialized, out Guid guid)
+            ? guid
+            : null;
+
+    private void SetNullableGuid(string key, Guid? value)
+    {
+        if (value.HasValue)
+        {
+            _localSettings.Values[key] = value.Value.ToString("D");
+        }
+        else
+        {
+            _localSettings.Values.Remove(key);
+        }
+    }
 }

@@ -21,6 +21,8 @@ public partial class App : Application
 {
     private readonly PowerSchemeService _powerSchemeService = new();
     private readonly AppSettingsService _appSettingsService = new();
+    private readonly PowerSourceMonitor _powerSourceMonitor = new();
+    private readonly AutomationRuleEngine _automationRuleEngine;
 
     // Kept alive for the lifetime of the app: WinUI 3 requires at least one
     // Window (and the DispatcherQueue/message loop that comes with it) for
@@ -33,6 +35,10 @@ public partial class App : Application
 
     public App()
     {
+        _automationRuleEngine = new AutomationRuleEngine(
+            _powerSchemeService,
+            _powerSourceMonitor,
+            _appSettingsService);
         InitializeComponent();
     }
 
@@ -51,6 +57,9 @@ public partial class App : Application
             IconSource = new BitmapImage(new Uri("ms-appx:///Assets/TrayIcon.ico")),
             MenuActivation = PopupActivationMode.LeftOrRightClick,
         };
+
+        _automationRuleEngine.TimedSwitchStateChanged += OnTimedSwitchStateChanged;
+        _automationRuleEngine.Start();
 
         RebuildTrayMenu();
 
@@ -115,7 +124,32 @@ public partial class App : Application
 
         flyout.Items.Add(new MenuFlyoutSeparator());
 
-        // TODO(phase2): add automation-rule quick-toggle menu items here.
+        var autoSwitchItem = new ToggleMenuFlyoutItem
+        {
+            Text = "Auto-switch on Battery/AC",
+            IsChecked = _appSettingsService.AutoSwitchBatteryAcEnabled,
+            IsEnabled = _powerSourceMonitor.HasBattery,
+        };
+        autoSwitchItem.Click += OnAutoSwitchToggleClick;
+        flyout.Items.Add(autoSwitchItem);
+
+        TimedSwitchInfo? timedSwitch = _automationRuleEngine.CurrentTimedSwitch;
+        if (timedSwitch is not null)
+        {
+            string planName = schemes.FirstOrDefault(scheme => scheme.Guid == timedSwitch.TargetPlanGuid)?.Name
+                ?? "Temporary plan";
+            int minutes = Math.Max(1, (int)Math.Ceiling(timedSwitch.Remaining.TotalMinutes));
+            flyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = $"{planName}: {minutes} min remaining",
+                IsEnabled = false,
+            });
+            var cancelItem = new MenuFlyoutItem { Text = "Cancel temporary plan" };
+            cancelItem.Click += (_, _) => _automationRuleEngine.CancelTimedSwitch();
+            flyout.Items.Add(cancelItem);
+        }
+
+        flyout.Items.Add(new MenuFlyoutSeparator());
 
         var settingsItem = new MenuFlyoutItem { Text = "Settings…" };
         settingsItem.Click += OnSettingsItemClick;
@@ -139,13 +173,29 @@ public partial class App : Application
     {
         if (_settingsWindow is null)
         {
-            _settingsWindow = new SettingsWindow();
+            _settingsWindow = new SettingsWindow(
+                _appSettingsService,
+                _powerSchemeService,
+                _powerSourceMonitor,
+                _automationRuleEngine);
             _settingsWindow.PowerPlansChanged += (_, _) => RebuildTrayMenu();
+            _settingsWindow.AutomationSettingsChanged += (_, _) => RebuildTrayMenu();
             _settingsWindow.Closed += (_, _) => _settingsWindow = null;
         }
 
         _settingsWindow.Activate();
     }
+
+    private void OnAutoSwitchToggleClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not ToggleMenuFlyoutItem item) return;
+        _appSettingsService.AutoSwitchBatteryAcEnabled = item.IsChecked;
+        _automationRuleEngine.RefreshConfiguration(applyCurrentPowerState: item.IsChecked);
+        RebuildTrayMenu();
+    }
+
+    private void OnTimedSwitchStateChanged(object? sender, EventArgs e) =>
+        _hiddenWindow?.DispatcherQueue.TryEnqueue(RebuildTrayMenu);
 
     private void OnSchemeItemClick(object sender, RoutedEventArgs e)
     {
