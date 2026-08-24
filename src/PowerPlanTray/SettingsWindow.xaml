@@ -12,12 +12,19 @@
             <NavigationViewItem Content="General" Icon="Setting" Tag="General" IsSelected="True" />
             <NavigationViewItem Content="Power Plans" Icon="PowerButton" Tag="PowerPlans" />
             <NavigationViewItem Content="Automation" Icon="Sync" Tag="Automation" />
+            <NavigationViewItem Content="Advanced" Icon="Repair" Tag="Advanced" />
         </NavigationView.MenuItems>
 
         <Grid>
         <ScrollViewer x:Name="GeneralPage">
             <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
                 <TextBlock Text="General" Style="{ThemeResource TitleTextBlockStyle}" />
+
+                <CheckBox
+                    x:Name="DisableCpuBoostCheckBox"
+                    Content="Disable CPU Boost"
+                    Click="OnDisableCpuBoostClick" />
+                <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
 
                 <CheckBox
                     x:Name="StartWithWindowsCheckBox"
@@ -91,6 +98,19 @@
                         <Button Content="Cancel" Click="OnCancelTimedSwitchClick" />
                     </StackPanel>
                 </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer x:Name="AdvancedPage" Visibility="Collapsed">
+            <StackPanel MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
+                <TextBlock Text="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Edit every setting exposed by Windows. Changes are applied immediately." TextWrapping="Wrap" />
+                <ComboBox x:Name="AdvancedPlanComboBox"
+                          Header="Power plan"
+                          DisplayMemberPath="Name"
+                          MinWidth="320"
+                          SelectionChanged="OnAdvancedPlanSelectionChanged" />
+                <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
+                <StackPanel x:Name="AdvancedSettingsPanel" Spacing="16" />
             </StackPanel>
         </ScrollViewer>
         </Grid>

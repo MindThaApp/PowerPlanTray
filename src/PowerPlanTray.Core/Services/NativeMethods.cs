@@ -20,6 +20,9 @@ internal static class NativeMethods
 
     /// <summary>AccessFlags value used to enumerate top-level power schemes.</summary>
     internal const uint ACCESS_SCHEME = 16;
+    internal const uint ACCESS_SUBGROUP = 17;
+    internal const uint ACCESS_INDIVIDUAL_SETTING = 18;
+    internal const uint POWER_ATTRIBUTE_HIDE = 1;
 
     /// <summary>
     /// Enumerates power schemes (when SchemeGuid/SubGroupOfPowerSettingsGuid are IntPtr.Zero and
@@ -46,6 +49,53 @@ internal static class NativeMethods
         IntPtr PowerSettingGuid,
         IntPtr Buffer,
         ref uint BufferSize);
+
+    [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
+    internal static extern uint PowerReadDescription(IntPtr rootPowerKey, IntPtr schemeGuid,
+        ref Guid subgroupGuid, ref Guid settingGuid, IntPtr buffer, ref uint bufferSize);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadACValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+        ref Guid subgroupGuid, ref Guid settingGuid, out uint valueIndex);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadDCValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+        ref Guid subgroupGuid, ref Guid settingGuid, out uint valueIndex);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerWriteACValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+        ref Guid subgroupGuid, ref Guid settingGuid, uint valueIndex);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerWriteDCValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+        ref Guid subgroupGuid, ref Guid settingGuid, uint valueIndex);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadValueMin(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, out uint valueMinimum);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadValueMax(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, out uint valueMaximum);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadValueIncrement(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, out uint valueIncrement);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadValueUnitsSpecifier(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, IntPtr buffer, ref uint bufferSize);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadPossibleValue(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, uint possibleSettingIndex, out uint type, IntPtr buffer, ref uint bufferSize);
+
+    [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
+    internal static extern uint PowerReadPossibleFriendlyName(IntPtr rootPowerKey, ref Guid subgroupGuid,
+        ref Guid settingGuid, uint possibleSettingIndex, IntPtr buffer, ref uint bufferSize);
+
+    [DllImport("PowrProf.dll")]
+    internal static extern uint PowerReadSettingAttributes(ref Guid subgroupGuid, ref Guid settingGuid);
 
     /// <summary>
     /// Retrieves the currently active power scheme's GUID. The out pointer must be freed with LocalFree.
