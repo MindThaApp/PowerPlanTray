@@ -18,6 +18,7 @@ public sealed class AppSettingsService
     private const string PopupSizeKey = nameof(PopupSize);
     private const string PopupTextSizeKey = nameof(PopupTextSize);
     private const string SettingsWindowSizeKey = nameof(SettingsWindowSize);
+    private const string NavigationPanePinnedKey = nameof(NavigationPanePinned);
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
@@ -56,6 +57,12 @@ public sealed class AppSettingsService
     {
         get => GetEnum(SettingsWindowSizeKey, UiSize.Medium);
         set => _localSettings.Values[SettingsWindowSizeKey] = value.ToString();
+    }
+
+    public bool NavigationPanePinned
+    {
+        get => GetBoolean(NavigationPanePinnedKey, defaultValue: false);
+        set => _localSettings.Values[NavigationPanePinnedKey] = value;
     }
 
     public bool AutoSwitchBatteryAcEnabled

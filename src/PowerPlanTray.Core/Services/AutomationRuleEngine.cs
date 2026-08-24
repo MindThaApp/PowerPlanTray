@@ -15,6 +15,8 @@ public sealed class AutomationRuleEngine : IDisposable
     private readonly PowerSourceMonitor _powerSourceMonitor;
     private readonly AppSettingsService _appSettingsService;
     private readonly ProcessWatcherService _processWatcher;
+    private readonly CpuLoadMonitorService _cpuLoadMonitor;
+    private readonly HashSet<Guid> _activeCpuRules = new();
     private readonly Stack<Guid> _restorePlans = new();
     private readonly object _sync = new();
     private CancellationTokenSource? _timedSwitchCancellation;
@@ -34,6 +36,7 @@ public sealed class AutomationRuleEngine : IDisposable
         _powerSourceMonitor = powerSourceMonitor;
         _appSettingsService = appSettingsService;
         _processWatcher = new ProcessWatcherService(OnAppStarted, OnLastAppStopped);
+        _cpuLoadMonitor = new CpuLoadMonitorService(OnCpuRuleEntered, OnCpuRuleExited);
     }
 
     public void Start()
@@ -49,10 +52,16 @@ public sealed class AutomationRuleEngine : IDisposable
     {
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
         _processWatcher.UpdateRules(rules);
+        _cpuLoadMonitor.UpdateRules(rules);
         if (rules.Any(rule => rule.Trigger == AutomationTrigger.AppRunning && rule.Enabled))
             _processWatcher.Start();
         else
             _processWatcher.Stop();
+
+        if (rules.Any(rule => rule.Enabled && rule.Trigger is (AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)))
+            _cpuLoadMonitor.Start();
+        else
+            _cpuLoadMonitor.Stop();
 
         if (applyCurrentPowerState && _appSettingsService.AutoSwitchBatteryAcEnabled)
             ApplyPowerSource(_powerSourceMonitor.IsOnBattery);
@@ -151,6 +160,27 @@ public sealed class AutomationRuleEngine : IDisposable
         lock (_sync) RestoreTopPlan();
     }
 
+    private void OnCpuRuleEntered(AutoSwitchRule rule)
+    {
+        lock (_sync)
+        {
+            if (!_activeCpuRules.Add(rule.Id)) return;
+            _restorePlans.Push(_powerSchemeService.GetActiveSchemeGuid());
+            _powerSchemeService.SetActiveScheme(rule.TargetPlanGuid);
+            System.Diagnostics.Debug.WriteLine($"PowerPlanTray CPU rule entered: {rule.Id}, target {rule.TargetPlanGuid}");
+        }
+    }
+
+    private void OnCpuRuleExited(Guid ruleId)
+    {
+        lock (_sync)
+        {
+            if (!_activeCpuRules.Remove(ruleId)) return;
+            RestoreTopPlan();
+            System.Diagnostics.Debug.WriteLine($"PowerPlanTray CPU rule exited: {ruleId}");
+        }
+    }
+
     private void RestoreTopPlan()
     {
         if (_restorePlans.TryPop(out Guid restorePlan))
@@ -162,6 +192,7 @@ public sealed class AutomationRuleEngine : IDisposable
         _powerSourceMonitor.PowerSourceChanged -= OnPowerSourceChanged;
         _powerSourceMonitor.Stop();
         _processWatcher.Dispose();
+        _cpuLoadMonitor.Dispose();
         _timedSwitchCancellation?.Cancel();
         _timedSwitchCancellation?.Dispose();
     }

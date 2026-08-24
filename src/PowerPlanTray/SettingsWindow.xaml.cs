@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.Win32;
 
 namespace PowerPlanTray;
 
@@ -49,6 +51,17 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
+        SystemCpuToggle.Toggled += OnSystemCpuRuleChanged;
+        SystemCpuDirectionComboBox.SelectionChanged += OnSystemCpuRuleChanged;
+        SystemCpuThresholdNumberBox.ValueChanged += OnSystemCpuThresholdChanged;
+        SystemCpuPlanComboBox.SelectionChanged += OnSystemCpuRuleChanged;
+        AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
+        WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
+        SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(AppTitleBar);
+        TryApplyBackdrop();
+        ConfigureNavigationPane();
         InitializeUiPreferences();
         ApplyUiPreferences();
         Activated += OnWindowActivated;
@@ -68,12 +81,19 @@ public sealed partial class SettingsWindow : Window
 
     public void ApplyUiPreferences()
     {
-        SettingsNavigationView.RequestedTheme = _appSettingsService.Theme switch
+        ElementTheme theme = _appSettingsService.Theme switch
         {
             AppTheme.Light => ElementTheme.Light,
             AppTheme.Dark => ElementTheme.Dark,
-            _ => ElementTheme.Default,
+            _ => IsWindowsLightTheme() ? ElementTheme.Light : ElementTheme.Dark,
         };
+        WindowRoot.RequestedTheme = theme;
+        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        AppWindow appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd));
+        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        appWindow.TitleBar.ButtonForegroundColor = theme == ElementTheme.Dark ? Colors.White : Colors.Black;
+        appWindow.TitleBar.ButtonInactiveForegroundColor = theme == ElementTheme.Dark ? Colors.Gray : Colors.DarkGray;
 
         (int width, int height) = _appSettingsService.SettingsWindowSize switch
         {
@@ -81,8 +101,60 @@ public sealed partial class SettingsWindow : Window
             UiSize.Large => (1200, 850),
             _ => (960, 700),
         };
-        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-        AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd)).Resize(new SizeInt32(width, height));
+        appWindow.Resize(new SizeInt32(width, height));
+    }
+
+    private void TryApplyBackdrop()
+    {
+        try { SystemBackdrop = new MicaBackdrop { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base }; }
+        catch { try { SystemBackdrop = new DesktopAcrylicBackdrop(); } catch { } }
+    }
+
+    private static bool IsWindowsLightTheme()
+    {
+        try
+        {
+            object? value = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1);
+            return Convert.ToInt32(value) != 0;
+        }
+        catch { return Application.Current.RequestedTheme == ApplicationTheme.Light; }
+    }
+
+    private void ConfigureNavigationPane()
+    {
+        // Measure the real localized labels, then add the compact icon column
+        // and standard item padding instead of retaining NavigationView's wide default.
+        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "UI", "Pin pane" }
+            .Select(label => { var text = new TextBlock { Text = label }; text.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity)); return text.DesiredSize.Width; })
+            .Max();
+        SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
+        PinPaneToggle.IsChecked = _appSettingsService.NavigationPanePinned;
+        SettingsNavigationView.IsPaneOpen = _appSettingsService.NavigationPanePinned;
+        SettingsNavigationView.IsPaneToggleButtonVisible = !_appSettingsService.NavigationPanePinned;
+    }
+
+    private void OnPinPaneClick(object sender, RoutedEventArgs e)
+    {
+        bool pinned = PinPaneToggle.IsChecked == true;
+        _appSettingsService.NavigationPanePinned = pinned;
+        SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
+        SettingsNavigationView.IsPaneOpen = pinned;
+        SettingsNavigationView.IsPaneToggleButtonVisible = !pinned;
+        ToolTipService.SetToolTip(PinPaneToggle, pinned ? "Unpin navigation pane" : "Pin navigation pane open");
+    }
+
+    private void ApplyPinnedPaneState()
+    {
+        bool pinned = _appSettingsService.NavigationPanePinned;
+        PinPaneToggle.IsChecked = pinned;
+        SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
+        SettingsNavigationView.IsPaneToggleButtonVisible = !pinned;
+        SettingsNavigationView.IsPaneOpen = pinned;
+    }
+
+    private void OnNavigationPaneClosing(NavigationView sender, NavigationViewPaneClosingEventArgs args)
+    {
+        if (_appSettingsService.NavigationPanePinned) args.Cancel = true;
     }
 
     private void OnUiPreferenceChanged(object sender, SelectionChangedEventArgs e)
@@ -169,7 +241,13 @@ public sealed partial class SettingsWindow : Window
             PopulatePlanComboBox(BatteryPlanComboBox, _appSettingsService.BatteryPlanGuid);
             PopulatePlanComboBox(AcPlanComboBox, _appSettingsService.AcPlanGuid);
             PopulatePlanComboBox(AppRulePlanComboBox, null);
+            PopulatePlanComboBox(SystemCpuPlanComboBox, null);
             PopulatePlanComboBox(TimedPlanComboBox, _automationRuleEngine.CurrentTimedSwitch?.TargetPlanGuid);
+            AutoSwitchRule? systemRule = _appSettingsService.GetAutomationRules().FirstOrDefault(r => r.Trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove);
+            SystemCpuToggle.IsOn = systemRule?.Enabled == true;
+            SystemCpuDirectionComboBox.SelectedIndex = systemRule?.Trigger == AutomationTrigger.SystemCpuAbove ? 1 : 0;
+            SystemCpuThresholdNumberBox.Value = systemRule?.CpuThresholdPercent ?? 15;
+            if (systemRule is not null) PopulatePlanComboBox(SystemCpuPlanComboBox, systemRule.TargetPlanGuid);
             RefreshAppRules();
             RefreshTimedSwitchStatus();
         }
@@ -194,14 +272,16 @@ public sealed partial class SettingsWindow : Window
     {
         AppRulesPanel.Children.Clear();
         foreach (AutoSwitchRule rule in _appSettingsService.GetAutomationRules()
-            .Where(rule => rule.Trigger == AutomationTrigger.AppRunning))
+            .Where(rule => rule.Trigger is AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove))
         {
             string planName = _automationSchemes.FirstOrDefault(scheme => scheme.Guid == rule.TargetPlanGuid)?.Name
                 ?? "Unavailable plan";
             var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
             var enabled = new CheckBox
             {
-                Content = $"{rule.AppExecutableName} → {planName}",
+                Content = rule.Trigger == AutomationTrigger.AppRunning
+                    ? $"{rule.AppExecutableName} running → {planName}"
+                    : $"{rule.AppExecutableName} CPU {(rule.Trigger == AutomationTrigger.ProcessCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
                 IsChecked = rule.Enabled,
                 Tag = rule.Id,
                 Width = 380,
@@ -246,11 +326,19 @@ public sealed partial class SettingsWindow : Window
         }
         if (!executable.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) executable += ".exe";
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        bool cpuRule = AppTriggerTypeComboBox.SelectedIndex == 1;
+        double threshold = AppCpuThresholdNumberBox.Value;
+        if (cpuRule && (double.IsNaN(threshold) || threshold is < 0 or > 100))
+        {
+            AppRuleStatusText.Text = "Enter a CPU threshold from 0 to 100%.";
+            return;
+        }
         rules.Add(new AutoSwitchRule
         {
-            Trigger = AutomationTrigger.AppRunning,
+            Trigger = !cpuRule ? AutomationTrigger.AppRunning : AppCpuDirectionComboBox.SelectedIndex == 1 ? AutomationTrigger.ProcessCpuAbove : AutomationTrigger.ProcessCpuBelow,
             AppExecutableName = executable,
             TargetPlanGuid = plan.Guid,
+            CpuThresholdPercent = cpuRule ? threshold : 15,
         });
         SaveRules(rules);
         AppExecutableTextBox.Text = string.Empty;
@@ -280,6 +368,37 @@ public sealed partial class SettingsWindow : Window
         _appSettingsService.SetAutomationRules(rules);
         _automationRuleEngine.RefreshConfiguration();
         RefreshAppRules();
+        AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnAppTriggerTypeChanged(object sender, SelectionChangedEventArgs e)
+    {
+        bool visible = AppTriggerTypeComboBox.SelectedIndex == 1;
+        AppCpuDirectionComboBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        AppCpuThresholdNumberBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void OnSystemCpuRuleChanged(object sender, RoutedEventArgs e) => SaveSystemCpuRule();
+    private void OnSystemCpuThresholdChanged(NumberBox sender, NumberBoxValueChangedEventArgs args) => SaveSystemCpuRule();
+
+    private void SaveSystemCpuRule()
+    {
+        if (_isInitializing || SystemCpuDirectionComboBox.SelectedIndex < 0 || SystemCpuPlanComboBox.SelectedItem is not PowerScheme plan) return;
+        double threshold = SystemCpuThresholdNumberBox.Value;
+        if (double.IsNaN(threshold) || threshold is < 0 or > 100) return;
+        List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
+        AutoSwitchRule? rule = rules.FirstOrDefault(r => r.Trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove);
+        if (rule is null)
+        {
+            rule = new AutoSwitchRule { Name = "System CPU load" };
+            rules.Add(rule);
+        }
+        rule.Trigger = SystemCpuDirectionComboBox.SelectedIndex == 1 ? AutomationTrigger.SystemCpuAbove : AutomationTrigger.SystemCpuBelow;
+        rule.CpuThresholdPercent = threshold;
+        rule.TargetPlanGuid = plan.Guid;
+        rule.Enabled = SystemCpuToggle.IsOn;
+        _appSettingsService.SetAutomationRules(rules);
+        _automationRuleEngine.RefreshConfiguration();
         AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
     }
 

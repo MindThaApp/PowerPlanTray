@@ -30,6 +30,7 @@ public sealed partial class TrayPopupWindow : Window
     private readonly IntPtr _hwnd;
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _deactivationTimer;
     private bool _isShowing;
+    private bool _fullMenu;
 
     public TrayPopupWindow(
         PowerSchemeService powerSchemes,
@@ -77,6 +78,7 @@ public sealed partial class TrayPopupWindow : Window
     {
         _deactivationTimer.Stop();
         ApplyPreferences();
+        _fullMenu = fullMenu;
         BuildContent(fullMenu);
         PositionAboveTaskbar();
         _isShowing = true;
@@ -148,7 +150,7 @@ public sealed partial class TrayPopupWindow : Window
         AddAutomationSection(all);
 
         List<AutoSwitchRule> rules = _settings.GetAutomationRules()
-            .Where(r => r.Enabled && r.Trigger == AutomationTrigger.AppRunning).ToList();
+            .Where(r => r.Enabled && r.Trigger is AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove).ToList();
         if (rules.Count > 0)
         {
             var rulesPanel = new StackPanel { Spacing = 2 };
@@ -238,12 +240,23 @@ public sealed partial class TrayPopupWindow : Window
 
     private void PositionAboveTaskbar()
     {
-        (double widthDip, double heightDip) = _settings.PopupSize switch
+        double preferenceScale = _settings.PopupSize switch
         {
-            UiSize.Small => (300, 390),
-            UiSize.Large => (440, 650),
-            _ => (360, 520),
+            UiSize.Small => 0.90,
+            UiSize.Large => 1.15,
+            _ => 1.0,
         };
+        // Measure the actual menu assembled for this invocation. The cap only
+        // turns exceptionally long menus into a scrollable surface; it is not
+        // the normal popup size.
+        PopupBorder.Width = double.NaN;
+        PopupBorder.Height = double.NaN;
+        PopupBorder.Measure(new Windows.Foundation.Size(520, 900));
+        Windows.Foundation.Size desired = PopupBorder.DesiredSize;
+        double widthDip = Math.Clamp(Math.Ceiling(desired.Width * preferenceScale), 220, 520);
+        double heightDip = Math.Clamp(Math.Ceiling(desired.Height * preferenceScale), 80, 700);
+        PopupBorder.Width = widthDip;
+        PopupBorder.Height = heightDip;
         double scale = GetDpiForWindow(_hwnd) / DefaultDpi;
         int width = (int)Math.Round(widthDip * scale);
         int height = (int)Math.Round(heightDip * scale);
@@ -252,7 +265,7 @@ public sealed partial class TrayPopupWindow : Window
             workArea = new RECT { Left = 0, Top = 0, Right = GetSystemMetrics(0), Bottom = GetSystemMetrics(1) };
         int gap = (int)Math.Round(8 * scale);
         _appWindow.MoveAndResize(new RectInt32(workArea.Right - width - gap, workArea.Bottom - height - gap, width, height));
-        System.Diagnostics.Debug.WriteLine($"PowerPlanTray popup: {widthDip}x{heightDip} DIP, {width}x{height} px, scale {scale:F2}");
+        System.Diagnostics.Debug.WriteLine($"PowerPlanTray popup ({(_fullMenu ? "right" : "left")}): natural {desired.Width:F0}x{desired.Height:F0} DIP, scaled {widthDip:F0}x{heightDip:F0} DIP, {width}x{height} px, DPI scale {scale:F2}");
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)

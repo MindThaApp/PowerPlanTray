@@ -9,7 +9,8 @@
             BorderThickness="1"
             CornerRadius="8"
             Background="Transparent">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="PopupScroller" VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
             <StackPanel x:Name="PopupContent" Spacing="4" />
         </ScrollViewer>
     </Border>

@@ -6,6 +6,10 @@ public enum AutomationTrigger
     AC,
     AppRunning,
     Timed,
+    SystemCpuBelow,
+    SystemCpuAbove,
+    ProcessCpuBelow,
+    ProcessCpuAbove,
 }
 
 public class AutoSwitchRule
@@ -14,6 +18,7 @@ public class AutoSwitchRule
     public AutomationTrigger Trigger { get; set; }
     public Guid TargetPlanGuid { get; set; }
     public string? AppExecutableName { get; set; }
+    public double CpuThresholdPercent { get; set; } = 15;
     public string? Name { get; set; }
     public bool Enabled { get; set; } = true;
 }
