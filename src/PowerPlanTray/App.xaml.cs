@@ -96,6 +96,12 @@ public partial class App : Application
 
         foreach (PowerScheme scheme in schemes)
         {
+            IReadOnlySet<Guid> visibleGuids = _appSettingsService.GetVisiblePlanGuids();
+            if (visibleGuids.Count > 0 && !visibleGuids.Contains(scheme.Guid))
+            {
+                continue;
+            }
+
             var item = new RadioMenuFlyoutItem
             {
                 Text = scheme.Name,
@@ -134,6 +140,7 @@ public partial class App : Application
         if (_settingsWindow is null)
         {
             _settingsWindow = new SettingsWindow();
+            _settingsWindow.PowerPlansChanged += (_, _) => RebuildTrayMenu();
             _settingsWindow.Closed += (_, _) => _settingsWindow = null;
         }
 

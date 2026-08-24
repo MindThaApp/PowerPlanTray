@@ -4,12 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Power Plan Tray Settings">
 
-    <NavigationView IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+    <NavigationView x:Name="SettingsNavigationView"
+                    IsBackButtonVisible="Collapsed"
+                    IsSettingsVisible="False"
+                    SelectionChanged="OnNavigationSelectionChanged">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="General" Icon="Setting" IsSelected="True" />
+            <NavigationViewItem Content="General" Icon="Setting" Tag="General" IsSelected="True" />
+            <NavigationViewItem Content="Power Plans" Icon="PowerButton" Tag="PowerPlans" />
         </NavigationView.MenuItems>
 
-        <ScrollViewer>
+        <Grid>
+        <ScrollViewer x:Name="GeneralPage">
             <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
                 <TextBlock Text="General" Style="{ThemeResource TitleTextBlockStyle}" />
 
@@ -28,5 +33,18 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        <ScrollViewer x:Name="PowerPlansPage" Visibility="Collapsed">
+            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+                <TextBlock Text="Power Plans" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Install or remove the standard Windows power plans. Windows will ask for administrator permission." TextWrapping="Wrap" />
+                <StackPanel x:Name="DefaultPlansPanel" Spacing="12" />
+                <TextBlock x:Name="PowerPlanStatusText" TextWrapping="Wrap" />
+
+                <TextBlock Text="Show in tray" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,12,0,0" />
+                <TextBlock Text="Choose which installed plans appear in the tray menu." TextWrapping="Wrap" />
+                <StackPanel x:Name="VisibilityPlansPanel" Spacing="4" />
+            </StackPanel>
+        </ScrollViewer>
+        </Grid>
     </NavigationView>
 </Window>
