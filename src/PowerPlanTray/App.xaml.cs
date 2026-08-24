@@ -20,6 +20,7 @@ namespace PowerPlanTray;
 public partial class App : Application
 {
     private readonly PowerSchemeService _powerSchemeService = new();
+    private readonly AppSettingsService _appSettingsService = new();
 
     // Kept alive for the lifetime of the app: WinUI 3 requires at least one
     // Window (and the DispatcherQueue/message loop that comes with it) for
@@ -28,6 +29,7 @@ public partial class App : Application
     private Window? _hiddenWindow;
 
     private TaskbarIcon? _trayIcon;
+    private SettingsWindow? _settingsWindow;
 
     public App()
     {
@@ -53,6 +55,11 @@ public partial class App : Application
         RebuildTrayMenu();
 
         _trayIcon.ForceCreate();
+
+        if (!_appSettingsService.StartHidden)
+        {
+            ShowSettingsWindow();
+        }
     }
 
     /// <summary>
@@ -102,9 +109,13 @@ public partial class App : Application
 
         flyout.Items.Add(new MenuFlyoutSeparator());
 
-        // TODO(phase2): add "Settings..." menu item here to open the
-        // settings window (automation rules, startup behavior, etc.).
         // TODO(phase2): add automation-rule quick-toggle menu items here.
+
+        var settingsItem = new MenuFlyoutItem { Text = "Settings…" };
+        settingsItem.Click += OnSettingsItemClick;
+        flyout.Items.Add(settingsItem);
+
+        flyout.Items.Add(new MenuFlyoutSeparator());
 
         var exitItem = new MenuFlyoutItem { Text = "Exit" };
         exitItem.Click += (_, _) => Application.Current.Exit();
@@ -114,6 +125,19 @@ public partial class App : Application
         // phase 1 (see MenuActivation = PopupActivationMode.LeftOrRightClick
         // above). Later phases may diverge left/right-click behavior.
         _trayIcon.ContextFlyout = flyout;
+    }
+
+    private void OnSettingsItemClick(object sender, RoutedEventArgs e) => ShowSettingsWindow();
+
+    private void ShowSettingsWindow()
+    {
+        if (_settingsWindow is null)
+        {
+            _settingsWindow = new SettingsWindow();
+            _settingsWindow.Closed += (_, _) => _settingsWindow = null;
+        }
+
+        _settingsWindow.Activate();
     }
 
     private void OnSchemeItemClick(object sender, RoutedEventArgs e)

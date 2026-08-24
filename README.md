@@ -44,6 +44,129 @@ App SDK tooling for the CLI.
   alone builds today with a plain `dotnet build` since it has no Windows-only
   dependencies.
 
+`dotnet build`/`dotnet run` only compiles the app - it does **not** produce
+something you can double-click and run. `PowerPlanTray` is a packaged
+(MSIX, `WindowsPackageType=MSIX`, `EnableMsixTooling=true`) WinUI 3 app, and
+Windows requires package identity to activate a WinUI 3 exe (the framework
+resolves `ms-appx:///...` asset URIs, DPI/resource handling, etc. through
+the package). Running `bin\...\PowerPlanTray.exe` directly fails with:
+
+```
+The application has failed to start because its side-by-side configuration
+is incorrect. Please see the application event log or use the command-line
+sxstrace.exe tool for more detail.
+```
+
+This is **not** a missing-runtime problem (the Windows App SDK runtime
+redistributable can be installed and present) - `sxstrace.exe` traces it to
+manifest activation itself failing:
+
+```
+ERROR: The setting http://schemas.microsoft.com/SMI/2019/WindowsSettings^dpiAwareness is not registered.
+ERROR: Activation Context generation failed.
+```
+
+On this dev machine the OS's SxS manifest parser does not recognize the
+2019-schema `<dpiAwareness>` element that the default WinUI 3 project
+template puts in `src/PowerPlanTray/app.manifest`, which makes activation
+context generation fail outright - the exe can never start, packaged or not.
+The fix was to switch `app.manifest` to the older, universally-supported
+2005 schema element instead (functionally equivalent, PerMonitorV2-aware):
+
+```xml
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+  <windowsSettings>
+    <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>
+  </windowsSettings>
+</application>
+```
+
+A second, independent bug was also found and fixed while diagnosing this:
+`Assets\**\*.png`/`*.ico` in `PowerPlanTray.csproj` were declared as
+`<Content>` without `CopyToOutputDirectory`, so SDK-style `dotnet build`
+never copied `Assets\` into `bin\...\`. That leaves the MSIX manifest
+pointing at logo files that don't exist in the build output. Both items
+(`<Content Include="Assets\**\*.png">` / `*.ico`) now carry
+`<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>`.
+
+### Running locally from the CLI (no Visual Studio needed)
+
+There's no VS IDE session on this box to hit F5 (which normally builds,
+registers a dev package, and deploys for you), so the equivalent has to be
+done by hand. This is a real local MSIX install - the same shape the app
+will eventually ship in - not a throwaway shortcut.
+
+One-time setup (per machine): a self-signed code-signing certificate whose
+subject matches the manifest's `Publisher` (`CN=PowerPlanTray`), trusted
+locally so Windows will install packages signed with it:
+
+```powershell
+$cert = New-SelfSignedCertificate -Type Custom -Subject "CN=PowerPlanTray" `
+  -KeyUsage DigitalSignature -FriendlyName "PowerPlanTray Dev Cert" `
+  -CertStoreLocation "Cert:\CurrentUser\My" `
+  -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.3","2.5.29.19={text}false")
+$pwd = ConvertTo-SecureString -String "<choose-a-password>" -Force -AsPlainText
+Export-PfxCertificate -Cert "Cert:\CurrentUser\My\$($cert.Thumbprint)" `
+  -FilePath certs\PowerPlanTrayDev.pfx -Password $pwd
+Import-PfxCertificate -FilePath certs\PowerPlanTrayDev.pfx `
+  -CertStoreLocation Cert:\LocalMachine\TrustedPeople -Password $pwd
+```
+
+(`certs\` and `artifacts\` are already gitignored - never commit the
+`.pfx`, it contains a private key.) Also requires Developer Mode enabled
+(Settings > Privacy & security > For developers) so unsigned/dev-signed
+sideloading is allowed.
+
+Every build+run cycle:
+
+```powershell
+# 1. Build and package (produces a signed-ready .msix + install scripts)
+$msbuild = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+& $msbuild src\PowerPlanTray\PowerPlanTray.csproj /t:Build `
+  /p:Configuration=Debug /p:Platform=x64 /p:GenerateAppxPackageOnBuild=true `
+  /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly `
+  /p:AppxPackageDir="artifacts\AppPackages\"
+
+# 2. Sign the package with the dev cert from setup
+$msix = "artifacts\AppPackages\PowerPlanTray_1.0.0.0_x64_Debug_Test\PowerPlanTray_1.0.0.0_x64_Debug.msix"
+& "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" `
+  sign /fd SHA256 /a /f certs\PowerPlanTrayDev.pfx /p "<password>" $msix
+
+# 3. Install (first time) / reinstall (after code changes - remove then re-add,
+#    since Add-AppxPackage rejects a same-version reinstall with different content)
+Get-AppxPackage -Name PowerPlanTray | Remove-AppxPackage -ErrorAction SilentlyContinue
+Add-AppxPackage -Path $msix
+
+# 4. Launch via its AUMID (package identity - this is what makes ms-appx:// asset
+#    URIs, DPI handling, etc. resolve correctly; running the raw .exe still won't work)
+explorer.exe "shell:appsFolder\PowerPlanTray_z9059hg5j6cj2!PowerPlanTray"
+```
+
+(`z9059hg5j6cj2` is this dev cert's package family name suffix and will
+differ per machine/cert - look it up with
+`Get-AppxPackage -Name PowerPlanTray | Select PackageFamilyName` or
+`Get-StartApps | Where Name -eq "Power Plan Tray"` after installing once.)
+
+To uninstall: `Get-AppxPackage -Name PowerPlanTray | Remove-AppxPackage`.
+
+### Verified working (2026-08-24)
+
+With both fixes above, `Add-AppxPackage` installs cleanly, the app launches
+via its AUMID, stays running/responsive, and the tray icon renders and
+opens its flyout with the live list of power plans (Balanced / High
+performance / Power saver) plus Exit - confirmed via a desktop screenshot
+and via Windows' own per-icon `IconSnapshot` cache
+(`HKCU\Control Panel\NotifyIconSettings`). `PowerSchemeService`'s
+`PowerSetActiveScheme` P/Invoke was independently verified to correctly
+switch the active scheme (confirmed with `powercfg /getactivescheme`
+before/after). Driving an actual in-flyout menu click end-to-end via
+synthetic mouse input against the taskbar's XAML-island overflow host
+proved unreliable in this environment (clicks landed on the right
+coordinates per UI Automation but didn't consistently reach the XAML
+click handler) - this looks like an automation-tooling limitation rather
+than an app bug, given the underlying API call and the flyout's displayed
+content were both independently confirmed correct.
+
 ## Known placeholders to replace before Store submission
 
 - `src/PowerPlanTray/Assets/*.png` and `Assets/TrayIcon.ico` are

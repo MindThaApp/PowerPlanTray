@@ -1,0 +1,32 @@
+<Window
+    x:Class="PowerPlanTray.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Power Plan Tray Settings">
+
+    <NavigationView IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="General" Icon="Setting" IsSelected="True" />
+        </NavigationView.MenuItems>
+
+        <ScrollViewer>
+            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+                <TextBlock Text="General" Style="{ThemeResource TitleTextBlockStyle}" />
+
+                <CheckBox
+                    x:Name="StartWithWindowsCheckBox"
+                    Content="Start with Windows"
+                    Click="OnStartWithWindowsClick" />
+
+                <StackPanel Spacing="8">
+                    <TextBlock Text="On launch" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <RadioButtons x:Name="LaunchBehaviorRadioButtons"
+                                  SelectionChanged="OnLaunchBehaviorSelectionChanged">
+                        <x:String>Start hidden in tray</x:String>
+                        <x:String>Show this window</x:String>
+                    </RadioButtons>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </NavigationView>
+</Window>
