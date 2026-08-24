@@ -120,7 +120,7 @@ public sealed partial class SettingsWindow : Window
     {
         // Measure the real localized labels, then add the compact icon column
         // and standard item padding instead of retaining NavigationView's wide default.
-        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "UI", "Pin pane" }
+        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "Pin pane" }
             .Select(label => { var text = new TextBlock { Text = label }; text.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity)); return text.DesiredSize.Width; })
             .Max();
         SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
@@ -203,13 +203,14 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    private async void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
         string? tag = (args.SelectedItemContainer as NavigationViewItem)?.Tag as string;
         GeneralPage.Visibility = tag == "General" ? Visibility.Visible : Visibility.Collapsed;
         PowerPlansPage.Visibility = tag == "PowerPlans" ? Visibility.Visible : Visibility.Collapsed;
         AutomationPage.Visibility = tag == "Automation" ? Visibility.Visible : Visibility.Collapsed;
         AdvancedPage.Visibility = tag == "Advanced" ? Visibility.Visible : Visibility.Collapsed;
+        ProfilesPage.Visibility = tag == "Profiles" ? Visibility.Visible : Visibility.Collapsed;
         UiPage.Visibility = tag == "UI" ? Visibility.Visible : Visibility.Collapsed;
 
         if (tag == "PowerPlans")
@@ -223,6 +224,10 @@ public sealed partial class SettingsWindow : Window
         else if (tag == "Advanced")
         {
             RefreshAdvancedSettings();
+        }
+        else if (tag == "Profiles")
+        {
+            await InitializeProfilesAsync();
         }
     }
 
@@ -815,14 +820,15 @@ public sealed partial class SettingsWindow : Window
                 group.Children.Add(new TextBlock { Text = subgroupName, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] });
                 foreach ((Guid settingGuid, string settingName) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
                 {
-                    _allAdvancedSettings.Add((subgroupGuid, settingGuid));
+                    if (!_allAdvancedSettings.Contains((subgroupGuid, settingGuid)))
+                    {
+                        _allAdvancedSettings.Add((subgroupGuid, settingGuid));
+                    }
                     group.Children.Add(CreateSettingRow(scheme.Guid, subgroupGuid, settingGuid, settingName));
                 }
                 AllAdvancedSettingsPanel.Children.Add(group);
             }
             _allAdvancedSettingsLoaded = true;
-            _advancedProfiles = await _appSettingsService.GetAdvancedSettingsProfilesAsync();
-            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
             AdvancedStatusText.Text = $"Loaded {_allAdvancedSettings.Count} advanced settings.";
         }
         catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read advanced settings: {ex.Message}"; }
@@ -865,6 +871,32 @@ public sealed partial class SettingsWindow : Window
         };
     }
 
+    private async Task InitializeProfilesAsync()
+    {
+        try
+        {
+            ProfilesStatusText.Text = "Loading profiles...";
+            _advancedProfiles = await _appSettingsService.GetAdvancedSettingsProfilesAsync();
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+
+            if (_allAdvancedSettings.Count == 0 && AdvancedPlanComboBox.SelectedItem is PowerScheme scheme)
+            {
+                foreach ((Guid subgroupGuid, _) in _powerSchemeService.GetSubgroups(scheme.Guid))
+                {
+                    foreach ((Guid settingGuid, _) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
+                    {
+                        _allAdvancedSettings.Add((subgroupGuid, settingGuid));
+                    }
+                }
+            }
+
+            ProfilesStatusText.Text = _advancedProfiles.Count == 0
+                ? "No saved profiles yet."
+                : $"Loaded {_advancedProfiles.Count} saved profile{(_advancedProfiles.Count == 1 ? string.Empty : "s")}.";
+        }
+        catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't load profiles: {ex.Message}"; }
+    }
+
     private async Task<string?> PromptForProfileNameAsync()
     {
         var input = new TextBox { Header = "Profile name", PlaceholderText = "My power settings" };
@@ -885,15 +917,34 @@ public sealed partial class SettingsWindow : Window
             AdvancedProfileComboBox.ItemsSource = null;
             AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
             AdvancedProfileComboBox.SelectedItem = profile;
-            AdvancedStatusText.Text = $"Saved profile '{name}' with {profile.Settings.Count} settings.";
+            ProfilesStatusText.Text = $"Saved profile '{name}' with {profile.Settings.Count} settings.";
         }
-        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't save profile: {ex.Message}"; }
+        catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't save profile: {ex.Message}"; }
     }
 
     private async void OnLoadProfileClick(object sender, RoutedEventArgs e)
     {
         if (AdvancedProfileComboBox.SelectedItem is AdvancedSettingsProfile profile) await ApplyProfileAsync(profile);
-        else AdvancedStatusText.Text = "Choose a saved profile first.";
+        else ProfilesStatusText.Text = "Choose a saved profile first.";
+    }
+
+    private async void OnDeleteProfileClick(object sender, RoutedEventArgs e)
+    {
+        if (AdvancedProfileComboBox.SelectedItem is not AdvancedSettingsProfile profile)
+        {
+            ProfilesStatusText.Text = "Choose a saved profile first.";
+            return;
+        }
+
+        try
+        {
+            _advancedProfiles.Remove(profile);
+            await _appSettingsService.SetAdvancedSettingsProfilesAsync(_advancedProfiles);
+            AdvancedProfileComboBox.ItemsSource = null;
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+            ProfilesStatusText.Text = $"Deleted profile '{profile.Name}'.";
+        }
+        catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't delete profile: {ex.Message}"; }
     }
 
     private async Task ApplyProfileAsync(AdvancedSettingsProfile profile)
@@ -915,7 +966,7 @@ public sealed partial class SettingsWindow : Window
         bool visibilityApplied = await _elevationService.SetSettingsHiddenAsync(
             applicable.Select(s => (s.SubgroupGuid, s.SettingGuid, s.Hidden)));
         int skipped = profile.Settings.Count - applied;
-        AdvancedStatusText.Text = visibilityApplied
+        ProfilesStatusText.Text = visibilityApplied
             ? $"Applied {applied} settings from '{profile.Name}'; skipped {skipped}."
             : $"Applied values for {applied} settings, but couldn't apply all visibility states; skipped {skipped}.";
     }
@@ -933,9 +984,9 @@ public sealed partial class SettingsWindow : Window
             StorageFile? file = await picker.PickSaveFileAsync();
             if (file is null) return;
             await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(profile, new JsonSerializerOptions { WriteIndented = true }));
-            AdvancedStatusText.Text = $"Saved {profile.Settings.Count} settings to {file.Name}.";
+            ProfilesStatusText.Text = $"Saved {profile.Settings.Count} settings to {file.Name}.";
         }
-        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't export profile: {ex.Message}"; }
+        catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't export profile: {ex.Message}"; }
     }
 
     private async void OnImportProfileClick(object sender, RoutedEventArgs e)
@@ -951,7 +1002,7 @@ public sealed partial class SettingsWindow : Window
             if (profile is null || profile.Settings is null) throw new InvalidDataException("The file is not a valid advanced-settings profile.");
             await ApplyProfileAsync(profile);
         }
-        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't import profile: {ex.Message}"; }
+        catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't import profile: {ex.Message}"; }
     }
 
     private FrameworkElement CreateSettingRow(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string settingName)

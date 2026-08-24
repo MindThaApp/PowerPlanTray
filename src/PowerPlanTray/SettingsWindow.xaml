@@ -36,6 +36,7 @@
             <NavigationViewItem Content="Automation" Icon="Sync" Tag="Automation" />
             <NavigationViewItem Content="UI" Icon="View" Tag="UI" />
             <NavigationViewItem Content="Advanced" Icon="Repair" Tag="Advanced" />
+            <NavigationViewItem Content="Profiles" Icon="Save" Tag="Profiles" />
         </NavigationView.MenuItems>
 
         <Grid>
@@ -177,6 +178,36 @@
                 <TextBlock Text="Changes apply immediately. Popup settings take effect the next time it opens." TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
+        <ScrollViewer x:Name="ProfilesPage" Visibility="Collapsed">
+            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+                <TextBlock Text="Profiles" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Save and restore snapshots of the current power plan's advanced setting visibility and AC/DC values." TextWrapping="Wrap" />
+
+                <TextBlock Text="Saved profiles" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ListView x:Name="AdvancedProfileComboBox" MinWidth="420" MaxHeight="280" HorizontalAlignment="Stretch" SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="4" Spacing="2">
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding SavedAt}" Opacity="0.7" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Save new profile" Click="OnSaveProfileClick" />
+                    <Button Content="Load selected" Click="OnLoadProfileClick" />
+                    <Button Content="Delete selected" Click="OnDeleteProfileClick" />
+                </StackPanel>
+
+                <TextBlock Text="Profile files" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,8,0,0" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Save to file..." Click="OnExportProfileClick" />
+                    <Button Content="Load from file..." Click="OnImportProfileClick" />
+                </StackPanel>
+                <TextBlock x:Name="ProfilesStatusText" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
         <ScrollViewer x:Name="AdvancedPage" Visibility="Collapsed">
             <StackPanel MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
                 <TextBlock Text="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
@@ -207,16 +238,6 @@
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Content="Enable All" Click="OnEnableAllAdvancedClick" />
                         <Button Content="Disable All" Click="OnDisableAllAdvancedClick" />
-                    </StackPanel>
-                    <TextBlock Text="Profiles capture the visibility and AC/DC values of the settings loaded below." TextWrapping="Wrap" />
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Save custom configuration/profile" Click="OnSaveProfileClick" />
-                        <ComboBox x:Name="AdvancedProfileComboBox" Header="Saved profiles" DisplayMemberPath="Name" MinWidth="220" />
-                        <Button Content="Load custom configuration/profile" Click="OnLoadProfileClick" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Save to file..." Click="OnExportProfileClick" />
-                        <Button Content="Load from file..." Click="OnImportProfileClick" />
                     </StackPanel>
                     <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
                 </StackPanel>
