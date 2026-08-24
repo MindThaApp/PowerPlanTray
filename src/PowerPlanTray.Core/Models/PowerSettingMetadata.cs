@@ -8,3 +8,5 @@ public sealed record PowerSettingMetadata(
     uint? Increment,
     string? Units,
     IReadOnlyList<PowerSettingChoice> Choices);
+
+public sealed record CommonPowerSetting(Guid SubgroupGuid, Guid SettingGuid);

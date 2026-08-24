@@ -16,7 +16,20 @@ public sealed class ElevationService
     public Task<bool> SetSettingHiddenAsync(Guid subgroupGuid, Guid settingGuid, bool hidden) =>
         RunPowerCfgAsync($"-attributes {subgroupGuid:D} {settingGuid:D} {(hidden ? "+ATTRIB_HIDE" : "-ATTRIB_HIDE")}");
 
+    public Task<bool> SetSettingsHiddenAsync(IEnumerable<(Guid SubgroupGuid, Guid SettingGuid)> settings, bool hidden)
+        => SetSettingsHiddenAsync(settings.Select(setting => (setting.SubgroupGuid, setting.SettingGuid, hidden)));
+
+    public Task<bool> SetSettingsHiddenAsync(IEnumerable<(Guid SubgroupGuid, Guid SettingGuid, bool Hidden)> settings)
+    {
+        string commands = string.Join(" & ", settings.Distinct().Select(setting =>
+            $"powercfg.exe -attributes {setting.SubgroupGuid:D} {setting.SettingGuid:D} {(setting.Hidden ? "+ATTRIB_HIDE" : "-ATTRIB_HIDE")}"));
+        return string.IsNullOrEmpty(commands) ? Task.FromResult(true) : RunElevatedAsync("cmd.exe", $"/d /s /c \"{commands}\"");
+    }
+
     private async Task<bool> RunPowerCfgAsync(string arguments)
+        => await RunElevatedAsync("powercfg.exe", arguments);
+
+    private async Task<bool> RunElevatedAsync(string fileName, string arguments)
     {
         LastOperationWasCancelled = false;
 
@@ -24,7 +37,7 @@ public sealed class ElevationService
         {
             using Process? process = Process.Start(new ProcessStartInfo
             {
-                FileName = "powercfg.exe",
+                FileName = fileName,
                 Arguments = arguments,
                 UseShellExecute = true,
                 Verb = "runas",
