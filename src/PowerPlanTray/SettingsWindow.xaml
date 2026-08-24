@@ -37,6 +37,7 @@
             <NavigationViewItem Content="UI" Icon="View" Tag="UI" />
             <NavigationViewItem Content="Advanced" Icon="Repair" Tag="Advanced" />
             <NavigationViewItem Content="Profiles" Icon="Save" Tag="Profiles" />
+            <NavigationViewItem Content="About" Icon="Help" Tag="About" />
         </NavigationView.MenuItems>
 
         <Grid>
@@ -253,6 +254,22 @@
                     </StackPanel>
                     <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
                 </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer x:Name="AboutPage" Visibility="Collapsed">
+            <StackPanel MaxWidth="640" Padding="32" Spacing="16" HorizontalAlignment="Left">
+                <TextBlock Text="About" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Power Plan Tray" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Name="AboutVersionText" />
+                <TextBlock Text="Power Plan Tray is a small Windows utility for switching power plans from the system tray, automating plan changes, and managing Windows power settings without keeping the whole app elevated."
+                           TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Privacy Policy" Click="OnPrivacyPolicyClick" />
+                    <Button Content="Terms of Use" Click="OnTermsOfUseClick" />
+                </StackPanel>
+                <TextBlock Text="Tray integration is provided by H.NotifyIcon.WinUI 2.2.0, used under the MIT License."
+                           TextWrapping="Wrap"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
             </StackPanel>
         </ScrollViewer>
         </Grid>

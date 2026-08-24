@@ -14,6 +14,7 @@ using Microsoft.UI.Windowing;
 using Windows.Graphics;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Win32;
+using System.Reflection;
 
 namespace PowerPlanTray;
 
@@ -51,6 +52,7 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
+        AboutVersionText.Text = $"Version {GetAppVersion()}";
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
         WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
         SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
@@ -129,7 +131,7 @@ public sealed partial class SettingsWindow : Window
     {
         // Measure the real localized labels, then add the compact icon column
         // and standard item padding instead of retaining NavigationView's wide default.
-        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "Pin pane" }
+        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "About", "Pin pane" }
             .Select(label => { var text = new TextBlock { Text = label }; text.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity)); return text.DesiredSize.Width; })
             .Max();
         SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
@@ -223,6 +225,7 @@ public sealed partial class SettingsWindow : Window
         AdvancedPage.Visibility = tag == "Advanced" ? Visibility.Visible : Visibility.Collapsed;
         ProfilesPage.Visibility = tag == "Profiles" ? Visibility.Visible : Visibility.Collapsed;
         UiPage.Visibility = tag == "UI" ? Visibility.Visible : Visibility.Collapsed;
+        AboutPage.Visibility = tag == "About" ? Visibility.Visible : Visibility.Collapsed;
 
         if (tag == "PowerPlans")
         {
@@ -305,6 +308,25 @@ public sealed partial class SettingsWindow : Window
             AppRulesPanel.Children.Add(row);
         }
     }
+
+    private static string GetAppVersion()
+    {
+        try
+        {
+            PackageVersion version = Package.Current.Id.Version;
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+        catch
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
+        }
+    }
+
+    private async void OnPrivacyPolicyClick(object sender, RoutedEventArgs e) =>
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/ramin-azizi/PowerPlanTray/blob/master/PRIVACY.md"));
+
+    private async void OnTermsOfUseClick(object sender, RoutedEventArgs e) =>
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/ramin-azizi/PowerPlanTray/blob/master/TERMS.md"));
 
     private void RefreshGeneralPlanSelector()
     {

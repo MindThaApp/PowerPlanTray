@@ -4,6 +4,8 @@ A Windows system-tray utility for switching power plans, built with WinUI 3
 (.NET 8, Windows App SDK). Eventually shipped as a packaged MSIX app to the
 Microsoft Store.
 
+[Privacy Policy](PRIVACY.md) · [Terms of Use](TERMS.md) · [MIT License](LICENSE)
+
 ## Phase 1 (this checkpoint)
 
 Scope: a working solution that builds and shows a tray icon listing the
