@@ -101,6 +101,9 @@ public sealed partial class TrayPopupWindow : Window
 
     public void Toggle(bool fullMenu)
     {
+        // Consume a hide queued by the tray mouse-down before deciding whether
+        // this same click should close or open the popup.
+        _deactivationTimer.Stop();
         if (_isShowing) Hide();
         else Show(fullMenu);
     }

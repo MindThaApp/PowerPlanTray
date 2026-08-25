@@ -38,8 +38,15 @@ public partial class App : Application
             // Commands still receive tray mouse messages; None prevents the
             // library from also opening its native OS-drawn PopupMenu.
             MenuActivation = PopupActivationMode.None,
-            LeftClickCommand = new RelayCommand(() => _trayPopup.Toggle(fullMenu: false)),
             RightClickCommand = new RelayCommand(() => _trayPopup.Show(fullMenu: true)),
+        };
+        // LeftClickCommand deliberately waits for the system double-click
+        // interval. This app has no double-click action, so handle the raw
+        // mouse-up notification directly for an immediate, reliable toggle.
+        _trayIcon.TrayIcon.MessageWindow.MouseEventReceived += (_, eventArgs) =>
+        {
+            if (eventArgs.MouseEvent == MouseEvent.IconLeftMouseUp)
+                _trayPopup.Toggle(fullMenu: false);
         };
 
         _automationRuleEngine.Start();
