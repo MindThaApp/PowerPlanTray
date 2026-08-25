@@ -14,3 +14,11 @@ public enum UiSize
     Medium,
     Large,
 }
+
+public enum TrayIconMode
+{
+    Static,
+    CpuPercentText,
+    CpuBarChart,
+    PowerPlanAbbreviation,
+}

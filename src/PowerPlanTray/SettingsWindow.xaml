@@ -179,6 +179,9 @@
                 <ComboBox x:Name="ThemeComboBox" Header="Theme" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
                     <x:String>Follow Windows</x:String><x:String>Light</x:String><x:String>Dark</x:String><x:String>OLED Black</x:String>
                 </ComboBox>
+                <ComboBox x:Name="TrayIconModeComboBox" Header="Tray icon" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+                    <x:String>Static</x:String><x:String>CPU percentage</x:String><x:String>CPU bar chart</x:String><x:String>Power plan abbreviation</x:String>
+                </ComboBox>
                 <ComboBox x:Name="PopupSizeComboBox" Header="Tray popup size" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
                     <x:String>Small</x:String><x:String>Medium</x:String><x:String>Large</x:String>
                 </ComboBox>

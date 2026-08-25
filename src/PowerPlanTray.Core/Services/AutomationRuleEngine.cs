@@ -25,8 +25,10 @@ public sealed class AutomationRuleEngine : IDisposable
     private Guid? _cpuRestorePlan;
     private Guid? _appliedCpuRuleId;
     private bool _started;
+    private bool _cpuStatusMonitoringRequired;
 
     public event EventHandler? TimedSwitchStateChanged;
+    public event EventHandler<double>? SystemCpuLoadUpdated;
 
     public TimedSwitchInfo? CurrentTimedSwitch { get; private set; }
 
@@ -40,6 +42,7 @@ public sealed class AutomationRuleEngine : IDisposable
         _appSettingsService = appSettingsService;
         _processWatcher = new ProcessWatcherService(OnAppStarted, OnLastAppStopped);
         _cpuLoadMonitor = new CpuLoadMonitorService(OnCpuRuleEntered, OnCpuRuleExited);
+        _cpuLoadMonitor.SystemCpuLoadUpdated += (_, load) => SystemCpuLoadUpdated?.Invoke(this, load);
     }
 
     public void Start()
@@ -73,13 +76,20 @@ public sealed class AutomationRuleEngine : IDisposable
         else
             _processWatcher.Stop();
 
-        if (rules.Any(rule => rule.Enabled && rule.Trigger is (AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)))
+        if (_cpuStatusMonitoringRequired || rules.Any(rule => rule.Enabled && rule.Trigger is (AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)))
             _cpuLoadMonitor.Start();
         else
             _cpuLoadMonitor.Stop();
 
         if (applyCurrentPowerState && _appSettingsService.AutoSwitchBatteryAcEnabled)
             ApplyPowerSource(_powerSourceMonitor.IsOnBattery);
+    }
+
+    public void SetCpuStatusMonitoringRequired(bool required)
+    {
+        if (_cpuStatusMonitoringRequired == required) return;
+        _cpuStatusMonitoringRequired = required;
+        RefreshConfiguration();
     }
 
     public async Task<bool> ApplyTimedSwitchAsync(

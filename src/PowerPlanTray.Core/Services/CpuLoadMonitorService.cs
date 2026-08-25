@@ -19,6 +19,8 @@ public sealed class CpuLoadMonitorService : IDisposable
     private int _polling;
     private ulong? _previousIdle, _previousKernel, _previousUser;
 
+    public event EventHandler<double>? SystemCpuLoadUpdated;
+
     public CpuLoadMonitorService(Action<AutoSwitchRule> entered, Action<Guid> exited)
     {
         _entered = entered;
@@ -51,6 +53,7 @@ public sealed class CpuLoadMonitorService : IDisposable
             List<AutoSwitchRule> rules;
             lock (_sync) rules = _rules.Select(CloneRule).ToList();
             double? systemCpu = SampleSystemCpu(); // first sample intentionally yields null
+            if (systemCpu.HasValue) SystemCpuLoadUpdated?.Invoke(this, systemCpu.Value);
             Dictionary<string, double> processCpu = SampleProcessCpu(rules);
             foreach (AutoSwitchRule rule in rules)
             {

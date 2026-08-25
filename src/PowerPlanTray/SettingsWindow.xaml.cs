@@ -70,6 +70,7 @@ public sealed partial class SettingsWindow : Window
     {
         _isInitializing = true;
         ThemeComboBox.SelectedIndex = (int)_appSettingsService.Theme;
+        TrayIconModeComboBox.SelectedIndex = (int)_appSettingsService.TrayIconMode;
         PopupSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupSize;
         PopupTextSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupTextSize;
         SettingsWindowSizeComboBox.SelectedIndex = (int)_appSettingsService.SettingsWindowSize;
@@ -166,10 +167,11 @@ public sealed partial class SettingsWindow : Window
 
     private void OnUiPreferenceChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (_isInitializing || ThemeComboBox.SelectedIndex < 0 || PopupSizeComboBox.SelectedIndex < 0 ||
+        if (_isInitializing || ThemeComboBox.SelectedIndex < 0 || TrayIconModeComboBox.SelectedIndex < 0 || PopupSizeComboBox.SelectedIndex < 0 ||
             PopupTextSizeComboBox.SelectedIndex < 0 || SettingsWindowSizeComboBox.SelectedIndex < 0) return;
 
         _appSettingsService.Theme = (AppTheme)ThemeComboBox.SelectedIndex;
+        _appSettingsService.TrayIconMode = (TrayIconMode)TrayIconModeComboBox.SelectedIndex;
         _appSettingsService.PopupSize = (UiSize)PopupSizeComboBox.SelectedIndex;
         _appSettingsService.PopupTextSize = (UiSize)PopupTextSizeComboBox.SelectedIndex;
         _appSettingsService.SettingsWindowSize = (UiSize)SettingsWindowSizeComboBox.SelectedIndex;

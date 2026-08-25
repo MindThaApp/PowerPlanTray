@@ -3,7 +3,9 @@ using H.NotifyIcon;
 using H.NotifyIcon.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using PowerPlanTray.Core.Models;
 using PowerPlanTray.Core.Services;
+using System.Drawing;
 
 namespace PowerPlanTray;
 
@@ -17,6 +19,9 @@ public partial class App : Application
     private TaskbarIcon? _trayIcon;
     private TrayPopupWindow? _trayPopup;
     private SettingsWindow? _settingsWindow;
+    private Icon? _dynamicTrayIcon;
+    private double _latestCpuLoad;
+    private readonly BitmapImage _staticTrayIcon = new(new Uri("ms-appx:///Assets/TrayIcon.ico"));
 
     public App()
     {
@@ -34,12 +39,13 @@ public partial class App : Application
         _trayIcon = new TaskbarIcon
         {
             ToolTipText = "Power Plan Tray",
-            IconSource = new BitmapImage(new Uri("ms-appx:///Assets/TrayIcon.ico")),
+            IconSource = _staticTrayIcon,
             // Commands still receive tray mouse messages; None prevents the
             // library from also opening its native OS-drawn PopupMenu.
             MenuActivation = PopupActivationMode.None,
             RightClickCommand = new RelayCommand(() => _trayPopup.Show(fullMenu: true)),
         };
+        _automationRuleEngine.SystemCpuLoadUpdated += OnSystemCpuLoadUpdated;
         // LeftClickCommand deliberately waits for the system double-click
         // interval. This app has no double-click action, so handle the raw
         // mouse-up notification directly for an immediate, reliable toggle.
@@ -51,6 +57,7 @@ public partial class App : Application
 
         _automationRuleEngine.Start();
         _trayIcon.ForceCreate();
+        ApplyTrayIconMode();
         if (!_appSettingsService.StartHidden) ShowSettingsWindow();
     }
 
@@ -61,7 +68,11 @@ public partial class App : Application
             if (_settingsWindow is null)
             {
                 _settingsWindow = new SettingsWindow(_appSettingsService, _powerSchemeService, _powerSourceMonitor, _automationRuleEngine);
-                _settingsWindow.UiPreferencesChanged += (_, _) => _trayPopup?.ApplyPreferences();
+                _settingsWindow.UiPreferencesChanged += (_, _) =>
+                {
+                    _trayPopup?.ApplyPreferences();
+                    ApplyTrayIconMode();
+                };
                 _settingsWindow.Closed += (_, _) => _settingsWindow = null;
             }
             _settingsWindow.ApplyUiPreferences();
@@ -78,7 +89,71 @@ public partial class App : Application
     {
         try { _powerSchemeService.SetActiveScheme(schemeGuid); }
         catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"PowerPlanTray: failed to switch scheme: {ex}"); }
-        finally { _settingsWindow?.RefreshActiveSchemeSettings(); }
+        finally
+        {
+            _settingsWindow?.RefreshActiveSchemeSettings();
+            if (_appSettingsService.TrayIconMode == TrayIconMode.PowerPlanAbbreviation) UpdateDynamicTrayIcon();
+        }
+    }
+
+    private void ApplyTrayIconMode()
+    {
+        bool needsCpu = _appSettingsService.TrayIconMode is TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart;
+        _automationRuleEngine.SetCpuStatusMonitoringRequired(needsCpu || _appSettingsService.TrayIconMode == TrayIconMode.PowerPlanAbbreviation);
+        if (_appSettingsService.TrayIconMode == TrayIconMode.Static)
+        {
+            if (_trayIcon is not null)
+            {
+                _trayIcon.Icon = null;
+                _trayIcon.IconSource = _staticTrayIcon;
+                _trayIcon.ToolTipText = "Power Plan Tray";
+            }
+            _dynamicTrayIcon?.Dispose();
+            _dynamicTrayIcon = null;
+            return;
+        }
+        UpdateDynamicTrayIcon();
+    }
+
+    private void OnSystemCpuLoadUpdated(object? sender, double load)
+    {
+        _latestCpuLoad = load;
+        _hiddenWindow?.DispatcherQueue.TryEnqueue(UpdateDynamicTrayIcon);
+    }
+
+    private void UpdateDynamicTrayIcon()
+    {
+        if (_trayIcon is null || _appSettingsService.TrayIconMode == TrayIconMode.Static) return;
+        try
+        {
+            string planName = GetActivePlanName();
+            Icon replacement = DynamicTrayIconRenderer.Render(_appSettingsService.TrayIconMode, _latestCpuLoad, planName);
+            _trayIcon.IconSource = null;
+            _trayIcon.Icon = replacement;
+            Icon? previous = _dynamicTrayIcon;
+            _dynamicTrayIcon = replacement;
+            previous?.Dispose();
+            _trayIcon.ToolTipText = _appSettingsService.TrayIconMode switch
+            {
+                TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart => $"Power Plan Tray — CPU {Math.Round(_latestCpuLoad):0}%, {planName}",
+                _ => $"Power Plan Tray — {planName}",
+            };
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"PowerPlanTray: dynamic tray icon failed: {ex}");
+            _trayIcon.Icon = null;
+            _trayIcon.IconSource = _staticTrayIcon;
+            _trayIcon.ToolTipText = "Power Plan Tray";
+            _dynamicTrayIcon?.Dispose();
+            _dynamicTrayIcon = null;
+        }
+    }
+
+    private string GetActivePlanName()
+    {
+        Guid active = _powerSchemeService.GetActiveSchemeGuid();
+        return _powerSchemeService.GetAllSchemes().FirstOrDefault(scheme => scheme.Guid == active)?.Name ?? "Unknown plan";
     }
 
     private sealed class RelayCommand : ICommand
