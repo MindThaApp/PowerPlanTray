@@ -9,13 +9,13 @@
   IgnorableNamespaces="uap uap5 rescap">
 
   <Identity
-    Name="PowerPlanTray"
-    Publisher="CN=PowerPlanTray"
+    Name="34458MindtheApp.PowerPlanManager"
+    Publisher="CN=FE63C3BB-418B-484C-852F-E7985F260BC3"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>Power Plan Tray</DisplayName>
-    <PublisherDisplayName>PowerPlanTray</PublisherDisplayName>
+    <PublisherDisplayName>MindtheApp</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

@@ -99,12 +99,14 @@ done by hand. This is a real local MSIX install - the same shape the app
 will eventually ship in - not a throwaway shortcut.
 
 One-time setup (per machine): a self-signed code-signing certificate whose
-subject matches the manifest's `Publisher` (`CN=PowerPlanTray`), trusted
+subject matches the manifest's `Publisher`
+(`CN=FE63C3BB-418B-484C-852F-E7985F260BC3`), trusted
 locally so Windows will install packages signed with it:
 
 ```powershell
-$cert = New-SelfSignedCertificate -Type Custom -Subject "CN=PowerPlanTray" `
-  -KeyUsage DigitalSignature -FriendlyName "PowerPlanTray Dev Cert" `
+$cert = New-SelfSignedCertificate -Type Custom `
+  -Subject "CN=FE63C3BB-418B-484C-852F-E7985F260BC3" `
+  -KeyUsage DigitalSignature -FriendlyName "Power Plan Manager Dev Cert" `
   -CertStoreLocation "Cert:\CurrentUser\My" `
   -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.3","2.5.29.19={text}false")
 $pwd = ConvertTo-SecureString -String "<choose-a-password>" -Force -AsPlainText
@@ -115,7 +117,8 @@ Import-PfxCertificate -FilePath certs\PowerPlanTrayDev.pfx `
 ```
 
 (`certs\` and `artifacts\` are already gitignored - never commit the
-`.pfx`, it contains a private key.) Also requires Developer Mode enabled
+`.pfx`, it contains a private key. Run the import line from an elevated
+PowerShell window.) Also requires Developer Mode enabled
 (Settings > Privacy & security > For developers) so unsigned/dev-signed
 sideloading is allowed.
 
@@ -132,24 +135,24 @@ $msbuild = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Community\MSBuild\C
 # 2. Sign the package with the dev cert from setup
 $msix = "artifacts\AppPackages\PowerPlanTray_1.0.0.0_x64_Debug_Test\PowerPlanTray_1.0.0.0_x64_Debug.msix"
 & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" `
-  sign /fd SHA256 /a /f certs\PowerPlanTrayDev.pfx /p "<password>" $msix
+  sign /fd SHA256 /sha1 "E5F2C6F2784824283849DC59E764D99DC0FB9499" $msix
 
 # 3. Install (first time) / reinstall (after code changes - remove then re-add,
 #    since Add-AppxPackage rejects a same-version reinstall with different content)
-Get-AppxPackage -Name PowerPlanTray | Remove-AppxPackage -ErrorAction SilentlyContinue
+Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Remove-AppxPackage -ErrorAction SilentlyContinue
 Add-AppxPackage -Path $msix
 
 # 4. Launch via its AUMID (package identity - this is what makes ms-appx:// asset
 #    URIs, DPI handling, etc. resolve correctly; running the raw .exe still won't work)
-explorer.exe "shell:appsFolder\PowerPlanTray_z9059hg5j6cj2!PowerPlanTray"
+explorer.exe "shell:appsFolder\34458MindtheApp.PowerPlanManager_24e29cj9741rt!PowerPlanTray"
 ```
 
-(`z9059hg5j6cj2` is this dev cert's package family name suffix and will
-differ per machine/cert - look it up with
-`Get-AppxPackage -Name PowerPlanTray | Select PackageFamilyName` or
+(`34458MindtheApp.PowerPlanManager_24e29cj9741rt` is the package family name
+derived from the Store identity and publisher. It can also be looked up with
+`Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Select PackageFamilyName` or
 `Get-StartApps | Where Name -eq "Power Plan Tray"` after installing once.)
 
-To uninstall: `Get-AppxPackage -Name PowerPlanTray | Remove-AppxPackage`.
+To uninstall: `Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Remove-AppxPackage`.
 
 ### Verified working (2026-08-24)
 
@@ -175,9 +178,6 @@ content were both independently confirmed correct.
   programmatically generated solid-color placeholders (44x44, 150x150,
   310x150, 50x50, splash screen, and a tray icon). Replace with real
   branded artwork before packaging for the Store.
-- `Package.appxmanifest` uses a placeholder `Publisher` identity
-  (`CN=PowerPlanTray`) and unsigned test identity. Replace with the real
-  Partner Center publisher identity when configuring Store association.
 
 ## TODO(phase2) markers
 
