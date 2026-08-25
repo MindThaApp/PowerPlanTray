@@ -55,7 +55,9 @@ public sealed partial class SettingsWindow : Window
         AboutVersionText.Text = $"Version {GetAppVersion()}";
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
         WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
+        SettingsNavigationView.PaneOpening += OnNavigationPaneOpening;
         SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
+        SettingsNavigationView.PaneClosed += OnNavigationPaneClosed;
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
         ConfigureNavigationPane();
@@ -138,7 +140,7 @@ public sealed partial class SettingsWindow : Window
         SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
         PinPaneToggle.IsChecked = _appSettingsService.NavigationPanePinned;
         SettingsNavigationView.IsPaneOpen = _appSettingsService.NavigationPanePinned;
-        SettingsNavigationView.IsPaneToggleButtonVisible = !_appSettingsService.NavigationPanePinned;
+        SettingsNavigationView.IsPaneToggleButtonVisible = true;
     }
 
     private void OnPinPaneClick(object sender, RoutedEventArgs e)
@@ -147,7 +149,6 @@ public sealed partial class SettingsWindow : Window
         _appSettingsService.NavigationPanePinned = pinned;
         SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
         SettingsNavigationView.IsPaneOpen = pinned;
-        SettingsNavigationView.IsPaneToggleButtonVisible = !pinned;
         ToolTipService.SetToolTip(PinPaneToggle, pinned ? "Unpin navigation pane" : "Pin navigation pane open");
     }
 
@@ -156,13 +157,32 @@ public sealed partial class SettingsWindow : Window
         bool pinned = _appSettingsService.NavigationPanePinned;
         PinPaneToggle.IsChecked = pinned;
         SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
-        SettingsNavigationView.IsPaneToggleButtonVisible = !pinned;
+        SettingsNavigationView.IsPaneToggleButtonVisible = true;
         SettingsNavigationView.IsPaneOpen = pinned;
+        ToolTipService.SetToolTip(PinPaneToggle, pinned ? "Unpin navigation pane" : "Pin navigation pane open");
+    }
+
+    private void OnNavigationPaneOpening(NavigationView sender, object args)
+    {
+        sender.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
     }
 
     private void OnNavigationPaneClosing(NavigationView sender, NavigationViewPaneClosingEventArgs args)
     {
         if (_appSettingsService.NavigationPanePinned) args.Cancel = true;
+    }
+
+    private void OnNavigationPaneClosed(NavigationView sender, object args)
+    {
+        if (_appSettingsService.NavigationPanePinned)
+        {
+            sender.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+            sender.IsPaneOpen = true;
+        }
+        else
+        {
+            sender.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+        }
     }
 
     private void OnUiPreferenceChanged(object sender, SelectionChangedEventArgs e)
