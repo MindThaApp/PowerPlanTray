@@ -130,7 +130,7 @@ public sealed partial class TrayPopupWindow : Window
     private void BuildContent(bool fullMenu)
     {
         PopupContent.Children.Clear();
-        AddAction("Open app", () => { _showSettings(); Hide(); }, automationId: "Open Power Plan Tray");
+        AddAction("Open app", () => { _showSettings(); Hide(); }, automationId: "Open Power Plan Manager Pro");
         AddSeparator();
         IReadOnlyList<PowerScheme> all;
         Guid active;
@@ -182,7 +182,7 @@ public sealed partial class TrayPopupWindow : Window
 
         AddSeparator();
         AddAction("Settings…", () => { Hide(); _showSettings(); }, automationId: "Open settings");
-        AddAction("Exit", _exit, automationId: "Exit Power Plan Tray");
+        AddAction("Exit", _exit, automationId: "Exit Power Plan Manager Pro");
     }
 
     private void AddAutomationSection(IReadOnlyList<PowerScheme> schemes)

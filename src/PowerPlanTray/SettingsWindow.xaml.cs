@@ -1333,7 +1333,7 @@ public sealed partial class SettingsWindow : Window
                     var dialog = new ContentDialog
                     {
                         Title = "Startup permission needed",
-                        Content = "Enable Power Plan Tray in Windows Settings > Apps > Startup, then try again.",
+                        Content = "Enable Power Plan Manager Pro in Windows Settings > Apps > Startup, then try again.",
                         CloseButtonText = "OK",
                         XamlRoot = Content.XamlRoot,
                     };

@@ -2,7 +2,7 @@
     x:Class="PowerPlanTray.TrayPopupWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Power Plan Tray">
+    Title="Power Plan Manager Pro">
     <Border x:Name="PopupBorder"
             Padding="8"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

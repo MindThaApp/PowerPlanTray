@@ -150,7 +150,7 @@ explorer.exe "shell:appsFolder\34458MindtheApp.PowerPlanManager_24e29cj9741rt!Po
 (`34458MindtheApp.PowerPlanManager_24e29cj9741rt` is the package family name
 derived from the Store identity and publisher. It can also be looked up with
 `Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Select PackageFamilyName` or
-`Get-StartApps | Where Name -eq "Power Plan Tray"` after installing once.)
+`Get-StartApps | Where Name -eq "Power Plan Manager Pro"` after installing once.)
 
 To uninstall: `Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Remove-AppxPackage`.
 
