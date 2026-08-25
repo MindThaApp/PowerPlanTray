@@ -18,14 +18,16 @@
                     OpenPaneLength="176"
                     Background="Transparent"
                     SelectionChanged="OnNavigationSelectionChanged">
-        <NavigationView.PaneFooter>
-            <ToggleButton x:Name="PinPaneToggle" Click="OnPinPaneClick" HorizontalAlignment="Stretch" ToolTipService.ToolTip="Pin navigation pane open">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE718;" Width="24" />
-                    <TextBlock Text="Pin pane" />
-                </StackPanel>
+        <NavigationView.PaneHeader>
+            <ToggleButton x:Name="PinPaneToggle"
+                          Click="OnPinPaneClick"
+                          Width="40"
+                          Height="40"
+                          HorizontalAlignment="Left"
+                          ToolTipService.ToolTip="Pin navigation pane open">
+                <FontIcon Glyph="&#xE718;" FontSize="16" />
             </ToggleButton>
-        </NavigationView.PaneFooter>
+        </NavigationView.PaneHeader>
         <NavigationView.MenuItems>
             <NavigationViewItem Content="General" Icon="Setting" Tag="General" IsSelected="True" />
             <NavigationViewItem Content="Power Plans" Tag="PowerPlans">

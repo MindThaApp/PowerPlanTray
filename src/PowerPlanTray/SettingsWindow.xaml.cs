@@ -132,7 +132,7 @@ public sealed partial class SettingsWindow : Window
     {
         // Measure the real localized labels, then add the compact icon column
         // and standard item padding instead of retaining NavigationView's wide default.
-        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "About", "Pin pane" }
+        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "About" }
             .Select(label => { var text = new TextBlock { Text = label }; text.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity)); return text.DesiredSize.Width; })
             .Max();
         SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
