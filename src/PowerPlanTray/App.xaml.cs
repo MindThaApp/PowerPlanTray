@@ -55,6 +55,8 @@ public partial class App : Application
         {
             if (eventArgs.MouseEvent == MouseEvent.IconLeftMouseUp)
                 _trayPopup.Toggle(fullMenu: false);
+            else if (eventArgs.MouseEvent == MouseEvent.IconLeftDoubleClick)
+                ShowSettingsWindow();
         };
 
         _automationRuleEngine.Start();
