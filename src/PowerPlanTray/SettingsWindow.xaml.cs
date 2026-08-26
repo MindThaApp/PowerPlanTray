@@ -54,6 +54,7 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
+        WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = L("SettingsWindowTitle");
         AboutVersionText.Text = F("VersionFormat", GetAppVersion());
         LaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };

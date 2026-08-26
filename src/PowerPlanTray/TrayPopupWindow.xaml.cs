@@ -53,6 +53,7 @@ public sealed partial class TrayPopupWindow : Window
         _showSettings = showSettings;
         _exit = exit;
         InitializeComponent();
+        PopupBorder.FlowDirection = Localization.FlowDirection;
 
         _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         WindowId id = Win32Interop.GetWindowIdFromWindow(_hwnd);
@@ -241,7 +242,9 @@ public sealed partial class TrayPopupWindow : Window
         {
             Content = text,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            HorizontalContentAlignment = HorizontalAlignment.Left,
+            HorizontalContentAlignment = Localization.FlowDirection == FlowDirection.RightToLeft
+                ? HorizontalAlignment.Right
+                : HorizontalAlignment.Left,
             FontWeight = weight ?? new Windows.UI.Text.FontWeight { Weight = 400 },
             Padding = new Thickness(12, 8, 12, 8),
         };
@@ -250,7 +253,7 @@ public sealed partial class TrayPopupWindow : Window
         return button;
     }
 
-    private void AddMessage(string text) => PopupContent.Children.Add(new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(12, 6, 12, 6) });
+    private void AddMessage(string text) => PopupContent.Children.Add(new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap, TextAlignment = Localization.FlowDirection == FlowDirection.RightToLeft ? TextAlignment.Right : TextAlignment.Left, Margin = new Thickness(12, 6, 12, 6) });
     private void AddSeparator() => PopupContent.Children.Add(new Rectangle { Height = 1, Fill = (Brush)Application.Current.Resources["DividerStrokeColorDefaultBrush"], Margin = new Thickness(4) });
 
     private void PositionAboveTaskbar()

@@ -39,9 +39,11 @@ User-interface resources live in `src/PowerPlanTray/Strings/<language-tag>/Resou
 Add a folder with the same resource keys to introduce another language; Windows selects
 the best match from the user's OS preferred-language list. There is intentionally no
 in-app language selector. Translations beyond English are AI-generated first passes and
-have not been professionally reviewed. Arabic, Urdu, and Persian (including right-to-left
-layout mirroring) are being handled separately. The reserved Microsoft Store product name
-remains English in the package manifest.
+have not been professionally reviewed. Arabic, Urdu, and Persian are supported with
+right-to-left layout mirroring. Each window root gets its `FlowDirection` from the
+resolved resource language; the tray popup keeps its Windows-style taskbar anchor while
+its controls and text mirror internally. The reserved Microsoft Store product name remains
+English in the package manifest.
 
 Requires Visual Studio 2022 with the ".NET Desktop Development" and
 "Windows application development" (WinUI/Windows App SDK, "Universal
