@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PowerPlanTray.Core.Models;
 using PowerPlanTray.Core.Services;
 using System.Drawing;
+using Microsoft.Windows.AppLifecycle;
 
 namespace PowerPlanTray;
 
@@ -62,7 +63,11 @@ public partial class App : Application
         _automationRuleEngine.Start();
         _trayIcon.ForceCreate();
         ApplyTrayIconMode();
-        if (!_appSettingsService.StartHidden) ShowSettingsWindow();
+        ExtendedActivationKind activationKind = AppInstance.GetCurrent().GetActivatedEventArgs().Kind;
+        bool startHidden = activationKind == ExtendedActivationKind.StartupTask
+            ? _appSettingsService.StartHiddenOnStartup
+            : _appSettingsService.StartHiddenOnManualLaunch;
+        if (!startHidden) ShowSettingsWindow();
     }
 
     private void ShowSettingsWindow()

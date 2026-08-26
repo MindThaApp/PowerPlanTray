@@ -192,6 +192,12 @@
   <data name="OnLaunch.Text" xml:space="preserve">
     <value>On launch</value>
   </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>On manual launch</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>On Windows startup</value>
+  </data>
   <data name="OpenApp" xml:space="preserve">
     <value>Open app</value>
   </data>
@@ -319,7 +325,7 @@
     <value>30 min</value>
   </data>
   <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
-    <value>This reflects the active power plan, not a separate app setting. CPU/turbo boost is considered disabled when Maximum processor state is 99% or lower, and enabled at 100%; switching plans or editing that value on the Advanced page updates this checkbox.</value>
+    <value>This checkbox reflects the active plan's Maximum processor state, not an app setting: 99% or lower disables CPU boost; 100% enables it. It updates when you switch plans or edit that value on the Advanced page.</value>
   </data>
   <data name="TimedSwitches.Text" xml:space="preserve">
     <value>Timed switches</value>

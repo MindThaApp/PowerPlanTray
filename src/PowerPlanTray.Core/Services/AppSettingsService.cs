@@ -8,6 +8,8 @@ public sealed class AppSettingsService
 {
     private const string StartWithWindowsKey = nameof(StartWithWindows);
     private const string StartHiddenKey = nameof(StartHidden);
+    private const string StartHiddenOnStartupKey = nameof(StartHiddenOnStartup);
+    private const string StartHiddenOnManualLaunchKey = nameof(StartHiddenOnManualLaunch);
     private const string VisiblePlanGuidsKey = "VisiblePlanGuids";
     private const string AutoSwitchBatteryAcEnabledKey = nameof(AutoSwitchBatteryAcEnabled);
     private const string BatteryPlanGuidKey = nameof(BatteryPlanGuid);
@@ -34,6 +36,18 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(StartHiddenKey, defaultValue: false);
         set => _localSettings.Values[StartHiddenKey] = value;
+    }
+
+    public bool StartHiddenOnStartup
+    {
+        get => GetBoolean(StartHiddenOnStartupKey, StartHidden);
+        set => _localSettings.Values[StartHiddenOnStartupKey] = value;
+    }
+
+    public bool StartHiddenOnManualLaunch
+    {
+        get => GetBoolean(StartHiddenOnManualLaunchKey, StartHidden);
+        set => _localSettings.Values[StartHiddenOnManualLaunchKey] = value;
     }
 
     public AppTheme Theme

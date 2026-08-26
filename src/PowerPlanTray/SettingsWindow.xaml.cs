@@ -63,7 +63,8 @@ public sealed partial class SettingsWindow : Window
         WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = L("SettingsWindowTitle");
         AboutVersionText.Text = F("VersionFormat", GetAppVersion());
-        LaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
+        WindowsStartupBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
+        ManualLaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
         SystemCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
         AppTriggerTypeComboBox.ItemsSource = new[] { L("AppIsRunning"), L("AppCpuLoad") };
         AppCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
@@ -243,7 +244,10 @@ public sealed partial class SettingsWindow : Window
                 // async-void exception here take down the whole app.
                 StartWithWindowsCheckBox.IsChecked = false;
             }
-            LaunchBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHidden ? 0 : 1;
+            WindowsStartupBehaviorRadioButtons.IsEnabled = StartWithWindowsCheckBox.IsChecked == true;
+            WindowsStartupBehaviorPanel.Opacity = StartWithWindowsCheckBox.IsChecked == true ? 1 : 0.55;
+            WindowsStartupBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHiddenOnStartup ? 0 : 1;
+            ManualLaunchBehaviorRadioButtons.SelectedIndex = _appSettingsService.StartHiddenOnManualLaunch ? 0 : 1;
             _isInitializing = false;
             RefreshPowerPlans();
             RefreshAutomationPage();
@@ -1376,12 +1380,15 @@ public sealed partial class SettingsWindow : Window
 
     private void ShowSettingInfo(Button target, Guid subgroupGuid, Guid settingGuid)
     {
-        double availableWidth = Math.Max(0, WindowRoot.ActualWidth - 96);
-        var content = new StackPanel { Spacing = 8, MaxWidth = Math.Min(480, availableWidth) };
+        // FlyoutPresenter adds 24 px of horizontal padding. Give the content an
+        // explicit finite width so StackPanel's infinite measure pass cannot let
+        // either description retain its unwrapped desired width.
+        double contentWidth = Math.Max(120, Math.Min(480, WindowRoot.ActualWidth - 72));
+        var content = new StackPanel { Spacing = 8, Width = contentWidth };
         content.Children.Add(new TextBlock { Text = "Windows description", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold });
-        content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", TextWrapping = TextWrapping.Wrap });
+        content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", Width = contentWidth, TextWrapping = TextWrapping.WrapWholeWords });
         content.Children.Add(new TextBlock { Text = "In plain terms", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 0) });
-        content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, TextWrapping = TextWrapping.Wrap });
+        content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, Width = contentWidth, TextWrapping = TextWrapping.WrapWholeWords });
         target.Flyout = new Flyout { Content = content, ShouldConstrainToRootBounds = true };
         target.Flyout.ShowAt(target);
     }
@@ -1533,6 +1540,8 @@ public sealed partial class SettingsWindow : Window
                 bool enabled = state is StartupTaskState.Enabled or StartupTaskState.EnabledByPolicy;
                 StartWithWindowsCheckBox.IsChecked = enabled;
                 _appSettingsService.StartWithWindows = enabled;
+                WindowsStartupBehaviorRadioButtons.IsEnabled = enabled;
+                WindowsStartupBehaviorPanel.Opacity = enabled ? 1 : 0.55;
 
                 if (!enabled)
                 {
@@ -1550,6 +1559,8 @@ public sealed partial class SettingsWindow : Window
             {
                 _startupService.Disable();
                 _appSettingsService.StartWithWindows = false;
+                WindowsStartupBehaviorRadioButtons.IsEnabled = false;
+                WindowsStartupBehaviorPanel.Opacity = 0.55;
             }
         }
         catch (Exception)
@@ -1558,14 +1569,24 @@ public sealed partial class SettingsWindow : Window
             // environment (e.g. dev-signed sideloads) - don't let an
             // async-void exception here take down the whole app.
             StartWithWindowsCheckBox.IsChecked = _appSettingsService.StartWithWindows;
+            WindowsStartupBehaviorRadioButtons.IsEnabled = StartWithWindowsCheckBox.IsChecked == true;
+            WindowsStartupBehaviorPanel.Opacity = StartWithWindowsCheckBox.IsChecked == true ? 1 : 0.55;
         }
     }
 
-    private void OnLaunchBehaviorSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void OnWindowsStartupBehaviorSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!_isInitializing && LaunchBehaviorRadioButtons.SelectedIndex >= 0)
+        if (!_isInitializing && WindowsStartupBehaviorRadioButtons.SelectedIndex >= 0)
         {
-            _appSettingsService.StartHidden = LaunchBehaviorRadioButtons.SelectedIndex == 0;
+            _appSettingsService.StartHiddenOnStartup = WindowsStartupBehaviorRadioButtons.SelectedIndex == 0;
+        }
+    }
+
+    private void OnManualLaunchBehaviorSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!_isInitializing && ManualLaunchBehaviorRadioButtons.SelectedIndex >= 0)
+        {
+            _appSettingsService.StartHiddenOnManualLaunch = ManualLaunchBehaviorRadioButtons.SelectedIndex == 0;
         }
     }
 }
