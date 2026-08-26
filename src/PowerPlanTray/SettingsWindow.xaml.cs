@@ -933,11 +933,8 @@ public sealed partial class SettingsWindow : Window
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
             MinHeight = 36,
-            Padding = new Thickness(2),
-            BorderThickness = isHiddenSection ? new Thickness(1) : new Thickness(0)
+            Padding = new Thickness(2)
         };
-        if (isHiddenSection)
-            category.BorderBrush = (Brush)Application.Current.Resources["SystemFillColorCautionBrush"];
         category.Expanding += (_, _) => _expandedAdvancedCategories.Add(categoryKey);
         category.Collapsed += (_, _) => _expandedAdvancedCategories.Remove(categoryKey);
         return category;
