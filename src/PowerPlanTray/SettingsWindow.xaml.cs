@@ -75,6 +75,7 @@ public sealed partial class SettingsWindow : Window
         ConfigureNavigationPane();
         InitializeUiPreferences();
         ApplyUiPreferences();
+        ApplyWindowSize();
         Activated += OnWindowActivated;
         _automationRuleEngine.TimedSwitchStateChanged += OnTimedSwitchStateChanged;
         Closed += OnWindowClosed;
@@ -111,13 +112,18 @@ public sealed partial class SettingsWindow : Window
         appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         appWindow.TitleBar.ButtonForegroundColor = theme == ElementTheme.Dark ? Colors.White : Colors.Black;
         appWindow.TitleBar.ButtonInactiveForegroundColor = theme == ElementTheme.Dark ? Colors.Gray : Colors.DarkGray;
+    }
 
+    private void ApplyWindowSize()
+    {
         (int width, int height) = _appSettingsService.SettingsWindowSize switch
         {
             UiSize.Small => (760, 560),
             UiSize.Large => (1200, 850),
             _ => (960, 700),
         };
+        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        AppWindow appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd));
         appWindow.Resize(new SizeInt32(width, height));
     }
 
@@ -209,6 +215,7 @@ public sealed partial class SettingsWindow : Window
         _appSettingsService.PopupTextSize = (UiSize)PopupTextSizeComboBox.SelectedIndex;
         _appSettingsService.SettingsWindowSize = (UiSize)SettingsWindowSizeComboBox.SelectedIndex;
         ApplyUiPreferences();
+        if (ReferenceEquals(sender, SettingsWindowSizeComboBox)) ApplyWindowSize();
         UiPreferencesChanged?.Invoke(this, EventArgs.Empty);
     }
 
