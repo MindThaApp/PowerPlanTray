@@ -183,13 +183,7 @@
               <Button Content="Expand all" Click="OnExpandShownAdvancedClick" />
               <Button Content="Collapse all" Click="OnCollapseShownAdvancedClick" />
             </StackPanel>
-            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="7">
-              <StackPanel.ChildrenTransitions>
-                <TransitionCollection>
-                  <RepositionThemeTransition />
-                </TransitionCollection>
-              </StackPanel.ChildrenTransitions>
-            </StackPanel>
+            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="7" />
             <Border BorderBrush="{ThemeResource SystemFillColorCautionBrush}" BorderThickness="1" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalAlignment="Stretch">
               <StackPanel>
                 <Button x:Name="ShowAllAdvancedButton" Click="OnShowAllAdvancedClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="16,14" CornerRadius="8">
@@ -204,13 +198,7 @@
                     <Button Content="Expand all" Click="OnExpandHiddenAdvancedClick" />
                     <Button Content="Collapse all" Click="OnCollapseHiddenAdvancedClick" />
                   </StackPanel>
-                  <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7">
-                    <StackPanel.ChildrenTransitions>
-                      <TransitionCollection>
-                        <RepositionThemeTransition />
-                      </TransitionCollection>
-                    </StackPanel.ChildrenTransitions>
-                  </StackPanel>
+                  <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7" />
                 </StackPanel>
               </StackPanel>
             </Border>
