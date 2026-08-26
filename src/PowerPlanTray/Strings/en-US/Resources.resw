@@ -268,7 +268,7 @@
     <value>Power Plan Manager Pro Settings</value>
   </data>
   <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
-    <value>Show all advanced settings</value>
+    <value>Show Hidden Advanced Settings</value>
   </data>
   <data name="ShowInTray.Text" xml:space="preserve">
     <value>Show in tray</value>

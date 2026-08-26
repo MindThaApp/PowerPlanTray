@@ -32,6 +32,8 @@ public sealed partial class SettingsWindow : Window
     private bool _isInitializing;
     private bool _hasInitialized;
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
+    private readonly HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> _expandedAdvancedCategories = new();
+    private readonly HashSet<(Guid SubgroupGuid, Guid SettingGuid)> _expandedAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
     private static string NoLaymanDescription => L("NoLaymanDescription");
     private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
@@ -863,7 +865,7 @@ public sealed partial class SettingsWindow : Window
             _allAdvancedSettings.Clear();
             AllAdvancedSettingsPanel.Children.Clear();
             AllAdvancedSection.Visibility = Visibility.Collapsed;
-            AdvancedExpanderHeaderText.Text = "Show all advanced settings";
+            AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
             RefreshAdvancedSettings();
         }
     }
@@ -895,12 +897,12 @@ public sealed partial class SettingsWindow : Window
                 string categoryName = string.IsNullOrWhiteSpace(subgroupName) ? subgroupGuid.ToString() : subgroupName;
                 if (visibleSettings.Count > 0)
                 {
-                    AdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, visibleSettings));
+                    AdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, visibleSettings, false));
                     visibleCount += visibleSettings.Count;
                 }
                 if (hiddenSettings.Count > 0)
                 {
-                    AllAdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, hiddenSettings));
+                    AllAdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, hiddenSettings, true));
                     hiddenCount += hiddenSettings.Count;
                 }
             }
@@ -910,15 +912,16 @@ public sealed partial class SettingsWindow : Window
     }
 
     private FrameworkElement CreateSettingsCategory(Guid schemeGuid, Guid subgroupGuid, string subgroupName,
-        IReadOnlyList<(Guid SettingGuid, string SettingName)> settings)
+        IReadOnlyList<(Guid SettingGuid, string SettingName)> settings, bool isHiddenSection)
     {
-        var settingList = new StackPanel { Spacing = 6 };
+        var settingList = new StackPanel { Spacing = 6, Margin = new Thickness(8, 0, 8, 0) };
         foreach ((Guid settingGuid, string settingName) in settings)
         {
             settingList.Children.Add(CreateSettingRowOrUnavailable(schemeGuid, subgroupGuid, settingGuid, settingName));
         }
 
-        return new Expander
+        var categoryKey = (isHiddenSection, subgroupGuid);
+        var category = new Expander
         {
             Header = new TextBlock
             {
@@ -926,10 +929,18 @@ public sealed partial class SettingsWindow : Window
                 Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"]
             },
             Content = settingList,
-            IsExpanded = false,
+            IsExpanded = _expandedAdvancedCategories.Contains(categoryKey),
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Padding = new Thickness(4)
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            MinHeight = 36,
+            Padding = new Thickness(2),
+            BorderThickness = isHiddenSection ? new Thickness(1) : new Thickness(0)
         };
+        if (isHiddenSection)
+            category.BorderBrush = (Brush)Application.Current.Resources["SystemFillColorCautionBrush"];
+        category.Expanding += (_, _) => _expandedAdvancedCategories.Add(categoryKey);
+        category.Collapsed += (_, _) => _expandedAdvancedCategories.Remove(categoryKey);
+        return category;
     }
 
     private FrameworkElement CreateSettingRowOrUnavailable(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string? settingName = null)
@@ -953,22 +964,25 @@ public sealed partial class SettingsWindow : Window
         if (AllAdvancedSection.Visibility == Visibility.Visible)
         {
             AllAdvancedSection.Visibility = Visibility.Collapsed;
-            AdvancedExpanderHeaderText.Text = "Show all advanced settings";
+            AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
             return;
         }
 
         AllAdvancedSection.Visibility = Visibility.Visible;
-        AdvancedExpanderHeaderText.Text = "Hide all advanced settings";
+        AdvancedExpanderHeaderText.Text = "Hide Hidden Advanced Settings";
     }
 
     private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e) =>
         await SetVisibilityAsync(SettingDescriptions.CommonSettings.Select(s => (s.SubgroupGuid, s.SettingGuid)), false, "Restoring common Windows visibility");
 
     private async void OnEnableAllAdvancedClick(object sender, RoutedEventArgs e) =>
-        await SetVisibilityAsync(_allAdvancedSettings, false, "Enabling all settings");
+        await SetVisibilityAsync(GetCurrentlyHiddenAdvancedSettings(), false, "Enabling all hidden settings");
 
     private async void OnDisableAllAdvancedClick(object sender, RoutedEventArgs e) =>
-        await SetVisibilityAsync(_allAdvancedSettings, true, "Disabling all settings");
+        await SetVisibilityAsync(GetCurrentlyHiddenAdvancedSettings(), true, "Disabling all hidden settings");
+
+    private IEnumerable<(Guid SubgroupGuid, Guid SettingGuid)> GetCurrentlyHiddenAdvancedSettings() =>
+        _allAdvancedSettings.Where(setting => _powerSchemeService.IsSettingHidden(setting.SubgroupGuid, setting.SettingGuid)).ToArray();
 
     private async Task<bool> SetVisibilityAsync(IEnumerable<(Guid SubgroupGuid, Guid SettingGuid)> settings, bool hidden, string operation)
     {
@@ -1149,7 +1163,7 @@ public sealed partial class SettingsWindow : Window
         info.Click += (_, _) => ShowSettingInfo(info, subgroupGuid, settingGuid);
         heading.Children.Add(info);
 
-        var details = new StackPanel { Spacing = 6, Padding = new Thickness(12, 6, 12, 12) };
+        var details = new StackPanel { Spacing = 6, Padding = new Thickness(12, 4, 12, 8) };
         PowerSettingMetadata metadata = _powerSchemeService.GetSettingMetadata(subgroupGuid, settingGuid);
         var values = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
         values.Children.Add(CreateValueEditor("Plugged in", schemeGuid, subgroupGuid, settingGuid, true, metadata));
@@ -1179,13 +1193,20 @@ public sealed partial class SettingsWindow : Window
         footer.Children.Add(unhide);
         footer.Children.Add(status);
         details.Children.Add(footer);
-        return new Expander
+        var settingKey = (subgroupGuid, settingGuid);
+        var setting = new Expander
         {
             Header = heading,
             Content = details,
-            IsExpanded = false,
-            HorizontalAlignment = HorizontalAlignment.Stretch
+            IsExpanded = _expandedAdvancedSettings.Contains(settingKey),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            MinHeight = 36,
+            Padding = new Thickness(2)
         };
+        setting.Expanding += (_, _) => _expandedAdvancedSettings.Add(settingKey);
+        setting.Collapsed += (_, _) => _expandedAdvancedSettings.Remove(settingKey);
+        return setting;
     }
 
     private FrameworkElement CreateValueEditor(string header, Guid schemeGuid, Guid subgroupGuid, Guid settingGuid,
