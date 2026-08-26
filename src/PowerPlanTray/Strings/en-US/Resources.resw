@@ -45,6 +45,22 @@
   <data name="ApplyCustomDuration.Content" xml:space="preserve">
     <value>Apply custom duration</value>
   </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Advanced settings warning</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>The Advanced tab exposes low-level Windows power management settings that are not normally shown in the standard Windows Power Options control panel or Settings UI. Changing these settings can affect your system's performance, stability, battery life, and hardware behavior (including thermals and fan behavior). You are making these changes entirely at your own risk.
+
+Unhiding a setting here is a real, persistent system-level change: it makes that setting appear in the OS-level Windows Power Options control panel and Settings UI too, not just inside this app. It is not a sandboxed, in-app-only preference, and it will remain unhidden system-wide until you hide it again.
+
+Some of these settings can meaningfully change performance or power draw if set incorrectly. Only change settings here if you understand what they do. If you are unsure, leave them at their defaults.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>I understand and agree</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Go back</value>
+  </data>
   <data name="AppRulesLabel" xml:space="preserve">
     <value>App rules</value>
   </data>

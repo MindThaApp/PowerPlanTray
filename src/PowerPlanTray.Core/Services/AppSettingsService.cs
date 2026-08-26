@@ -23,6 +23,7 @@ public sealed class AppSettingsService
     private const string SettingsWindowSizeKey = nameof(SettingsWindowSize);
     private const string NavigationPanePinnedKey = nameof(NavigationPanePinned);
     private const string TrayIconModeKey = nameof(TrayIconMode);
+    private const string AdvancedWarningAcknowledgedKey = nameof(AdvancedWarningAcknowledged);
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
@@ -79,6 +80,12 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(NavigationPanePinnedKey, defaultValue: false);
         set => _localSettings.Values[NavigationPanePinnedKey] = value;
+    }
+
+    public bool AdvancedWarningAcknowledged
+    {
+        get => GetBoolean(AdvancedWarningAcknowledgedKey, defaultValue: false);
+        set => _localSettings.Values[AdvancedWarningAcknowledgedKey] = value;
     }
 
     public TrayIconMode TrayIconMode
