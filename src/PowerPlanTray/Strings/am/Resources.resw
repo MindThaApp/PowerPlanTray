@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>ስለ</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>ስለ</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>ከላይ</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>ንቁ የኃይል ዕቅድ</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>አክል</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>የላቀ</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>የላቀ</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>የመተግበሪያ CPU ጭነት</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>መተግበሪያ እየሮጠ ነው</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>ያመልክቱ</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>ብጁ ቆይታ ያመልክቱ</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>የመተግበሪያ ደንቦች</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>የመተግበሪያ ደንቦች</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>ከኃይል ምንጭ ጋር በራስ-ሰር ይቀይሩ</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>ራስ-ሰር</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>ራስ-ሰር</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>ባትሪ/ኤሲ ላይ ራስ-ሰር-ስዊች</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>ባትሪ እና ኤሲ ኃይል</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>ከዚህ በታች</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>ለ .exe ያስሱ</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>የተጫኑ መተግበሪያዎችን ያስሱ</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>ሰርዝ</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>ሰርዝ</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>ጊዜያዊ ዕቅድን ይሰርዙ</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>ለውጦች ወዲያውኑ ይተገበራሉ. ፖፕ ቅንብሮች በሚቀጥለው ጊዜ ሲከፈት ተግባራዊ ይሆናል.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>የ ትሪ ፖፕ እና ቅንብሮች መስኮት እንዴት እንደሚታይ ይምረጡ እና እራሳቸውን መጠን.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>የትኞቹ የተጫኑ ዕቅዶች በትሪ ምናሌ ውስጥ እንደሚታዩ ይምረጡ ።</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>የተለመዱ የዊንዶውስ የኃይል አማራጮች ወዲያውኑ ይጫናሉ ። በዚህ ፒሲ የተጋለጡ እያንዳንዱ ቅንብር በሚፈልጉበት ጊዜ ብቻ ከዚህ በታች ያለውን ክፍል ያራዝሙ ።</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>ሁኔታ</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>ሲፒዩ አሞሌ ገበታ</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>ሲፒዩ መቶኛ</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>ብጁ ቆይታ</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>ጨለማ</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>የተመረጠውን ሰርዝ</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>ሁሉንም ያሰናክሉ</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>ሲፒዩ Boost ን ያሰናክሉ</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>ሁሉንም ያንቁ</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>ነቅቷል</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>ውጣ</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>የኃይል ዕቅድ አስተዳዳሪ Pro ውጣ</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>ዊንዶውስ ይከተሉ</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 hr</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>አጠቃላይ</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>አጠቃላይ</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>መደበኛ የዊንዶውስ የኃይል እቅዶችን መጫን ወይም ማስወገድ ። ዊንዶውስ የአስተዳዳሪ ፈቃድ ይጠይቃል ።</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>ትልቅ</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>ብርሃን</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>ከፋይሉ ላይ ጫን...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>የተመረጠ ጫን</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>ከስርዓት ትሪ የዊንዶውስ የኃይል እቅዶችን ቀይር ፣ በራስ-ሰር ያስተዳድሩ እና ያስተዳድሩ ።</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>መካከለኛ</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>ለዚህ ቅንብር እስካሁን የተፃፈ ግልጽ የቋንቋ ማብራሪያ የለም ።</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>እሺ</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED ጥቁር</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>በኤሲ ኃይል ላይ</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>በኤሲ ኃይል ላይ</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>በባትሪ ላይ</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>በባትሪ ላይ</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 hr</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>በመጀመር ላይ</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>ክፍት መተግበሪያ</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>ክፍት የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>ቅንብሮች ይክፈቱ</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>ፒን አሰሳ ፓን ክፈት</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>የኃይል ዕቅድ</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>የኃይል እቅድ ማጠቃለያ</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ ከስርዓት ትሪ የኃይል እቅዶችን ለመቀየር ፣ በራስ-ሰር እቅድ ለውጦችን ለማቀናበር እና መላውን መተግበሪያ ከፍ ያለ የዊንዶውስ የኃይል ቅንጅቶችን ለማስተዳደር አነስተኛ የዊንዶውስ መገልገያ ነው ።</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ ቅንብሮች</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>የኃይል እቅዶች</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>የኃይል እቅዶች</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>የግላዊነት ፖሊሲ</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>መገለጫ ፋይሎች</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>መገለጫዎች</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>መገለጫዎች</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>ይህ {0} % ከ ከፍተኛው የአሰሳ ሁኔታን ከ 100% ወደ እንደገና ሊነቃ የሚችል የሲፒዩ ማበረታቻ ይጨምራል. ይቀጥሉ?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>እንደገና ሊነቃ የሚችል የሲፒዩ ማጠናከሪያ?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>የዊንዶውስ ጉድለቶችን ይመልሱ</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>የአሁኑ የኃይል ዕቅድ የላቁ ቅንብር ታይነት እና የ AC/ዲሲ እሴቶች ቅጽበታዊ ገጽ እይታዎችን ያስቀምጡ እና ይመልሱ ።</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>የተቀመጡ መገለጫዎች</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>አዲስ መገለጫ አስቀምጥ</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>ወደ ፋይል አስቀምጥ...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>{0} የኃይል ዕቅድ ይምረጡ</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>ቅንብሮች...</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>ቅንብሮች መስኮት መጠን</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ ቅንብሮች</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>ሁሉንም የላቁ ቅንብሮች አሳይ</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>በትሪ አሳይ</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>ይህን መስኮት አሳይ</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>አነስተኛ</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>ትሪ ውስጥ ተደብቆ ጀምር</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>በዊንዶውስ ቅንብሮች &gt; መተግበሪያዎች &gt; ጀምር ውስጥ የኃይል ዕቅድ አስተዳዳሪ Pro ን ያንቁ ፣ ከዚያ እንደገና ይሞክሩ ።</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>የጅምር ፈቃድ ያስፈልጋል</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>በዊንዶውስ ይጀምሩ</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>ስታቲክ</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>ከጠቅላላው የሲፒዩ ጭነት በኋላ ዕቅዶችን ቀይር ከዘጠኝ ሰከንዶች በላይ ወይም በታች ይቆያል ።</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>አንድ መተግበሪያ እየሄደ ሳለ ቀይር, ወይም በውስጡ ሲፒዩ ጭነት አንድ ገደብ በላይ ወይም በታች ይቆያል በኋላ. የሲፒዩ ህጎች ከቀስት አዝራሮች ጋር ሊስተካከሉ ይችላሉ; ሲፒዩ ሁኔታዎች ሲበዛ ከፍተኛ ቅድሚያ ይሰጣቸዋል ።</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>የስርዓት ጭነት</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>ለጊዜው እቅድ ይጠቀሙ ፣ ከዚያ የቀደመውን ዕቅድ ይመልሱ ።</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>ጊዜያዊ ዕቅድ: {0} ደቂቃ ይቀራል</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>የአጠቃቀም ውሎች</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>ጭብጥ</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 ደቂቃ</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>ይህ ንቁ የኃይል ዕቅድ ያንፀባርቃል ፣ የተለየ የመተግበሪያ ቅንብር አይደለም ። ሲፒዩ/ቱርቦ ማጎልበት ከፍተኛው የፕሮሰሰር ሁኔታ 99% ወይም ከዚያ በታች በሚሆንበት ጊዜ እንደ ተሰናከለ ይቆጠራል ፣ እና በ 100% ሲነቃ; እቅዶችን መቀየር ወይም ያንን እሴት በላቀ ገጽ ላይ ማርትዕ ይህንን ቼክ ሳጥን ያዘምናል ።</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>የጊዜ መቀየሪያዎች</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>ትሪ አዶ</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>ትሪ ውህደት በ H.NotifyIcon.WinUI 2.2.0 የቀረበ ነው ፣ በ MIT ፈቃድ ስር ጥቅም ላይ ይውላል ።</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>ትሪ ፖፕ መጠን</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>ትሪ ፖፕ የጽሑፍ መጠን</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ — ሲፒዩ {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>የኃይል ዕቅድ ሥራ አስኪያጅ ፕሮ — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>ትሪገር</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 hr</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>የኃይል እቅዶችን ማንበብ አልተቻለም: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>ያልታወቀ ዕቅድ</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Unpin አሰሳ ፓን</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>ስሪት {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>አዎ</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>ሲፒዩ (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>ሰዓታት</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>ደቂቃዎች</value>
+  </data>
+</root>

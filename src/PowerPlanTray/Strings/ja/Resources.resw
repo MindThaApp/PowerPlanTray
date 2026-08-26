@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>アクティブな電力プラン</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>アプリのCPU負荷</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>アプリが実行されています</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>カスタム期間を適用する</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>アプリのルール</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>アプリのルール</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>電源で自動切り替え</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>オートメーション</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>オートメーション</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>バッテリー/ACの自動スイッチ</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>バッテリーとAC電源</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>以下</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>.exeを参照</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>インストールされているアプリを閲覧する</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>一時的なプランをキャンセルする</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>変更はすぐに適用されます。ポップアップ設定は、次回開いたときに有効になります。</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>トレイのポップアップと[設定]ウィンドウの外観とサイズを選択します。</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>トレイメニューに表示されるインストール済みプランを選択します。</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>一般的なWindows電源オプションはすぐに読み込まれます。 このPCですべての設定を公開する必要がある場合にのみ、以下のセクションを展開してください。</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>条件</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>CPU棒グラフ</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPUパーセンテージ</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>カスタム所要時間</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>暗い</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>選択したものを削除</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>すべて無効にする</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>CPUブーストを無効にする</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>すべてを有効にする</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Proを終了する</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Windowsに従う</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4時間</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>標準のWindows電源プランをインストールまたは削除します。 Windowsは管理者の許可を求めます。</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>ファイルから読み込む...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>選択したものを読み込む</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>システムトレイからWindowsの電源プランを切り替え、自動化、管理します。</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>この設定にはまだ平易な言語の説明が書かれていません。</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLEDブラック</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>AC電源使用時</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>AC電源使用時</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>バッテリー使用時</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>バッテリー使用時</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1時間</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>ローンチ時</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>アプリを開く</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Proを開く</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>設定を開く</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>ピンナビゲーションペインが開いています</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>電源プラン</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>電力計画略語</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Proは、システムトレイから電源プランを切り替えたり、プランの変更を自動化したり、アプリ全体を高く保つことなくWindowsの電源設定を管理したりするための小さなWindowsユーティリティです。</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Power Plan Manager Proの設定</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>電力計画</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>電力計画</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>個人情報保護方針</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>プロファイルファイル</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>プロフィール</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>プロフィール</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>これにより、CPUブーストを再度有効にするために、最大プロセッサ状態が{0} %から100%に増加します。続行しますか？</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>CPUブーストを再度有効にしますか？</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Windowsのデフォルトに戻す</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>現在の電力プランの詳細設定の可視性とAC/DC値のスナップショットを保存して復元します。</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>保存されたプロフィール</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>新しいプロフィールを保存</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>ファイルに保存...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>{0}電源プランを選択</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>設定…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>設定ウィンドウサイズ</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Power Plan Manager Proの設定</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>すべての詳細設定を表示</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>トレイに表示</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>このウィンドウを表示</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>トレイに隠された状態で開始</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Windowsの[設定] &gt; [アプリ] &gt; [スタートアップ]でPower Plan Manager Proを有効にしてから、もう一度お試しください。</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>起動権限が必要です</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Windowsから始める</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>スタティック</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>全体的なCPU負荷が約9秒間しきい値を上回ったり下回ったりした後にプランを切り替えます。</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>アプリの実行中、またはCPU負荷がしきい値を超えているか下回っている後に切り替えます。 CPUルールは、矢印ボタンで並べ替えることができます。CPU条件が重複している場合は、最優先順位が優先されます。</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>システム負荷</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>一時的にプランを使用してから、以前のプランを復元します。</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>臨時プラン： {0}分残っています</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>利用規約</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30分</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>これは、別のアプリ設定ではなく、アクティブな電力プランを反映しています。 CPU/ターボブーストは、最大プロセッサ状態が99%以下で、100%で有効になっている場合は無効と見なされます。[詳細設定]ページでプランを切り替えるか、その値を編集すると、このチェックボックスが更新されます。</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>タイミングスイッチ</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>トレイアイコン</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>トレイの統合は、MITライセンスの下で使用されているH.NotifyIcon.WinUI 2.2.0によって提供されています。</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>トレイポップアップサイズ</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>トレイポップアップテキストサイズ</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0: 0 }%、{1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>トリガー</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2時間</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>電源計画を読み取れません： {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>不明なプラン</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>ナビゲーションペインのピンを外す</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>バージョン{0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU（％）</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>分</value>
+  </data>
+</root>

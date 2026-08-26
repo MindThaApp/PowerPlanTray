@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>Kuhusu</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>Kuhusu</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Juu</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Mpango wa nguvu unaofanya kazi</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Ongeza</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Kipekee</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Kipekee</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Mzigo wa CPU wa programu</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Programu inaendesha</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Tumia</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Tumia muda maalum</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Sheria za programu</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Sheria za programu</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Badilisha kiotomatiki na chanzo cha nguvu</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Otomasia</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Otomasia</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Badilisha kiotomatiki kwenye Betri/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Nguvu ya Betri na AC</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Chini</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Vinjeleo kwa .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Vinjeleo programu zilizowekwa</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Ghairi</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Ghairi</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Ghairi mpango wa muda mfupi</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Mabadiliko yanaanza mara moja. Mipangilio ya popup itaanza wakati inafunguliwa mara nyingine.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Chagua jinsi dirisha ibukizi la trei na dirisha la Mipangilio zinavyoonekana na saizi zenyewe.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Chagua ni mipango gani iliyosakinishwa inayoonekana kwenye menyu ya tray.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Chaguzi za kawaida za nguvu za Windows hupakia mara moja. Panua sehemu hapa chini tu wakati unahitaji kila mpangilio uliofichuliwa na PC hii.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Hali</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>Chati ya upau wa CPU</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>Asilimia ya CPU</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Muda maalum</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Giza</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Futa iliyochaguliwa</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Zima zote</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>Lemaza Kuongeza CPU</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Wezesha Wote</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Imewezeshwa</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Toka</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Toka Meneja wa Mpango wa Nguvu Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Fuata Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>Masaa 4</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Jumla</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Jumla</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Sakinisha au uondoe mipango ya kawaida ya nguvu ya Windows. Windows itaomba ruhusa ya msimamizi.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Kubwa</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Mwanga</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Pakia kutoka kwa faili...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Mzigo uliochaguliwa</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Badilisha, badilisha kiotomatiki, na udhibiti mipango ya nguvu ya Windows kutoka kwa trei ya mfumo.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Kati</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Bado hakuna maelezo ya lugha wazi yaliyoandikwa kwa mpangilio huu.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Sawa</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Nyeusi</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>Kwenye nguvu ya AC</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>Kwenye Nguvu ya AC</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>Kwenye betri</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>Kwenye Betri</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>Saa 1</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>Juu ya uzinduzi</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Fungua programu</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Fungua Meneja wa Mpango wa Nguvu Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Fungua mipangilio</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Bandika kidirisha cha urambazaji wazi</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Mpango wa nguvu</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Kifupi cha mpango wa nguvu</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro ni programu ndogo ya Windows ya kubadilisha mipango ya nguvu kutoka kwenye tray ya mfumo, kuendeleza mabadiliko ya mpango kiotomatiki, na kusimamia mipangilio ya nguvu ya Windows bila kuweka programu nzima katika hali ya juu.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Mipangilio ya Power Plan Manager Pro</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Mipango ya Nguvu</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Mipango ya Nguvu</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Sera ya Faragha</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Faili za Profaili</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Profaili</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Profaili</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Hii itaongeza hali ya juu zaidi ya processor kutoka {0}% hadi 100% ili kuruhusu tena kuongeza nguvu ya CPU. Endelea?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Ruhusu tena kuongeza nguvu ya CPU?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Rekebisha Chaguo-msingi za Windows</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Hifadhi na urejeshe mifumo ya sasa ya mpango wa nguvu yenye muonekano wa mipangilio ya juu na thamani za AC/DC.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Profaili zilizohifadhiwa</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Hifadhi profaili mpya</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Hifadhi kwenye faili...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Chagua mpango wa nguvu wa {0}</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Mipangilio…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Kipindi cha ukuaji wa dirisha la mipangilio</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Mipangilio ya Power Plan Manager Pro</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Onyesha mipangilio yote ya juu</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Onyesha kwenye tray</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Onyesha dirisha hili</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Ndogo</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Anza uliyoficha kwenye tray</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Washa Power Plan Manager Pro kwenye Windows Settings &gt; Apps &gt; Startup, kisha jaribu tena.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Uhuru wa kuanza unaohitajika</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Anza na Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Thabiti</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Badilisha mipango baada ya mzigo wa jumla wa CPU kubaki juu au chini ya kizingiti kwa takriban sekunde tisa.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Badilisha wakati programu inaendesha, au baada ya mzigo wake wa CPU kubaki juu au chini ya kizingiti. Sheria za CPU zinaweza kupangwa upya kwa kutumia vifungo vya mshale; kipaumbele cha juu kinashinda wakati masharti ya CPU yanapolingana.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Mzigo wa mfumo</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Tumia mpango kwa muda, kisha urejee mpango wa awali.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Mpango wa muda: {0} dakika zilizobaki</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Masharti ya Matumizi</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Mandhari</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>Dakika 30</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Hii inaonyesha mpango wa nguvu unaofanya kazi, si usanidi tofauti wa programu. CPU/turbo boost inachukuliwa kuwa imezimwa wakati Hali ya juu ya processor ni 99% au chini, na imewezeshwa kwenye 100%; kubadilisha mipango au kuhariri thamani hiyo kwenye ukurasa wa Advanced kunasasisha kisanduku hiki cha kuangalia.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Mabadiliko ya wakati</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Ikoni ya tray</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Uunganishaji wa tray unatolewa na H.NotifyIcon.WinUI 2.2.0, inayotumika chini ya Leseni ya MIT.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Ukubwa wa popup ya tray</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Ukubwa wa maandishi ya popup ya tray</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Msimamizi wa Mpango wa Nguvu Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Msimamizi wa Mpango wa Nguvu Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Kichocheo</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>Masaa 2</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Haiwezi kusoma mipango ya nguvu: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Mpango usiojulikana</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Ondoa alama ya upau wa urambazaji</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Toleo {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ndiyo</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Saa</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Dakika</value>
+  </data>
+</root>

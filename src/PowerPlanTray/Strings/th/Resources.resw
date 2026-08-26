@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>เกี่ยวกับ</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>เกี่ยวกับ</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>เหนือ</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>แผนพลังงานที่ใช้งานอยู่</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>เพิ่ม</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>ขั้นสูง</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>ขั้นสูง</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>การโหลด CPU ของแอป</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>แอปกำลังทำงาน</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>ใช้</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>ใช้ระยะเวลาที่กำหนดเอง</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>กฎของแอป</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>กฎของแอป</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>สลับโดยอัตโนมัติตามแหล่งพลังงาน</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>ระบบอัตโนมัติ</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>ระบบอัตโนมัติ</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>สลับอัตโนมัติเมื่อใช้แบตเตอรี่/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>พลังงานจากแบตเตอรี่และ AC</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>ด้านล่าง</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>เรียกดูไฟล์ .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>เรียกดูแอปที่ติดตั้ง</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>ยกเลิกแผนชั่วคราว</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>การเปลี่ยนแปลงมีผลทันที การตั้งค่าป๊อปอัปจะมีผลเมื่อเปิดครั้งถัดไป</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>เลือกรูปลักษณ์และขนาดของหน้าต่างถาดและหน้าต่างการตั้งค่า</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>เลือกแผนที่ติดตั้งแล้วที่จะปรากฏในเมนูถาด</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>ตัวเลือกพลังงานทั่วไปของ Windows จะโหลดทันที ขยายส่วนด้านล่างเฉพาะเมื่อคุณต้องการให้พีซีนี้เปิดเผยทุกการตั้งค่าเท่านั้น</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>สภาพ</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>แผนภูมิแท่ง CPU</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>เปอร์เซ็นต์ CPU</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>ระยะเวลาที่กําหนดเอง</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>มืด</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>ลบที่เลือก</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>ปิดใช้งานทั้งหมด</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>ปิดการใช้งาน CPU Boost</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>เปิดใช้งานทั้งหมด</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>เปิดใช้งานแล้ว</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>ทางออก</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>ออกจาก Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>ติดตาม Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 ชั่วโมง</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>ทั่วไป</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>ทั่วไป</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>ติดตั้งหรือเอาแผนพลังงานมาตรฐานของ Windows ออก Windows จะขออนุญาตผู้ดูแลระบบ</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>ใหญ่</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>เบา</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>โหลดจากไฟล์...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>โหลดที่เลือก</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>สลับ ทำงานอัตโนมัติ และจัดการแผนพลังงาน Windows จากช่องระบบ</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>ปานกลาง</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>ยังไม่มีคำอธิบายเป็นภาษาธรรมดาที่เขียนสำหรับการตั้งค่านี้</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ตกลง</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED ดำ</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>เมื่อใช้พลังงานจาก AC</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>เมื่อใช้พลังงานจาก AC</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>เมื่อใช้แบตเตอรี่</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>เมื่อใช้แบตเตอรี่</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 ชั่วโมง</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>เมื่อเริ่มโปรแกรม</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>เปิดแอป</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>เปิด Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>เปิดการตั้งค่า</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>ปักหมุดแผงการนำทางเปิด</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>แผนพลังงาน</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>ตัวย่อแผนพลังงาน</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro เป็นยูทิลิตี้ขนาดเล็กสำหรับ Windows สำหรับสลับแผนพลังงานจากถาดระบบ อัตโนมัติการเปลี่ยนแปลงแผน และจัดการการตั้งค่าพลังงานของ Windows โดยไม่ต้องให้ทั้งแอปสูงขึ้น</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>การตั้งค่า Power Plan Manager Pro</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>แผนพลังงาน</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>แผนพลังงาน</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>นโยบายความเป็นส่วนตัว</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>ไฟล์โปรไฟล์</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>โปรไฟล์</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>โปรไฟล์</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>นี่จะเพิ่มสถานะโปรเซสเซอร์สูงสุดจาก {0}% เป็น 100% เพื่อเปิดใช้งานการเพิ่มประสิทธิภาพ CPU ต่อไปหรือไม่?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>เปิดใช้งานการเพิ่มประสิทธิภาพ CPU ใหม่หรือไม่?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>คืนค่าเริ่มต้นของ Windows</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>บันทึกและกู้คืนสแนปช็อตของการมองเห็นการตั้งค่าขั้นสูงและค่าของ AC/DC ของแผนพลังงานปัจจุบัน</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>โปรไฟล์ที่บันทึกไว้</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>บันทึกโปรไฟล์ใหม่</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>บันทึกลงไฟล์...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>เลือกแผนพลังงาน {0}</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>การตั้งค่า…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>ขนาดหน้าต่างการตั้งค่า</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>การตั้งค่า Power Plan Manager Pro</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>แสดงการตั้งค่าขั้นสูงทั้งหมด</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>แสดงในถาดระบบ</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>แสดงหน้าต่างนี้</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>ขนาดเล็ก</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>เริ่มซ่อนในถาดระบบ</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>เปิดใช้งาน Power Plan Manager Pro ในการตั้งค่า Windows &gt; แอป &gt; เริ่มต้นใช้งาน แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>ต้องการสิทธิ์การอนุญาตเริ่มต้น  </value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>เริ่มต้นพร้อม Windows  </value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>คงที่  </value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>สลับแผนหลังจากการใช้งาน CPU โดยรวมสูงกว่าหรือต่ำกว่าค่ากำหนดประมาณเก้าวินาที  </value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>สลับขณะแอปกำลังทำงาน หรือหลังจากการใช้งาน CPU ของแอปสูงกว่าหรือต่ำกว่าค่ากำหนด กฎการใช้ CPU สามารถเรียงลำดับใหม่ได้ด้วยปุ่มลูกศร; ลำดับความสำคัญสูงสุดจะชนะเมื่อเงื่อนไข CPU ซ้อนทับกัน  </value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>การใช้ระบบ  </value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>ใช้แผนชั่วคราว จากนั้นกู้คืนแผนก่อนหน้า  </value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>แผนชั่วคราว: {0} เวลาเหลือน้อยที่สุด  </value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>ข้อกำหนดในการใช้งาน</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>ธีม</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 นาที</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>นี่สะท้อนถึงแผนพลังงานที่ใช้งานอยู่ ไม่ใช่การตั้งค่าแอปแยกต่างหาก CPU/เทอร์โบบูสต์ถือเป็นปิดเมื่อสถานะโปรเซสเซอร์สูงสุดอยู่ที่ 99% หรือต่ำกว่า และเปิดเมื่ออยู่ที่ 100%; การสลับแผนหรือแก้ไขค่านั้นในหน้าขั้นสูงจะอัปเดตช่องทำเครื่องหมายนี้</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>การสลับแบบตั้งเวลา</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>ไอคอนถาด</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>การรวมถาดมาพร้อมกับ H.NotifyIcon.WinUI 2.2.0 ใช้งานภายใต้สัญญาอนุญาต MIT</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>ขนาดป๊อปอัพถาด</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>ขนาดข้อความป๊อปอัพถาด</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>ทริกเกอร์</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 ชม.</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>ไม่สามารถอ่านแผนพลังงานได้: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>แผนที่ไม่รู้จัก</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>ยกเลิกการปักหมุดแถบนำทาง</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>เวอร์ชัน {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>ใช่</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>ชั่วโมง</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>นาที</value>
+  </data>
+</root>

@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>上方</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>有效电源计划</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>应用程序CPU加载</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>应用正在运行</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>应用自定义持续时间</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>应用规则</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>应用规则</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>使用电源自动切换</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>自动化</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>自动化</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>电池/交流电自动开关</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>电池和交流电源</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>下方</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>浏览.exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>浏览已安装的应用</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>取消临时计划</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>更改立即应用。弹出窗口设置将在下次打开时生效。</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>选择托盘弹出窗口和“设置”窗口本身的外观和大小。</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>选择在托盘菜单中显示的已安装平面图。</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>常见的Windows电源选项会立即加载。 仅当您需要这台电脑公开所有设置时，才展开下面的部分。</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>条件</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>计划工作站(CPU)条形</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPU百分比</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>自定义持续时间</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>暗</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>删除所选</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>全部禁用</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>禁用CPU Boost</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>全部启用</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>退出Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>关注Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4小时</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>安装或删除标准Windows电源计划。 Windows将请求管理员权限。</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>亮</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>从文件加载...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>加载所选内容</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>从系统托盘切换、自动化和管理Windows电源计划。</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>尚未为此设置撰写简单的语言说明。</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED黑色</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>开启交流电源</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>开启交流电源</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>使用电池</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>使用电池</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1小时</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>推出时</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>打开应用</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>打开电源计划管理器专业版</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>打开设置</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>固定导航窗格打开</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>电源计划</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>电源计划缩写</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>电源计划管理器Pro是一个小型Windows实用程序，用于从系统托盘切换电源计划、自动计划更改和管理Windows电源设置，而无需提升整个应用程序。</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>电源计划管理器专业版设置</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>电源计划</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>电源计划</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>个人资料文件</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>个人资料</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>个人资料</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>这将使最大处理器状态从{0} %增加到100% ，以重新启用CPU提升。是否继续？</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>是否重新启用CPU提升？</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>还原Windows默认值</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>保存和恢复当前电源计划的高级设置可见性和AC/DC值的快照。</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>已保存的个人资料</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>保存新配置文件</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>保存到文件...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>选择{0}电源计划</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>设置…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>设置窗口大小</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>电源计划管理器专业版设置</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>显示所有高级设置</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>在托盘中显示</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>显示此窗口</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>开始在托盘中隐藏</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>在Windows设置&gt;应用&gt;启动中启用Power Plan Manager Pro ，然后重试。</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>需要启动权限</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>从Windows开始</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>静态</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>在整体CPU负载高于或低于阈值约9秒后切换计划。</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>在应用程序运行时或CPU负载高于或低于阈值后切换。 计划工作站(CPU)规则可以使用箭头按钮重新排序；当计划工作站(CPU)条件重叠时，优先级最高者获胜。</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>系统负载</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>暂时使用计划，然后恢复之前的计划。</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>临时方案： {0}最小剩余</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>使用条款</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30分钟</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>这反映了有效的电源计划，而不是单独的应用程序设置。 当最大处理器状态为99%或更低时， CPU/Turbo Boost被视为禁用，并在100%时启用；在高级页面上切换计划或编辑该值会更新此复选框。</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>定时开关</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>送纸器图标</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>托盘集成由H.NotifyIcon.WinUI 2.2.0提供，在MIT许可证下使用。</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>托盘弹出窗口大小</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>托盘弹出文本大小</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>电源计划管理器Pro — CPU {0: 0} % ， {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>触发器</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2小时</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>无法读取电源计划： {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>未知计划</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>取消固定导航窗格</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>版本{0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU（%）</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+</root>

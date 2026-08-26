@@ -11,6 +11,8 @@ namespace PowerPlanTray;
 
 public partial class App : Application
 {
+    private static string L(string key) => Localization.Get(key);
+    private static string F(string key, params object?[] args) => Localization.Format(key, args);
     private readonly PowerSchemeService _powerSchemeService = new();
     private readonly AppSettingsService _appSettingsService = new();
     private readonly PowerSourceMonitor _powerSourceMonitor = new();
@@ -135,8 +137,8 @@ public partial class App : Application
             previous?.Dispose();
             _trayIcon.ToolTipText = _appSettingsService.TrayIconMode switch
             {
-                TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart => $"Power Plan Manager Pro — CPU {Math.Round(_latestCpuLoad):0}%, {planName}",
-                _ => $"Power Plan Manager Pro — {planName}",
+                TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart => F("TrayTooltipCpu", Math.Round(_latestCpuLoad), planName),
+                _ => F("TrayTooltipPlan", planName),
             };
         }
         catch (Exception ex)
@@ -153,7 +155,7 @@ public partial class App : Application
     private string GetActivePlanName()
     {
         Guid active = _powerSchemeService.GetActiveSchemeGuid();
-        return _powerSchemeService.GetAllSchemes().FirstOrDefault(scheme => scheme.Guid == active)?.Name ?? "Unknown plan";
+        return _powerSchemeService.GetAllSchemes().FirstOrDefault(scheme => scheme.Guid == active)?.Name ?? L("UnknownPlan");
     }
 
     private sealed class RelayCommand : ICommand

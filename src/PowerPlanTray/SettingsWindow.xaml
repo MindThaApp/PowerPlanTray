@@ -1,283 +1,217 @@
-<Window
-    x:Class="PowerPlanTray.SettingsWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Power Plan Manager Pro Settings">
-
-    <Grid x:Name="WindowRoot" Background="Transparent">
-    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="PowerPlanTray.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Grid x:Name="WindowRoot" Background="Transparent">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
     <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent">
-        <TextBlock Text="Power Plan Manager Pro Settings" Margin="16,0,0,0" VerticalAlignment="Center" />
+      <TextBlock x:Uid="PowerPlanManagerProSettings" Margin="16,0,0,0" VerticalAlignment="Center" />
     </Grid>
-    <NavigationView x:Name="SettingsNavigationView" Grid.Row="1"
-                    IsBackButtonVisible="Collapsed"
-                    IsSettingsVisible="False"
-                    IsPaneToggleButtonVisible="True"
-                    PaneDisplayMode="LeftCompact"
-                    CompactPaneLength="48"
-                    OpenPaneLength="176"
-                    Background="Transparent"
-                    SelectionChanged="OnNavigationSelectionChanged">
-        <NavigationView.PaneHeader>
-            <ToggleButton x:Name="PinPaneToggle"
-                          Click="OnPinPaneClick"
-                          Width="40"
-                          Height="40"
-                          HorizontalAlignment="Left"
-                          ToolTipService.ToolTip="Pin navigation pane open">
-                <FontIcon Glyph="&#xE718;" FontSize="16" />
-            </ToggleButton>
-        </NavigationView.PaneHeader>
-        <NavigationView.MenuItems>
-            <NavigationViewItem Content="General" Icon="Setting" Tag="General" IsSelected="True" />
-            <NavigationViewItem Content="Power Plans" Tag="PowerPlans">
-                <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE7E8;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Content="Automation" Icon="Sync" Tag="Automation" />
-            <NavigationViewItem Content="UI" Icon="View" Tag="UI" />
-            <NavigationViewItem Content="Advanced" Icon="Repair" Tag="Advanced" />
-            <NavigationViewItem Content="Profiles" Icon="Save" Tag="Profiles" />
-            <NavigationViewItem Content="About" Icon="Help" Tag="About" />
-        </NavigationView.MenuItems>
-
-        <Grid>
+    <NavigationView x:Name="SettingsNavigationView" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" IsPaneToggleButtonVisible="True" PaneDisplayMode="LeftCompact" CompactPaneLength="48" OpenPaneLength="176" Background="Transparent" SelectionChanged="OnNavigationSelectionChanged">
+      <NavigationView.PaneHeader>
+        <ToggleButton x:Name="PinPaneToggle" Click="OnPinPaneClick" Width="40" Height="40" HorizontalAlignment="Left">
+          <FontIcon Glyph="" FontSize="16" />
+        </ToggleButton>
+      </NavigationView.PaneHeader>
+      <NavigationView.MenuItems>
+        <NavigationViewItem x:Uid="NavGeneral" Icon="Setting" Tag="General" IsSelected="True" />
+        <NavigationViewItem x:Uid="NavPowerPlans" Tag="PowerPlans">
+          <NavigationViewItem.Icon>
+            <FontIcon Glyph="" />
+          </NavigationViewItem.Icon>
+        </NavigationViewItem>
+        <NavigationViewItem x:Uid="NavAutomation" Icon="Sync" Tag="Automation" />
+        <NavigationViewItem x:Uid="NavUi" Icon="View" Tag="UI" />
+        <NavigationViewItem x:Uid="NavAdvanced" Icon="Repair" Tag="Advanced" />
+        <NavigationViewItem x:Uid="NavProfiles" Icon="Save" Tag="Profiles" />
+        <NavigationViewItem x:Uid="NavAbout" Icon="Help" Tag="About" />
+      </NavigationView.MenuItems>
+      <Grid>
         <ScrollViewer x:Name="GeneralPage">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
-                <TextBlock Text="General" Style="{ThemeResource TitleTextBlockStyle}" />
-
-                <CheckBox
-                    x:Name="DisableCpuBoostCheckBox"
-                    Content="Disable CPU Boost"
-                    Click="OnDisableCpuBoostClick" />
-                <StackPanel Spacing="6">
-                    <TextBlock Text="This reflects the active power plan, not a separate app setting. CPU/turbo boost is considered disabled when Maximum processor state is 99% or lower, and enabled at 100%; switching plans or editing that value on the Advanced page updates this checkbox."
-                               TextWrapping="Wrap"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                    <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
-                </StackPanel>
-
-                <ComboBox x:Name="GeneralPlanComboBox"
-                          Header="Active power plan"
-                          DisplayMemberPath="Name"
-                          MinWidth="320"
-                          HorizontalAlignment="Left"
-                          SelectionChanged="OnGeneralPlanSelectionChanged" />
-
-                <CheckBox
-                    x:Name="StartWithWindowsCheckBox"
-                    Content="Start with Windows"
-                    Click="OnStartWithWindowsClick" />
-
-                <StackPanel Spacing="8">
-                    <TextBlock Text="On launch" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <RadioButtons x:Name="LaunchBehaviorRadioButtons"
-                                  SelectionChanged="OnLaunchBehaviorSelectionChanged">
-                        <x:String>Start hidden in tray</x:String>
-                        <x:String>Show this window</x:String>
-                    </RadioButtons>
-                </StackPanel>
+          <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+            <TextBlock x:Uid="General" Style="{ThemeResource TitleTextBlockStyle}" />
+            <CheckBox x:Uid="DisableCpuBoost" x:Name="DisableCpuBoostCheckBox" Click="OnDisableCpuBoostClick" />
+            <StackPanel Spacing="6">
+              <TextBlock x:Uid="ThisReflectsTheActivePowerPlan" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+              <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
             </StackPanel>
+            <ComboBox x:Uid="ActivePowerPlan" x:Name="GeneralPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnGeneralPlanSelectionChanged" />
+            <CheckBox x:Uid="StartWithWindows" x:Name="StartWithWindowsCheckBox" Click="OnStartWithWindowsClick" />
+            <StackPanel Spacing="8">
+              <TextBlock x:Uid="OnLaunch" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <RadioButtons x:Name="LaunchBehaviorRadioButtons" SelectionChanged="OnLaunchBehaviorSelectionChanged">
+              </RadioButtons>
+            </StackPanel>
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="PowerPlansPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
-                <TextBlock Text="Power Plans" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Install or remove the standard Windows power plans. Windows will ask for administrator permission." TextWrapping="Wrap" />
-                <StackPanel x:Name="DefaultPlansPanel" Spacing="12" />
-                <TextBlock x:Name="PowerPlanStatusText" TextWrapping="Wrap" />
-
-                <TextBlock Text="Show in tray" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,12,0,0" />
-                <TextBlock Text="Choose which installed plans appear in the tray menu." TextWrapping="Wrap" />
-                <StackPanel x:Name="VisibilityPlansPanel" Spacing="4" />
-            </StackPanel>
+          <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+            <TextBlock x:Uid="PowerPlans" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="InstallOrRemoveTheStandardWindows" TextWrapping="Wrap" />
+            <StackPanel x:Name="DefaultPlansPanel" Spacing="12" />
+            <TextBlock x:Name="PowerPlanStatusText" TextWrapping="Wrap" />
+            <TextBlock x:Uid="ShowInTray" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,12,0,0" />
+            <TextBlock x:Uid="ChooseWhichInstalledPlansAppearIn" TextWrapping="Wrap" />
+            <StackPanel x:Name="VisibilityPlansPanel" Spacing="4" />
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="AutomationPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
-                <TextBlock Text="Automation" Style="{ThemeResource TitleTextBlockStyle}" />
-
-                <StackPanel x:Name="BatteryAcSection" Spacing="12">
-                    <TextBlock Text="Battery and AC power" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ToggleSwitch x:Name="BatteryAcToggle" Header="Automatically switch with the power source" Toggled="OnBatteryAcToggleToggled" />
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <TextBlock Text="On Battery" Width="120" VerticalAlignment="Center" />
-                        <ComboBox x:Name="BatteryPlanComboBox" Width="260" DisplayMemberPath="Name" SelectionChanged="OnBatteryPlanSelectionChanged" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <TextBlock Text="On AC Power" Width="120" VerticalAlignment="Center" />
-                        <ComboBox x:Name="AcPlanComboBox" Width="260" DisplayMemberPath="Name" SelectionChanged="OnAcPlanSelectionChanged" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Spacing="12">
-                    <TextBlock Text="System load" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <TextBlock Text="Switch plans after overall CPU load stays above or below a threshold for about nine seconds." TextWrapping="Wrap" />
-                    <StackPanel x:Name="SystemCpuRulesPanel" Spacing="8" />
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ComboBox x:Name="SystemCpuDirectionComboBox" Header="Condition" Width="110" SelectedIndex="0">
-                            <x:String>Below</x:String><x:String>Above</x:String>
-                        </ComboBox>
-                        <NumberBox x:Name="SystemCpuThresholdNumberBox" Header="CPU (%)" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" />
-                        <ComboBox x:Name="SystemCpuPlanComboBox" Header="Power plan" Width="210" DisplayMemberPath="Name" />
-                        <Button Content="Add" VerticalAlignment="Bottom" Click="OnAddSystemCpuRuleClick" />
-                    </StackPanel>
-                    <TextBlock x:Name="SystemCpuRuleStatusText" TextWrapping="Wrap" />
-                </StackPanel>
-
-                <StackPanel Spacing="12">
-                    <TextBlock Text="App rules" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <TextBlock Text="Switch while an app is running, or after its CPU load stays above or below a threshold. CPU rules can be reordered with the arrow buttons; top priority wins when CPU conditions overlap." TextWrapping="Wrap" />
-                    <StackPanel x:Name="AppRulesPanel" Spacing="8" />
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBox x:Name="AppExecutableTextBox" Width="180" PlaceholderText="steam.exe" />
-                        <ComboBox x:Name="AppRulePlanComboBox" Width="220" DisplayMemberPath="Name" />
-                        <Button Content="Add" Click="OnAddAppRuleClick" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ComboBox x:Name="AppTriggerTypeComboBox" Header="Trigger" Width="180" SelectedIndex="0">
-                            <x:String>App is running</x:String><x:String>App CPU load</x:String>
-                        </ComboBox>
-                        <ComboBox x:Name="AppCpuDirectionComboBox" Header="Condition" Width="120" SelectedIndex="0" Visibility="Collapsed">
-                            <x:String>Below</x:String><x:String>Above</x:String>
-                        </ComboBox>
-                        <NumberBox x:Name="AppCpuThresholdNumberBox" Header="CPU (%)" Width="120" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" Visibility="Collapsed" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Browse installed apps" Click="OnBrowseInstalledAppsClick" />
-                        <Button Content="Browse for .exe" Click="OnBrowseExecutableClick" />
-                    </StackPanel>
-                    <TextBlock x:Name="AppRuleStatusText" TextWrapping="Wrap" />
-                </StackPanel>
-
-                <StackPanel Spacing="12">
-                    <TextBlock Text="Timed switches" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <TextBlock Text="Temporarily use a plan, then restore the previous plan." TextWrapping="Wrap" />
-                    <ComboBox x:Name="TimedPlanComboBox" Width="260" HorizontalAlignment="Left" DisplayMemberPath="Name" />
-                    <RadioButtons x:Name="TimedDurationRadioButtons" SelectedIndex="0" MaxColumns="4">
-                        <x:String>30 min</x:String>
-                        <x:String>1 hr</x:String>
-                        <x:String>2 hr</x:String>
-                        <x:String>4 hr</x:String>
-                    </RadioButtons>
-                    <Button Content="Apply" HorizontalAlignment="Left" Click="OnApplyTimedSwitchClick" />
-                    <TextBlock Text="Custom duration" FontWeight="SemiBold" />
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <NumberBox x:Name="CustomHoursNumberBox" Header="Hours" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" />
-                        <NumberBox x:Name="CustomMinutesNumberBox" Header="Minutes" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" />
-                        <Button Content="Apply custom duration" VerticalAlignment="Bottom" Click="OnApplyCustomTimedSwitchClick" />
-                    </StackPanel>
-                    <TextBlock x:Name="TimedSwitchErrorText" Foreground="{ThemeResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
-                    <StackPanel x:Name="TimedSwitchStatusPanel" Orientation="Horizontal" Spacing="12" Visibility="Collapsed">
-                        <TextBlock x:Name="TimedSwitchStatusText" VerticalAlignment="Center" />
-                        <Button Content="Cancel" Click="OnCancelTimedSwitchClick" />
-                    </StackPanel>
-                </StackPanel>
+          <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+            <TextBlock x:Uid="Automation" Style="{ThemeResource TitleTextBlockStyle}" />
+            <StackPanel x:Name="BatteryAcSection" Spacing="12">
+              <TextBlock x:Uid="BatteryAndAcPower" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <ToggleSwitch x:Uid="AutomaticallySwitchWithThePowerSource" x:Name="BatteryAcToggle" Toggled="OnBatteryAcToggleToggled" />
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <TextBlock x:Uid="OnBattery" Width="120" VerticalAlignment="Center" />
+                <ComboBox x:Name="BatteryPlanComboBox" Width="260" DisplayMemberPath="Name" SelectionChanged="OnBatteryPlanSelectionChanged" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <TextBlock x:Uid="OnAcPower" Width="120" VerticalAlignment="Center" />
+                <ComboBox x:Name="AcPlanComboBox" Width="260" DisplayMemberPath="Name" SelectionChanged="OnAcPlanSelectionChanged" />
+              </StackPanel>
             </StackPanel>
+            <StackPanel Spacing="12">
+              <TextBlock x:Uid="SystemLoad" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <TextBlock x:Uid="SwitchPlansAfterOverallCpuLoad" TextWrapping="Wrap" />
+              <StackPanel x:Name="SystemCpuRulesPanel" Spacing="8" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <ComboBox x:Uid="Condition" x:Name="SystemCpuDirectionComboBox" Width="110" SelectedIndex="0">
+                </ComboBox>
+                <NumberBox x:Name="SystemCpuThresholdNumberBox" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" x:Uid="CpuPercent" />
+                <ComboBox x:Uid="PowerPlan" x:Name="SystemCpuPlanComboBox" Width="210" DisplayMemberPath="Name" />
+                <Button x:Uid="Add" VerticalAlignment="Bottom" Click="OnAddSystemCpuRuleClick" />
+              </StackPanel>
+              <TextBlock x:Name="SystemCpuRuleStatusText" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Spacing="12">
+              <TextBlock x:Uid="AppRules" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <TextBlock x:Uid="SwitchWhileAnAppIsRunning" TextWrapping="Wrap" />
+              <StackPanel x:Name="AppRulesPanel" Spacing="8" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox x:Name="AppExecutableTextBox" Width="180" PlaceholderText="steam.exe" />
+                <ComboBox x:Name="AppRulePlanComboBox" Width="220" DisplayMemberPath="Name" />
+                <Button x:Uid="Add" Click="OnAddAppRuleClick" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <ComboBox x:Uid="Trigger" x:Name="AppTriggerTypeComboBox" Width="180" SelectedIndex="0">
+                </ComboBox>
+                <ComboBox x:Uid="Condition" x:Name="AppCpuDirectionComboBox" Width="120" SelectedIndex="0" Visibility="Collapsed">
+                </ComboBox>
+                <NumberBox x:Name="AppCpuThresholdNumberBox" Width="120" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" Visibility="Collapsed" x:Uid="CpuPercent" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Uid="BrowseInstalledApps" Click="OnBrowseInstalledAppsClick" />
+                <Button x:Uid="BrowseForExe" Click="OnBrowseExecutableClick" />
+              </StackPanel>
+              <TextBlock x:Name="AppRuleStatusText" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Spacing="12">
+              <TextBlock x:Uid="TimedSwitches" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <TextBlock x:Uid="TemporarilyUseAPlanThenRestore" TextWrapping="Wrap" />
+              <ComboBox x:Name="TimedPlanComboBox" Width="260" HorizontalAlignment="Left" DisplayMemberPath="Name" />
+              <RadioButtons x:Name="TimedDurationRadioButtons" SelectedIndex="0" MaxColumns="4">
+              </RadioButtons>
+              <Button x:Uid="Apply" HorizontalAlignment="Left" Click="OnApplyTimedSwitchClick" />
+              <TextBlock x:Uid="CustomDuration" FontWeight="SemiBold" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <NumberBox x:Name="CustomHoursNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Hours" />
+                <NumberBox x:Name="CustomMinutesNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Minutes" />
+                <Button x:Uid="ApplyCustomDuration" VerticalAlignment="Bottom" Click="OnApplyCustomTimedSwitchClick" />
+              </StackPanel>
+              <TextBlock x:Name="TimedSwitchErrorText" Foreground="{ThemeResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
+              <StackPanel x:Name="TimedSwitchStatusPanel" Orientation="Horizontal" Spacing="12" Visibility="Collapsed">
+                <TextBlock x:Name="TimedSwitchStatusText" VerticalAlignment="Center" />
+                <Button x:Uid="Cancel" Click="OnCancelTimedSwitchClick" />
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="UiPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
-                <TextBlock Text="UI" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Choose how the tray popup and Settings window look and size themselves." TextWrapping="Wrap" />
-                <ComboBox x:Name="ThemeComboBox" Header="Theme" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
-                    <x:String>Follow Windows</x:String><x:String>Light</x:String><x:String>Dark</x:String><x:String>OLED Black</x:String>
-                </ComboBox>
-                <ComboBox x:Name="TrayIconModeComboBox" Header="Tray icon" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
-                    <x:String>Static</x:String><x:String>CPU percentage</x:String><x:String>CPU bar chart</x:String><x:String>Power plan abbreviation</x:String>
-                </ComboBox>
-                <ComboBox x:Name="PopupSizeComboBox" Header="Tray popup size" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
-                    <x:String>Small</x:String><x:String>Medium</x:String><x:String>Large</x:String>
-                </ComboBox>
-                <ComboBox x:Name="PopupTextSizeComboBox" Header="Tray popup text size" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
-                    <x:String>Small</x:String><x:String>Medium</x:String><x:String>Large</x:String>
-                </ComboBox>
-                <ComboBox x:Name="SettingsWindowSizeComboBox" Header="Settings window size" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
-                    <x:String>Small</x:String><x:String>Medium</x:String><x:String>Large</x:String>
-                </ComboBox>
-                <TextBlock Text="Changes apply immediately. Popup settings take effect the next time it opens." TextWrapping="Wrap" />
-            </StackPanel>
+          <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+            <TextBlock x:Uid="Ui" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="ChooseHowTheTrayPopupAnd" TextWrapping="Wrap" />
+            <ComboBox x:Uid="Theme" x:Name="ThemeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+            </ComboBox>
+            <ComboBox x:Uid="TrayIcon" x:Name="TrayIconModeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+            </ComboBox>
+            <ComboBox x:Uid="TrayPopupSize" x:Name="PopupSizeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+            </ComboBox>
+            <ComboBox x:Uid="TrayPopupTextSize" x:Name="PopupTextSizeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+            </ComboBox>
+            <ComboBox x:Uid="SettingsWindowSize" x:Name="SettingsWindowSizeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
+            </ComboBox>
+            <TextBlock x:Uid="ChangesApplyImmediatelyPopupSettingsTake" TextWrapping="Wrap" />
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="ProfilesPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
-                <TextBlock Text="Profiles" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Save and restore snapshots of the current power plan's advanced setting visibility and AC/DC values." TextWrapping="Wrap" />
-
-                <TextBlock Text="Saved profiles" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ListView x:Name="AdvancedProfileComboBox" MinWidth="420" MaxHeight="280" HorizontalAlignment="Stretch" SelectionMode="Single">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Padding="4" Spacing="2">
-                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding SavedAt}" Opacity="0.7" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Content="Save new profile" Click="OnSaveProfileClick" />
-                    <Button Content="Load selected" Click="OnLoadProfileClick" />
-                    <Button Content="Delete selected" Click="OnDeleteProfileClick" />
-                </StackPanel>
-
-                <TextBlock Text="Profile files" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,8,0,0" />
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Content="Save to file..." Click="OnExportProfileClick" />
-                    <Button Content="Load from file..." Click="OnImportProfileClick" />
-                </StackPanel>
-                <TextBlock x:Name="ProfilesStatusText" TextWrapping="Wrap" />
+          <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
+            <TextBlock x:Uid="Profiles" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="SaveAndRestoreSnapshotsOfThe" TextWrapping="Wrap" />
+            <TextBlock x:Uid="SavedProfiles" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <ListView x:Name="AdvancedProfileComboBox" MinWidth="420" MaxHeight="280" HorizontalAlignment="Stretch" SelectionMode="Single">
+              <ListView.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Padding="4" Spacing="2">
+                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding SavedAt}" Opacity="0.7" />
+                  </StackPanel>
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Uid="SaveNewProfile" Click="OnSaveProfileClick" />
+              <Button x:Uid="LoadSelected" Click="OnLoadProfileClick" />
+              <Button x:Uid="DeleteSelected" Click="OnDeleteProfileClick" />
             </StackPanel>
+            <TextBlock x:Uid="ProfileFiles" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,8,0,0" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Uid="SaveToFile" Click="OnExportProfileClick" />
+              <Button x:Uid="LoadFromFile" Click="OnImportProfileClick" />
+            </StackPanel>
+            <TextBlock x:Name="ProfilesStatusText" TextWrapping="Wrap" />
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="AdvancedPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
-                <TextBlock Text="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Common Windows power options load immediately. Expand the section below only when you need every setting exposed by this PC." TextWrapping="Wrap" />
-                <ComboBox x:Name="AdvancedPlanComboBox"
-                          Header="Power plan"
-                          DisplayMemberPath="Name"
-                          MinWidth="320"
-                          SelectionChanged="OnAdvancedPlanSelectionChanged" />
-                <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
-                <Button Content="Restore Windows Defaults" Click="OnRestoreWindowsDefaultsClick" HorizontalAlignment="Left" />
-                <StackPanel x:Name="AdvancedSettingsPanel" Spacing="16" />
-                <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1" CornerRadius="8"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        HorizontalAlignment="Stretch">
-                    <StackPanel>
-                        <Button x:Name="ShowAllAdvancedButton" Click="OnShowAllAdvancedClick"
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                Padding="16,14" CornerRadius="8">
-                            <Grid HorizontalAlignment="Stretch">
-                                <TextBlock x:Name="AdvancedExpanderHeaderText" Text="Show all advanced settings" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            </Grid>
-                        </Button>
-                    </StackPanel>
-                </Border>
-                <StackPanel x:Name="AllAdvancedSection" Visibility="Collapsed" Spacing="12">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Enable All" Click="OnEnableAllAdvancedClick" />
-                        <Button Content="Disable All" Click="OnDisableAllAdvancedClick" />
-                    </StackPanel>
-                    <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
-                </StackPanel>
+          <StackPanel MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
+            <TextBlock x:Uid="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />
+            <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" SelectionChanged="OnAdvancedPlanSelectionChanged" />
+            <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
+            <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" HorizontalAlignment="Left" />
+            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="16" />
+            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalAlignment="Stretch">
+              <StackPanel>
+                <Button x:Name="ShowAllAdvancedButton" Click="OnShowAllAdvancedClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="16,14" CornerRadius="8">
+                  <Grid HorizontalAlignment="Stretch">
+                    <TextBlock x:Uid="ShowAllAdvancedSettings" x:Name="AdvancedExpanderHeaderText" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                  </Grid>
+                </Button>
+              </StackPanel>
+            </Border>
+            <StackPanel x:Name="AllAdvancedSection" Visibility="Collapsed" Spacing="12">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Uid="EnableAll" Click="OnEnableAllAdvancedClick" />
+                <Button x:Uid="DisableAll" Click="OnDisableAllAdvancedClick" />
+              </StackPanel>
+              <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
             </StackPanel>
+          </StackPanel>
         </ScrollViewer>
         <ScrollViewer x:Name="AboutPage" Visibility="Collapsed">
-            <StackPanel MaxWidth="640" Padding="32" Spacing="16" HorizontalAlignment="Left">
-                <TextBlock Text="About" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Power Plan Manager Pro" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <TextBlock x:Name="AboutVersionText" />
-                <TextBlock Text="Power Plan Manager Pro is a small Windows utility for switching power plans from the system tray, automating plan changes, and managing Windows power settings without keeping the whole app elevated."
-                           TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Content="Privacy Policy" Click="OnPrivacyPolicyClick" />
-                    <Button Content="Terms of Use" Click="OnTermsOfUseClick" />
-                </StackPanel>
-                <TextBlock Text="Tray integration is provided by H.NotifyIcon.WinUI 2.2.0, used under the MIT License."
-                           TextWrapping="Wrap"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <StackPanel MaxWidth="640" Padding="32" Spacing="16" HorizontalAlignment="Left">
+            <TextBlock x:Uid="About" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock Text="Power Plan Manager Pro" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="AboutVersionText" />
+            <TextBlock x:Uid="PowerPlanManagerProIsA" TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Uid="PrivacyPolicy" Click="OnPrivacyPolicyClick" />
+              <Button x:Uid="TermsOfUse" Click="OnTermsOfUseClick" />
             </StackPanel>
+            <TextBlock x:Uid="TrayIntegrationIsProvidedByH" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
         </ScrollViewer>
-        </Grid>
+      </Grid>
     </NavigationView>
-    </Grid>
+  </Grid>
 </Window>

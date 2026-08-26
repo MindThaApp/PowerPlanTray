@@ -33,6 +33,16 @@ src/PowerPlanTray/          WinUI 3 packaged app (net8.0-windows10.0.19041.0).
 
 ## Building
 
+### Localization
+
+User-interface resources live in `src/PowerPlanTray/Strings/<language-tag>/Resources.resw`.
+Add a folder with the same resource keys to introduce another language; Windows selects
+the best match from the user's OS preferred-language list. There is intentionally no
+in-app language selector. Translations beyond English are AI-generated first passes and
+have not been professionally reviewed. Arabic, Urdu, and Persian (including right-to-left
+layout mirroring) are being handled separately. The reserved Microsoft Store product name
+remains English in the package manifest.
+
 Requires Visual Studio 2022 with the ".NET Desktop Development" and
 "Windows application development" (WinUI/Windows App SDK, "Universal
 Windows Platform development" workload includes the needed Windows SDK

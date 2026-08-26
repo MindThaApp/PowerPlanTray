@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Above</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Active power plan</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>App CPU load</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>App is running</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Apply custom duration</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>App rules</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>App rules</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Automatically switch with the power source</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Automation</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Automation</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Auto-switch on Battery/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Battery and AC power</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Below</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Browse for .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Browse installed apps</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Cancel temporary plan</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Changes apply immediately. Popup settings take effect the next time it opens.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Choose how the tray popup and Settings window look and size themselves.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Choose which installed plans appear in the tray menu.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Common Windows power options load immediately. Expand the section below only when you need every setting exposed by this PC.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>CPU bar chart</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPU percentage</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Custom duration</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Disable All</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>Disable CPU Boost</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Enable All</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Exit Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Follow Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 hr</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Install or remove the standard Windows power plans. Windows will ask for administrator permission.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Load from file...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Load selected</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Switch, automate, and manage Windows power plans from the system tray.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>No plain-language explanation written yet for this setting.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Black</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>On AC power</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>On AC Power</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>On battery</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>On Battery</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 hr</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>On launch</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Open app</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Open Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Pin navigation pane open</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Power plan</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Power plan abbreviation</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro is a small Windows utility for switching power plans from the system tray, automating plan changes, and managing Windows power settings without keeping the whole app elevated.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro Settings</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Power Plans</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Power Plans</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Profile files</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>This will increase the maximum processor state from {0}% to 100% to re-enable CPU boost. Continue?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Re-enable CPU boost?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Restore Windows Defaults</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Save and restore snapshots of the current power plan's advanced setting visibility and AC/DC values.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Saved profiles</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Save new profile</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Save to file...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Select {0} power plan</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Settings…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Settings window size</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Power Plan Manager Pro Settings</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Show all advanced settings</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Show in tray</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Show this window</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Start hidden in tray</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Enable Power Plan Manager Pro in Windows Settings &gt; Apps &gt; Startup, then try again.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Startup permission needed</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Start with Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Static</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Switch plans after overall CPU load stays above or below a threshold for about nine seconds.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Switch while an app is running, or after its CPU load stays above or below a threshold. CPU rules can be reordered with the arrow buttons; top priority wins when CPU conditions overlap.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>System load</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Temporarily use a plan, then restore the previous plan.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Temporary plan: {0} min remaining</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Terms of Use</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 min</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>This reflects the active power plan, not a separate app setting. CPU/turbo boost is considered disabled when Maximum processor state is 99% or lower, and enabled at 100%; switching plans or editing that value on the Advanced page updates this checkbox.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Timed switches</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Tray icon</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Tray integration is provided by H.NotifyIcon.WinUI 2.2.0, used under the MIT License.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Tray popup size</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Tray popup text size</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 hr</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Unable to read power plans: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Unknown plan</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Unpin navigation pane</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+</root>

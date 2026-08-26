@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>အကြောင်း  </value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>အကြောင်း  </value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>အထက်  </value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Active power အစီအစဉ်  </value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>ထည့်ပါ  </value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>အဆင့်မြင့်  </value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>အဆင့်မြင့်  </value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>App CPU ယာဉ်လမ်း  </value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>App လည်ပတ်နေသည်  </value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>အသုံးပြုပါ  </value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>စိတ်ကြိုက်အချိန်ကာလကို အသုံးပြုပါ  </value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>App စည်းမျဉ်းများ  </value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>App စည်းမျဉ်းများ  </value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>ပါဝါအရင်းအမြစ်နှင့် အလိုအလျောက်လဲပါ  </value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>အလိုအလျောက်လုပ်ဆောင်မှု  </value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>အလိုအလျောက်လုပ်ဆောင်မှု  </value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>ဘက်ထရီ/AC တွင် အလိုအလျောက်လဲပါ  </value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>ဘက်ထရီနှင့် AC ပါဝါ  </value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>အောက်  </value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>.exe ဖိုင်များကို စူးစမ်းပါ  </value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>တပ်ဆင်ထားသော app များကို စူးစမ်းပါ  </value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>ဖျက်ရန်  </value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>ဖျက်ရန်  </value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>တစ်သက်တာအစီအစဉ်ကို ဖျက်ရန်  </value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>ပြောင်းလဲမှုများကို အသုံးချချက်ချက်လက်မှုထိန်းသိမ်းသည်။ Popup ဆက်တင်များကို နောက်တစ်ကြိမ် ဖွင့်သောအခါ လုပ်ဆောင်မည်။</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>ထေးပြန်ပေါ်လာရေးနှင့် သတ်မှတ်ချက်ပြတင်းပေါက်၏ ရုပ်ထွက်နှင့် အရွယ်အစားကို ရွေးပါ။</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>ထေးမီနူးတွင် မည်သည့်ထည့်ထားသော အစီအစဉ်များကို ပြသမည်ကို ရွေးပါ။</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>နှစ်သက်ရာ Windows စွမ်းအင်ရွေးချယ်မှုများကို ချက်ချင်းဖွင့်ပါမည်။ ဒီ PC မှ ထုတ်ပြရန် လိုအပ်သည့် စီမံချက်တိုင်းကိုသာ အောက်ပါအပိုင်းကို တိုးချဲ့၍ ကြည့်ပါ။</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>အခြေအနေ</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>CPU ဘားဇယားဇယား</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPU ကွာလမှုရာခိုင်နှုန်း</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>စိတ်ကြိုက် အချိန်ကြာချိန်</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>အမှောင်</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>ရွေးချယ်ထားသည့်အရာကို ဖျက်ပါ</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>အားလုံး ပိတ်ရန်</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>CPU အားမြှင့်တင်ခြင်း ပိတ်ရန်</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>အားလုံး ဖွင့်ရန်</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>ဖွင့်ထားသည်</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>ထွက်ရန်</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Pro ထွက်ရန်</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Windows ကို လိုက်ပါ</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>၄ နာရီ</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>ပုံမှန်</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>ပုံမှန်</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>စံနှုန်း Windows စွမ်းစွမ်းအားအစီအစဉ်များကို 설치 သို့မဟုတ် ဖယ်ရှားပါ။ Windows သည် အုပ်ချုပ်သူခွင့်ပြုချက်ကို မေးလိမ့်မည်။</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>ကြီး</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>အလင်း</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>ဖိုင်မှ အပေါ်ကို လှိမ့်ပါ...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>ရွေးချယ်ထားသည့်အရာကို ဖွင့်ပါ</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>စနစ် Tray မှ Windows စွမ်းအားအစီအစဉ်များကို ပြောင်းပါ၊ အလိုအလျောက်လုပ်ပါ၊ နှင့် စီမံခန့်ခွဲပါ။</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>ဤချိန်ညွှန်းချက်အတွက် ပုံမှန်ဘာသာစကားဖြင့် ရှင်းလင်းချက် မရေးထားသေးပါ။</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED အနက်</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>AC စွမ်းအားတွင်</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>AC စွမ်းအားတွင်</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>ဘက်ထရီတွင်</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>ဘက်ထရီတွင်</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>၁ နာရီ</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>စတင်သောအခါ</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>အက်ပ် ဖွင့်ပါ</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Pro ကို ဖွင့်ပါ</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>ဆက်တင်များကို ဖွင့်ပါ</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>သွားလာမှု ဖန်တီးခြင်း ကို 固定 လုပ်ပါ</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>စွမ်းအားအစီအစဉ်</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>ပါဝါအစီအစဉ်အတိုကောက်  </value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro သည် စနစ်ထဲက နေရာမှ ပါဝါအစီအစဉ်များကို ပြောင်းနိုင်ရန်၊ အစီအစဉ်ပြောင်းလဲမှုများကို အလိုအလျောက်လုပ်ရန်နှင့် Windows ပါဝါဆက်တင်များကို မူလအဆင့်မထားဘဲ စီမံခန့်ခွဲရန် အသုံးပြုနိုင်သည့် သေးငယ်တဲ့ Windows အသုံးအဆောင် utility ဖြစ်သည်။  </value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro ဆက်တင်များ  </value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>ပါဝါအစီအစဉ်များ  </value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>ပါဝါအစီအစဉ်များ  </value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>ကိုယ်ရေးအချက်အလက်မူဝါဒ  </value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>ပရိုဖိုင်ဖိုင်များ  </value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>ပရိုဖိုင်များ  </value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>ပရိုဖိုင်များ  </value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>ဤသည်က CPU boost ကို ပြန်လည်ဖွင့်ရန် {0}% မှ 100% အထိ အမြင့်ဆုံး processor အဆင့်ကို မြှင့်တင်ပါမည်။ ဆက်လုပ်မလား?  </value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>CPU boost ကို ပြန်လည်ဖွင့်မလား?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Windows မူရင်းအတိုင်းပြန်သွင်းပါ</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>လက်ရှိပါဝါစီမံခန့်ခွဲမှုအစီအစဉ်၏ အဆင့်မြင့်ဆက်တင်များမြင်နိုင်မှုနှင့် AC/DC တန်ဖိုးများကို သိုလှောင်၍ ပြန်လုပ်နိုင်သည်။</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>သိမ်းဆည်းထားသောပရိုဖိုင်များ</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>ပရိုဖိုင်အသစ်သိမ်းဆည်းပါ</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>ဖိုင်သို့သိမ်းဆည်းပါ...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>{0} ပါဝါစီမံခန့်ခွဲမှုအစီအစဉ်ကို ရွေးချယ်ပါ</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>ဆက်တင်များ…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>ဆက်တင်များတိုးတက်သောပြတင်းပေါက်အရွယ်အစား</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Power Plan Manager Pro ဆက်တင်များ</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>အားလုံးအဆင့်မြင့်ဆက်တင်များကိုပြပါ</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>တက်ကျပ်တွင်ပြပါ</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>ဤပြတင်းပေါက်ကိုပြပါ</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>သေးငယ်သော</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>တက်ကျပ်တွင် ဖျောက်ထားမှုဖြင့်စတင်ပါ</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Windows ဆက်တင်များ &gt; Apps &gt; Startup တွင် Power Plan Manager Pro ကိုဖွင့်ပါ၊ ထို့နောက်ထပ်မောင်းမယ်။</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>စတင်ခွင့်ပြုချက် လိုအပ်သည်</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Windows ဖြင့် စတင်ပါ</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>တည်ငြိမ်မှု</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>စုစုပေါင်း CPU ပမာဏသည် သတ်မှတ်ချက်ထက် အထက် သို့မဟုတ် အောက်တွင် ၉ စက္ကန့်ခန့် ရှိနေစဉ် ပြောင်းလဲမှုအစီအစဉ်များ ပြုလုပ်ပါ။</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>အက်ပ်တစ်ခု လည်ပတ်နေစဉ်၊ သို့မဟုတ် CPU အလုပ်ပမာဏ သတ်မှတ်ချက်ထက် မြင့်မားနေစဉ်တွင် ပြောင်းလဲပါ။ CPU စည်းမျဉ်းများကို အမြှုပ်ခလုတ်များဖြင့် ပြန်လည်စီစဉ်နိုင်သည်။ CPU အခြေအနေများ ထပ်တူဖြစ်သောအခါ ထိပ်တန်း ဦးစားပေးမှုသည် အနိုင်ရသည်။</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>စနစ်အလေးချိန်</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>အစီအစဉ်တစ်ခုကို ယာယီအသုံးပြုပြီးနောက် ယခင်အစီအစဉ်ကို ပြန်လည်ထူထောင်ပါ။</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>ယာယီအစီအစဉ် - {0} အနည်းဆုံးကျန်ရှိမှု</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>အသုံးပြုခွင့်စည်းမျဉ်းများ</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>အကြောင်းအရာ  </value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>၃၀ မိနစ်  </value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>ဤသည်သည် သက်ရှိအက်တစ်ခုစွမ်းအင်အစီအစဉ်ကိုပြသခြင်းဖြစ်ပြီး သီးခြားအက်ပလီကေးရှင်းအနေအထားမဟုတ်ပါ။ CPU/turbo boost ကို သတ်မှတ်ချက်အနေဖြင့် Maximum processor state ၉၉% သို့မဟုတ် အနည်းနည်းအောက်တွင် ပိတ်ထားပြီး ၁၀၀% တွင် ဖွင့်ထားသည်ဟု သတ်မှတ်သည်။ အစီအစဉ်များပြောင်းခြင်း သို့မဟုတ် Advanced စာမျက်နှာတွင် ထိုတန်ဖိုးကိုပြန်ပြင်ခြင်းဖြင့် ဤ checkbox ကို အပ်ဒိတ်လုပ်နိုင်သည်။  </value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>အချိန်ပြည့်ပြောင်းခြင်းများ  </value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Tray အိုင်ကွန်  </value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Tray ပေါင်းစပ်မှုကို H.NotifyIcon.WinUI 2.2.0 မှပံ့ပိုးသည်၊ MIT License အောက်တွင် သုံးထားပါသည်။  </value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Tray popup အရွယ်အစား  </value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Tray popup စာသားအရွယ်အစား</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>တက်ကြွစေမှု</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 နာရီ</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>စွမ်းအင်အစီအစဉ်များကို စာဖတ်၍မရနိုင်ပါ: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>မသိသောအစီအစဉ်</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>လမ်းညွှန်အဝိုင်းကို ဖယ်ရှားပါ</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>ဗားရှင်း {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>ဟုတ်ကဲ့</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>နာရီ</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>မိနစ်</value>
+  </data>
+</root>

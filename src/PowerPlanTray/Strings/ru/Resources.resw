@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Выше</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>План активной мощности</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Расширенный</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Расширенный</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Загрузка ЦП приложения</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Приложение запущено</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Применить пользовательскую продолжительность</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Правила приложения</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Правила приложения</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Автоматическое переключение с источником питания</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Автоматизация</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Автоматизация</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Автоматическое переключение на батарею/переменный ток</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Питание от аккумулятора и переменного тока</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Ниже</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Поиск .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Просмотр установленных приложений</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Отменить временный план</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Изменения применяются немедленно. Настройки всплывающего окна вступают в силу при следующем открытии.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Выберите внешний вид и размер всплывающего окна лотка и окна настроек.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Выберите, какие установленные планы появятся в меню трея.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Распространенные варианты питания Windows загружаются немедленно. Разверните раздел ниже только тогда, когда вам нужны все настройки, доступные на этом ПК.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Условие</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>Гистограмма ЦП</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>Процент ЦП</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Пользовательская продолжительность</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Темный</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Удалить выбранное</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Отключить все</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>Отключить ускорение процессора</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Включить все</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Выход из Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Подписаться на Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 часа</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Общие положения</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Общие положения</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Установите или удалите стандартные схемы электропитания Windows. Windows запросит разрешение администратора.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Большой</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Светлый</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Загрузить из файла...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Нагрузка выбрана</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Переключение, автоматизация и управление схемами электропитания Windows из системного трея.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Средний</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Для этого параметра еще не написано объяснение простым языком.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Black</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>Напряжение переменного тока</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>Вкл. питание переменного тока</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>На батарее</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>На батарее</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 час</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>При запуске</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Открыть приложение</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Open Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Открыть настройки</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Панель навигации PIN-кода открыта</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>План электропитания</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Аббревиатура плана электропитания</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro - это небольшая утилита Windows для переключения планов питания из системного трея, автоматизации изменений планов и управления настройками питания Windows без поднятия всего приложения.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Настройки Power Plan Manager Pro</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Планы электропитания</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Планы электропитания</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Файлы профиля</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Это увеличит максимальное состояние процессора с {0} % до 100%, чтобы снова включить ускорение процессора. Продолжить?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Повторно включить ускорение процессора?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Восстановление настроек Windows по умолчанию</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Сохраняйте и восстанавливайте снимки видимости расширенных настроек текущего плана электропитания и значений переменного/постоянного тока.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Сохраненные профили</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Сохранить новый профиль</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Сохранить в файл...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Выберите схему питания {0}</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Настройки…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Размер окна настроек</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Настройки Power Plan Manager Pro</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Показать все расширенные настройки</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Показать в трее</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Показать это окно</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Маленький</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Начало скрыто в трее</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Включите Power Plan Manager Pro в Windows Settings &gt; Apps &gt; Startup, а затем повторите попытку.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Требуется разрешение на запуск</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Начать с Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Статический</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Переключите планы после того, как общая загрузка ЦП останется выше или ниже порогового значения в течение примерно девяти секунд.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Переключайтесь во время работы приложения или после того, как загрузка его процессора остается выше или ниже порогового значения. Правила ЦП могут быть переупорядочены с помощью кнопок со стрелками; главный приоритет выигрывает, когда условия ЦП перекрываются.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Нагрузка на систему</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Временно используйте план, затем восстановите предыдущий план.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Временный план: {0} мин. осталось</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Условия использования</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 мин</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Это отражает план активной мощности, а не отдельную настройку приложения. CPU/turbo boost считается отключенным, когда максимальное состояние процессора составляет 99% или ниже, и включено на 100%; переключение планов или редактирование этого значения на странице Advanced обновляет этот флажок.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Переключатели с таймером</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Значок лотка</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Интеграция лотка обеспечивается H.NotifyIcon.WinUI 2.2.0, используемым в соответствии с лицензией MIT.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Размер всплывающего окна лотка</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Размер всплывающего текста в трее</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — ЦП {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Триггер</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 часа</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>Пользовательский интерфейс</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>Пользовательский интерфейс</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Не удается прочитать планы электропитания: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Неизвестный план</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Открепить панель навигации</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Версия {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Часы работы</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Протоколы</value>
+  </data>
+</root>

@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>Hakkında</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>Hakkında</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Yukarıda</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Aktif güç planı</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Gelişmiş</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Gelişmiş</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Uygulama CPU yüklemesi</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Uygulama çalışıyor</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Uygula</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Özel süre uygula</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Uygulama kuralları</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Uygulama kuralları</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Güç kaynağı ile otomatik olarak geçiş yapın</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Otomasyon</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Otomasyon</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Pil/AC üzerinde otomatik anahtarlama</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Batarya ve AC gücü</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Altında</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>.exe dosyasına göz atın</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Yüklü uygulamalara göz atın</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Geçici planı iptal et</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Değişiklikler hemen uygulanır. Açılır pencere ayarları bir sonraki açıldığında etkinleşir.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Tepsi açılır penceresinin ve Ayarlar penceresinin nasıl görüneceğini ve boyutlarını seçin.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Tepsi menüsünde hangi yüklü planların görüneceğini seçin.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Yaygın Windows güç seçenekleri hemen yüklenir. Aşağıdaki bölümü yalnızca bu bilgisayarın maruz kaldığı her ayara ihtiyacınız olduğunda genişletin.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Koşul</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>CPU çubuk grafiği</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPU yüzdesi</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Özel süre</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Koyu</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Seçileni sil</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Tümünü Devre Dışı Bırak</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>CPU Boost'u devre dışı bırak</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Tümünü Etkinleştir</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Etkin</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Pro'dan Çık</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Pencereleri Takip Et</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 saat</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Standart Windows güç planlarını kurun veya kaldırın. Windows yönetici izni isteyecektir.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Büyük</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Dosyadan yükle...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Seçilenleri yükle</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Windows güç planlarını sistem tepsisinden değiştirin, otomatikleştirin ve yönetin.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Orta</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Bu ayar için henüz düz dilli bir açıklama yazılmadı.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Siyah</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>AC güçte</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>AC Gücünde</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>Bataryada</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>Açık Pil</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 saat</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>Lansmanda</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Uygulamayı aç</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Power Plan Manager Pro'yu açın</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Ayarları açın</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>İğne gezinme bölmesi açık</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Güç planı</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Güç planı kısaltması</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro, güç planlarını sistem tepsisinden değiştirmek, plan değişikliklerini otomatikleştirmek ve tüm uygulamayı yüksekte tutmadan Windows güç ayarlarını yönetmek için kullanılan küçük bir Windows yardımcı programıdır.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro Ayarları</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Güç Planları</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Güç Planları</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Gizlilik Politikası</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Profil dosyaları</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Profiller</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Profiller</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Bu, CPU desteğini yeniden etkinleştirmek için maksimum işlemci durumunu % {0}'dan % 100 'e çıkaracaktır. Devam edilsin mi?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>CPU desteği yeniden etkinleştirilsin mi?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Windows Varsayılanlarını Geri Yükle</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Mevcut güç planının gelişmiş ayar görünürlüğünün ve AC/DC değerlerinin anlık görüntülerini kaydedin ve geri yükleyin.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Kayıtlı profiller</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Yeni profili kaydet</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Dosyaya kaydet...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>{0} güç planını seçin</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Ayarlar…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Ayarlar penceresi boyutu</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Power Plan Manager Pro Ayarları</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Tüm gelişmiş ayarları göster</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Tepside göster</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Bu pencereyi göster</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Küçük</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Tepsiye gizlenmeye başla</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Windows Ayarları &gt; Uygulamalar &gt; Başlangıç'ta Power Plan Manager Pro'yu etkinleştirin, ardından tekrar deneyin.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Başlatma izni gerekli</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Windows ile başla</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Statik</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Genel CPU yükü yaklaşık dokuz saniye boyunca bir eşiğin üzerinde veya altında kaldıktan sonra planları değiştirin.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Bir uygulama çalışırken veya CPU yükü bir eşiğin üzerinde veya altında kaldıktan sonra geçiş yapın. CPU kuralları ok düğmeleriyle yeniden sıralanabilir; CPU koşulları çakıştığında en yüksek öncelik kazanır.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Sistem yükü</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Geçici olarak bir plan kullanın, ardından önceki planı geri yükleyin.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Geçici plan: {0} dk. kaldı</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Kullanım Şartları</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 dk.</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Bu, ayrı bir uygulama ayarını değil, aktif güç planını yansıtır. CPU/turbo artışı, Maksimum işlemci durumu % 99 veya daha düşük olduğunda devre dışı olarak kabul edilir ve % 100 'de etkinleştirilir; Gelişmiş sayfadaki planları değiştirmek veya bu değeri düzenlemek bu onay kutusunu günceller.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Zaman ayarlı anahtarlar</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Tepsi simgesi</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Tepsi entegrasyonu, MIT Lisansı altında kullanılan H.NotifyIcon.WinUI 2.2.0 tarafından sağlanmaktadır.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Tepsi açılır boyutu</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Tepsi açılır metin boyutu</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Tetikleyici</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 saat</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Güç planları okunamıyor: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Bilinmeyen plan</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Gezinme bölmesinin sabitlemesini kaldır</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Versiyon {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Saat</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Dakika</value>
+  </data>
+</root>

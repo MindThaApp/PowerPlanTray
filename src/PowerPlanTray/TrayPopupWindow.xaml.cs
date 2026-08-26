@@ -15,6 +15,8 @@ namespace PowerPlanTray;
 
 public sealed partial class TrayPopupWindow : Window
 {
+    private static string L(string key) => Localization.Get(key);
+    private static string F(string key, params object?[] args) => Localization.Format(key, args);
     private const int SpiGetWorkArea = 0x0030;
     private const int GwlExStyle = -20;
     private const int WsExToolWindow = 0x00000080;
@@ -130,7 +132,7 @@ public sealed partial class TrayPopupWindow : Window
     private void BuildContent(bool fullMenu)
     {
         PopupContent.Children.Clear();
-        AddAction("Open app", () => { _showSettings(); Hide(); }, automationId: "Open Power Plan Manager Pro");
+        AddAction(L("OpenApp"), () => { _showSettings(); Hide(); }, automationId: L("OpenAppAutomationName"));
         AddSeparator();
         IReadOnlyList<PowerScheme> all;
         Guid active;
@@ -145,13 +147,13 @@ public sealed partial class TrayPopupWindow : Window
                 {
                     _switchScheme(scheme.Guid);
                     Hide();
-                }, new Windows.UI.Text.FontWeight { Weight = (ushort)(scheme.Guid == active ? 600 : 400) }, $"Select {scheme.Name} power plan");
+                }, new Windows.UI.Text.FontWeight { Weight = (ushort)(scheme.Guid == active ? 600 : 400) }, F("SelectPowerPlan", scheme.Name));
             }
         }
         catch (Exception ex)
         {
             all = Array.Empty<PowerScheme>();
-            AddMessage($"Unable to read power plans: {ex.Message}");
+            AddMessage(F("UnableToReadPowerPlans", ex.Message));
         }
 
         if (!fullMenu) return;
@@ -169,20 +171,20 @@ public sealed partial class TrayPopupWindow : Window
                 if (target is not null)
                     rulesPanel.Children.Add(CreateAction($"{rule.AppExecutableName} → {target.Name}", () => { _switchScheme(target.Guid); Hide(); }));
             }
-            PopupContent.Children.Add(new Expander { Header = "App rules", Content = rulesPanel, HorizontalAlignment = HorizontalAlignment.Stretch });
+            PopupContent.Children.Add(new Expander { Header = L("AppRulesLabel"), Content = rulesPanel, HorizontalAlignment = HorizontalAlignment.Stretch });
         }
 
         TimedSwitchInfo? timed = _automation.CurrentTimedSwitch;
         if (timed is not null)
         {
             int minutes = Math.Max(1, (int)Math.Ceiling(timed.Remaining.TotalMinutes));
-            AddMessage($"Temporary plan: {minutes} min remaining");
-            AddAction("Cancel temporary plan", () => { _automation.CancelTimedSwitch(); Hide(); });
+            AddMessage(F("TemporaryPlanMinutesRemaining", minutes));
+            AddAction(L("CancelTemporaryPlan"), () => { _automation.CancelTimedSwitch(); Hide(); });
         }
 
         AddSeparator();
-        AddAction("Settings…", () => { Hide(); _showSettings(); }, automationId: "Open settings");
-        AddAction("Exit", _exit, automationId: "Exit Power Plan Manager Pro");
+        AddAction(L("SettingsMenu"), () => { Hide(); _showSettings(); }, automationId: L("OpenSettingsAutomationName"));
+        AddAction(L("Exit"), _exit, automationId: L("ExitAutomationName"));
     }
 
     private void AddAutomationSection(IReadOnlyList<PowerScheme> schemes)
@@ -190,7 +192,7 @@ public sealed partial class TrayPopupWindow : Window
         var panel = new StackPanel { Spacing = 8, Padding = new Thickness(4, 6, 4, 6) };
         var enabled = new ToggleSwitch
         {
-            Header = "Enabled",
+            Header = L("Enabled"),
             IsOn = _settings.AutoSwitchBatteryAcEnabled,
             IsEnabled = _powerSource.HasBattery,
         };
@@ -200,19 +202,19 @@ public sealed partial class TrayPopupWindow : Window
             _automation.RefreshConfiguration(enabled.IsOn);
         };
         panel.Children.Add(enabled);
-        panel.Children.Add(CreatePlanPicker("On battery", schemes, _settings.BatteryPlanGuid, guid =>
+        panel.Children.Add(CreatePlanPicker(L("OnBatteryLabel"), schemes, _settings.BatteryPlanGuid, guid =>
         {
             _settings.BatteryPlanGuid = guid;
             _automation.RefreshConfiguration(_settings.AutoSwitchBatteryAcEnabled && _powerSource.IsOnBattery);
         }));
-        panel.Children.Add(CreatePlanPicker("On AC power", schemes, _settings.AcPlanGuid, guid =>
+        panel.Children.Add(CreatePlanPicker(L("OnAcPowerLabel"), schemes, _settings.AcPlanGuid, guid =>
         {
             _settings.AcPlanGuid = guid;
             _automation.RefreshConfiguration(_settings.AutoSwitchBatteryAcEnabled && !_powerSource.IsOnBattery);
         }));
         var expander = new Expander
         {
-            Header = _settings.AutoSwitchBatteryAcEnabled ? "✓  Auto-switch on Battery/AC" : "Auto-switch on Battery/AC",
+            Header = _settings.AutoSwitchBatteryAcEnabled ? "✓  " + L("AutoSwitchBatteryAc") : L("AutoSwitchBatteryAc"),
             Content = panel,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };

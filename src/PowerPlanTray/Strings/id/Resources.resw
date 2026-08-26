@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>Tentang</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>Tentang</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Di atas</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Rencana daya aktif</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Tambahkan</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Lanjutan</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Lanjutan</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Beban CPU aplikasi</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Aplikasi sedang berjalan</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Terapkan</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Terapkan durasi khusus</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Aturan aplikasi</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Aturan aplikasi</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Beralih secara otomatis dengan sumber daya</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Otomatisasi</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Otomatisasi</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Sakelar otomatis pada Baterai/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Baterai dan daya AC</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Di bawah</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Telusuri .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Telusuri aplikasi yang diinstal</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Batalkan</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Batalkan</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Batalkan paket sementara</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Perubahan segera berlaku. Pengaturan popup berlaku saat berikutnya dibuka.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Pilih bagaimana tampilan dan ukuran jendela popup baki dan Pengaturan itu sendiri.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Pilih paket yang diinstal yang muncul di menu baki.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Opsi daya Windows yang umum segera dimuat. Perluas bagian di bawah ini hanya ketika Anda membutuhkan setiap pengaturan yang diekspos oleh PC ini.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Kondisi</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>Grafik batang CPU</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>Persentase CPU</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Durasi kustom</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Gelap</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Hapus yang dipilih</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Nonaktifkan Semua</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>Nonaktifkan Peningkatan CPU</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Aktifkan Semua</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Diaktifkan</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Keluar dari Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Ikuti Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 jam</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Umum</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Umum</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Instal atau hapus paket daya Windows standar. Windows akan meminta izin administrator.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Besar</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Terang</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Muat dari file...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Memuat yang dipilih</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Beralih, otomatiskan, dan kelola paket daya Windows dari baki sistem.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Sedang</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Belum ada penjelasan bahasa sederhana yang ditulis untuk pengaturan ini.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Oke</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Black</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>Pada daya AC</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>Pada Daya AC</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>Pada baterai</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>Aktif Baterai</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 jam</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>Saat diluncurkan</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Buka aplikasi</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Buka Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Buka pengaturan</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Buka panel navigasi pin</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Rencana daya</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Singkatan power plan</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro adalah utilitas Windows kecil untuk mengganti paket daya dari baki sistem, mengotomatiskan perubahan paket, dan mengelola pengaturan daya Windows tanpa meningkatkan keseluruhan aplikasi.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Pengaturan Pro Power Plan Manager</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Rencana Daya</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Rencana Daya</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Kebijakan Privasi</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>File profil</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Ini akan meningkatkan status prosesor maksimum dari {0} % menjadi 100% untuk mengaktifkan kembali boost CPU. Lanjutkan?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Aktifkan kembali peningkatan CPU?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Pulihkan Windows Default</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Simpan dan pulihkan snapshot dari visibilitas pengaturan lanjutan rencana daya saat ini dan nilai AC/DC.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Profil tersimpan</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Simpan profil baru</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Simpan ke file...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Pilih paket daya {0}</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Pengaturan…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Ukuran jendela pengaturan</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Pengaturan Pro Power Plan Manager</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Tampilkan semua pengaturan lanjutan</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Tampilkan di baki</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Tampilkan jendela ini</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Kecil</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Mulai disembunyikan di baki</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Aktifkan Power Plan Manager Pro di Pengaturan Windows &gt; Aplikasi &gt; Startup, lalu coba lagi.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Izin memulai diperlukan</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Mulai dengan Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Statis</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Beralih paket setelah beban CPU keseluruhan tetap di atas atau di bawah ambang batas selama sekitar sembilan detik.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Beralih saat aplikasi sedang berjalan, atau setelah beban CPU tetap di atas atau di bawah ambang batas. Aturan CPU dapat disusun ulang dengan tombol panah; prioritas utama menang ketika kondisi CPU tumpang tindih.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Beban sistem</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Gunakan rencana untuk sementara, lalu pulihkan rencana sebelumnya.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Rencana sementara: {0} tersisa min</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Ketentuan Penggunaan</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 menit</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Ini mencerminkan rencana daya aktif, bukan pengaturan aplikasi terpisah. Peningkatan CPU/turbo dianggap dinonaktifkan ketika status prosesor Maksimum 99% atau lebih rendah, dan diaktifkan pada 100%; mengalihkan paket atau mengedit nilai tersebut pada halaman Lanjutan memperbarui kotak centang ini.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Sakelar berjangka waktu</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Ikon baki</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Integrasi baki disediakan oleh H.NotifyIcon.WinUI 2.2.0, yang digunakan di bawah Lisensi MIT.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Ukuran popup baki</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Ukuran teks popup baki</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0 }%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Pemicu</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 jam</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Tidak dapat membaca rencana daya: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Paket tidak diketahui</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Batal sematkan panel navigasi</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Versi {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ya</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Menit</value>
+  </data>
+</root>

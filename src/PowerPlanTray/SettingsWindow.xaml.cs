@@ -20,6 +20,8 @@ namespace PowerPlanTray;
 
 public sealed partial class SettingsWindow : Window
 {
+    private static string L(string key) => Localization.Get(key);
+    private static string F(string key, params object?[] args) => Localization.Format(key, args);
     private readonly AppSettingsService _appSettingsService;
     private readonly StartupService _startupService = new();
     private readonly PowerSchemeService _powerSchemeService;
@@ -32,7 +34,7 @@ public sealed partial class SettingsWindow : Window
     private bool _allAdvancedSettingsLoaded;
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
-    private const string NoLaymanDescription = "No plain-language explanation written yet for this setting.";
+    private static string NoLaymanDescription => L("NoLaymanDescription");
     private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
     private static readonly Guid ProcessorMaximumStateGuid = new("bc5038f7-23e0-4960-96da-33abaf5935ec");
 
@@ -52,7 +54,16 @@ public sealed partial class SettingsWindow : Window
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
         InitializeComponent();
-        AboutVersionText.Text = $"Version {GetAppVersion()}";
+        Title = L("SettingsWindowTitle");
+        AboutVersionText.Text = F("VersionFormat", GetAppVersion());
+        LaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
+        SystemCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
+        AppTriggerTypeComboBox.ItemsSource = new[] { L("AppIsRunning"), L("AppCpuLoad") };
+        AppCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
+        TimedDurationRadioButtons.ItemsSource = new[] { L("ThirtyMinutes"), L("OneHour"), L("TwoHours"), L("FourHours") };
+        ThemeComboBox.ItemsSource = new[] { L("FollowWindows"), L("Light"), L("Dark"), L("OledBlack") };
+        TrayIconModeComboBox.ItemsSource = new[] { L("Static"), L("CpuPercentage"), L("CpuBarChart"), L("PowerPlanAbbreviation") };
+        PopupSizeComboBox.ItemsSource = SettingsWindowSizeComboBox.ItemsSource = PopupTextSizeComboBox.ItemsSource = new[] { L("Small"), L("Medium"), L("Large") };
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
         WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
         SettingsNavigationView.PaneOpening += OnNavigationPaneOpening;
@@ -134,7 +145,8 @@ public sealed partial class SettingsWindow : Window
     {
         // Measure the real localized labels, then add the compact icon column
         // and standard item padding instead of retaining NavigationView's wide default.
-        double longest = new[] { "General", "Power Plans", "Automation", "Advanced", "Profiles", "UI", "About" }
+        double longest = SettingsNavigationView.MenuItems.OfType<NavigationViewItem>()
+            .Select(item => item.Content?.ToString() ?? string.Empty)
             .Select(label => { var text = new TextBlock { Text = label }; text.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity)); return text.DesiredSize.Width; })
             .Max();
         SettingsNavigationView.OpenPaneLength = Math.Ceiling(longest + SettingsNavigationView.CompactPaneLength + 36);
@@ -149,7 +161,7 @@ public sealed partial class SettingsWindow : Window
         _appSettingsService.NavigationPanePinned = pinned;
         SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
         SettingsNavigationView.IsPaneOpen = pinned;
-        ToolTipService.SetToolTip(PinPaneToggle, pinned ? "Unpin navigation pane" : "Pin navigation pane open");
+        ToolTipService.SetToolTip(PinPaneToggle, pinned ? L("UnpinNavigationPane") : L("PinNavigationPaneOpen"));
     }
 
     private void ApplyPinnedPaneState()
@@ -159,7 +171,7 @@ public sealed partial class SettingsWindow : Window
         SettingsNavigationView.PaneDisplayMode = pinned ? NavigationViewPaneDisplayMode.Left : NavigationViewPaneDisplayMode.LeftCompact;
         SettingsNavigationView.IsPaneToggleButtonVisible = true;
         SettingsNavigationView.IsPaneOpen = pinned;
-        ToolTipService.SetToolTip(PinPaneToggle, pinned ? "Unpin navigation pane" : "Pin navigation pane open");
+        ToolTipService.SetToolTip(PinPaneToggle, pinned ? L("UnpinNavigationPane") : L("PinNavigationPaneOpen"));
     }
 
     private void OnNavigationPaneOpening(NavigationView sender, object args)
@@ -1208,9 +1220,9 @@ public sealed partial class SettingsWindow : Window
             }
             else if (current <= 99)
             {
-                var dialog = new ContentDialog { Title = "Re-enable CPU boost?",
-                    Content = $"This will increase the maximum processor state from {current}% to 100% to re-enable CPU boost. Continue?",
-                    PrimaryButtonText = "Yes", CloseButtonText = "Cancel", DefaultButton = ContentDialogButton.Close,
+                var dialog = new ContentDialog { Title = L("ReenableCpuBoostTitle"),
+                    Content = F("ReenableCpuBoostContent", current),
+                    PrimaryButtonText = L("Yes"), CloseButtonText = L("CancelLabel"), DefaultButton = ContentDialogButton.Close,
                     XamlRoot = Content.XamlRoot };
                 if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                     _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid, 100);
@@ -1332,9 +1344,9 @@ public sealed partial class SettingsWindow : Window
                 {
                     var dialog = new ContentDialog
                     {
-                        Title = "Startup permission needed",
-                        Content = "Enable Power Plan Manager Pro in Windows Settings > Apps > Startup, then try again.",
-                        CloseButtonText = "OK",
+                        Title = L("StartupPermissionNeeded"),
+                        Content = L("StartupPermissionInstructions"),
+                        CloseButtonText = L("Ok"),
                         XamlRoot = Content.XamlRoot,
                     };
                     await dialog.ShowAsync();

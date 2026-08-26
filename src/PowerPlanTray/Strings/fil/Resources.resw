@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>Tungkol sa</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>Tungkol sa</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Sa itaas</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Aktibong plano ng kuryente</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Magdagdag</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Download APK</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Tumatakbo ang app</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Mag - apply</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>I - apply ang iniangkop na tagal</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Mga panuntunan sa app</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Mga panuntunan sa app</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Awtomatikong lumipat gamit ang pinagmulan ng kuryente</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Pag - aautomat</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Pag - aautomat</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Auto - switch sa Baterya/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Baterya at AC kapangyarihan</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Nasa ibaba</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Mag - browse para sa .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>I - browse ang mga naka - install na app</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Kanselahin</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Kanselahin</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Kanselahin ang pansamantalang plano</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Agad na nalalapat ang mga pagbabago. Magkakabisa ang mga setting ng popup sa susunod na pagbubukas nito.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Piliin kung paano ang hitsura at laki ng window ng tray popup at Mga Setting sa kanilang sarili.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Piliin kung aling mga naka - install na plano ang lilitaw sa menu ng tray.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Naglo - load kaagad ang mga karaniwang pagpipilian sa kuryente ng Windows. Palawakin ang seksyon sa ibaba lamang kapag kailangan mo ang bawat setting na nakalantad ng PC na ito.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Kondisyon</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>QR Code</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>Porsyento ng CPU</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Iniangkop na tagal</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Madilim</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Tanggalin ang napili</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>I - disable Lahat</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>I - disable ang CPU Boost</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>I - enable Lahat</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Pinagana</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Mag - exit</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Lumabas sa Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Subaybayan ang Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 mo</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Pangkalahatan</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Pangkalahatan</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>I - install o alisin ang mga karaniwang plano ng kapangyarihan ng Windows. Ang Windows ay hihingi ng pahintulot ng administrator.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Malaki</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Liwanag</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Mag - load mula sa file...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Pinili ang load</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Lumipat, i - automate, at pamahalaan ang mga plano ng kapangyarihan ng Windows mula sa system tray.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Katamtaman</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Wala pang nakasulat na paliwanag sa plain - language para sa setting na ito.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Black</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>Sa AC kapangyarihan</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>Sa AC Power</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>Naka - on ang baterya</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>On Baterya</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 oras</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>Sa paglulunsad</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Buksan ang app</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Buksan ang Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Buksan ang mga setting</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Buksan ang pane ng pag - navigate ng pin</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Plano ng kuryente</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Pagpapaikli ng power plan</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Ang Power Plan Manager Pro ay isang maliit na utility ng Windows para sa paglipat ng mga plano ng kapangyarihan mula sa system tray, pag - automate ng mga pagbabago sa plano, at pamamahala ng mga setting ng kapangyarihan ng Windows nang hindi pinapanatili ang buong app.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Mga Setting ng Power Plan Manager Pro</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Mga Plano ng Kuryente</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Mga Plano ng Kuryente</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Patakaran sa Pagkapribado</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Mga file ng profile</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Mga Profile</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Mga Profile</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Ito ay dagdagan ang maximum na estado ng processor mula sa{0}% sa 100% upang muling paganahin ang CPU boost. Magpatuloy?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Muling paganahin ang CPU boost?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Ibalik muli ang mga Default ng Windows</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>I - save at ibalik ang mga snapshot ng advanced na visibility ng kasalukuyang power plan at mga halaga ng AC/DC.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Naka - save na mga profile</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>I - save ang bagong profile</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>I - save sa file...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Piliin ang {0} power plan</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Mga Setting...</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Laki ng window ng mga setting</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Mga Setting ng Power Plan Manager Pro</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Ipakita ang lahat ng advanced na setting</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Ipakita sa trey</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Ipakita ang window na ito</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Maliit</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Simulan ang pagtatago sa trey</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Paganahin ang Power Plan Manager Pro sa Mga Setting ng Windows &gt; Apps &gt; Startup, pagkatapos ay subukan muli.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Kailangan ng pahintulot sa startup</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Magsimula sa Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Static</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Lumipat ng mga plano pagkatapos ng pangkalahatang CPU load mananatili sa itaas o sa ibaba ng isang threshold para sa tungkol sa siyam na segundo.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Lumipat habang tumatakbo ang isang app, o pagkatapos ng CPU load nito ay mananatili sa itaas o sa ibaba ng isang threshold. Ang mga panuntunan ng CPU ay maaaring i - reordered sa mga pindutan ng arrow; ang pinakamataas na prayoridad ay nanalo kapag ang mga kondisyon ng CPU ay nag - overlap.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Pag - load ng system</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Pansamantalang gumamit ng plano, pagkatapos ay ibalik ang nakaraang plano.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Pansamantalang plano: {0} min natitira</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Mga Tuntunin sa Paggamit</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 min</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Ito ay sumasalamin sa aktibong power plan, hindi isang hiwalay na setting ng app. Ang CPU/turbo boost ay itinuturing na hindi pinagana kapag ang Maximum na estado ng processor ay 99% o mas mababa, at pinagana sa 100%; ang paglipat ng mga plano o pag - edit ng halagang iyon sa Advanced na pahina ay nag - a - update ng checkbox na ito.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Mga naka - time na switch</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Icon ng trey</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Tray integration ay ibinigay sa pamamagitan ng H.NotifyIcon.WinUI 2.2.0, na ginagamit sa ilalim ng MIT License.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Laki ng popup ng trey</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Laki ng teksto ng popup ng trey</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Email: info@{0}.com</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 oras</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Hindi mabasa ang mga plano ng kapangyarihan: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Hindi kilalang plano</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>I - unpin ang pane ng nabigasyon</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Bersyon {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oo</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Oras</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Minuto</value>
+  </data>
+</root>

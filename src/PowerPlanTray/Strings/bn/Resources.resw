@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>সম্পর্কে</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>সম্পর্কে</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>উপরে</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>সক্রিয় পাওয়ার প্ল্যান</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>যোগ করুন</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>উন্নত</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>উন্নত</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>অ্যাপ সিপিইউ লোড</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>অ্যাপ চলছে</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>প্রয়োগ করুন</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>কাস্টম সময়কাল প্রয়োগ করুন</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>অ্যাপের নিয়মাবলী</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>অ্যাপের নিয়মাবলী</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>পাওয়ার উত্স দিয়ে স্বয়ংক্রিয়ভাবে স্যুইচ করুন</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>অটোমেশন</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>অটোমেশন</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>ব্যাটারি/এসি-তে অটো-স্যুইচ করুন</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>ব্যাটারি এবং এসি পাওয়ার</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>নিচে</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>.exe এর জন্য ব্রাউজ করুন</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>ইনস্টল করা অ্যাপগুলি ব্রাউজ করুন</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>বাতিল করুন</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>বাতিল করুন</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>অস্থায়ী পরিকল্পনা বাতিল করুন</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>পরিবর্তনগুলি অবিলম্বে প্রযোজ্য । পপআপ সেটিংস পরের বার খোলার সময় কার্যকর হয় ।</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>ট্রে পপআপ এবং সেটিংস উইন্ডোটি কীভাবে দেখতে এবং আকার দেয় তা চয়ন করুন ।</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>ট্রে মেনুতে কোন ইনস্টল করা পরিকল্পনাগুলি প্রদর্শিত হবে তা বেছে নিন ।</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>সাধারণ উইন্ডোজ পাওয়ার অপশনগুলি অবিলম্বে লোড হয় । এই পিসি দ্বারা প্রকাশিত প্রতিটি সেটিংসের প্রয়োজন হলে কেবল নীচের বিভাগটি প্রসারিত করুন ।</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>অবস্থা</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>CPU বার চার্ট</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>CPU শতাংশ</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>কাস্টম সময়কাল</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>অন্ধকার</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>নির্বাচিত মুছে ফেলুন</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>সবগুলি নিষ্ক্রিয় করুন</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>সিপিইউ বুস্ট অক্ষম করুন</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>সবগুলি সক্রিয় করুন</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>সক্রিয়</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>প্রস্থান করুন</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো থেকে প্রস্থান করুন</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>উইন্ডোজ অনুসরণ করুন</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 ঘন্টা</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>সাধারণ</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>সাধারণ</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>স্ট্যান্ডার্ড উইন্ডোজ পাওয়ার প্ল্যান ইনস্টল বা অপসারণ করুন । উইন্ডোজ প্রশাসকের অনুমতি চাইবে ।</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>বড়</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>আলো</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>ফাইল থেকে লোড করুন...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>লোড নির্বাচন করা হয়েছে</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>সিস্টেম ট্রে থেকে উইন্ডোজ পাওয়ার প্ল্যানগুলি স্যুইচ করুন, স্বয়ংক্রিয় করুন এবং পরিচালনা করুন ।</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>মাঝারি</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>এই সেটিংটির জন্য এখনও কোনও সাধারণ ভাষার ব্যাখ্যা লেখা হয়নি ।</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ঠিক আছে</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED ব্ল্যাক</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>এসি পাওয়ারে</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>এসি পাওয়ারে</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>ব্যাটারিতে</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>ব্যাটারিতে</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 ঘন্টা</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>লঞ্চে</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>অ্যাপ খুলুন</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>ওপেন পাওয়ার প্ল্যান ম্যানেজার প্রো</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>সেটিংস খুলুন</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>পিন নেভিগেশন পেইন খোলা</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>পাওয়ার প্ল্যানের সংক্ষিপ্তসার</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো একটি ছোট উইন্ডোজ ইউটিলিটি যা সিস্টেম ট্রে থেকে পাওয়ার প্ল্যানগুলি স্যুইচ করার জন্য, পরিকল্পনা পরিবর্তনগুলি স্বয়ংক্রিয় করার জন্য এবং সম্পূর্ণ অ্যাপ্লিকেশনটিকে উন্নত না করে উইন্ডোজ পাওয়ার সেটিংস পরিচালনা করার জন্য ।</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো সেটিংস</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>গোপনীয়তা নীতি</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>প্রোফাইল ফাইল</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>প্রোফাইল</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>প্রোফাইল</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>এটি {0} % থেকে সর্বাধিক প্রসেসরের অবস্থা পুনরায় সক্ষমযোগ্য CPU বুস্টে 100% বৃদ্ধি করবে । চালিয়ে যাবেন?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>সিপিইউ বুস্ট পুনরায় সক্ষম করবেন?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>উইন্ডোজ ডিফল্টগুলি পুনরুদ্ধার করুন</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>বর্তমান পাওয়ার প্ল্যানের উন্নত সেটিং দৃশ্যমানতা এবং এসি/ডিসি মানগুলির স্ন্যাপশটগুলি সংরক্ষণ করুন এবং পুনরুদ্ধার করুন ।</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>সেভ করা প্রোফাইল</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>নতুন প্রোফাইল সেভ করুন</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>ফাইলে সেভ করুন...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>{0} পাওয়ার প্ল্যান নির্বাচন করুন</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>সেটিংস...</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>সেটিংস উইন্ডোর আকার</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো সেটিংস</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>সমস্ত উন্নত সেটিংস দেখান</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>ট্রেতে দেখান</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>এই উইন্ডোটি দেখান</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>ছোট</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>ট্রেতে লুকানো শুরু করুন</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>উইন্ডোজ সেটিংস &gt; অ্যাপস &gt; স্টার্টআপ-এ পাওয়ার প্ল্যান ম্যানেজার প্রো সক্ষম করুন, তারপরে আবার চেষ্টা করুন ।</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>প্রারম্ভিক অনুমতি প্রয়োজন</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>উইন্ডোজ দিয়ে শুরু করুন</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>স্থির</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>সামগ্রিক সিপিইউ লোড প্রায় নয় সেকেন্ডের জন্য একটি থ্রেশহোল্ডের উপরে বা নীচে থাকার পরে পরিকল্পনাগুলি স্যুইচ করুন ।</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>কোনও অ্যাপ চলার সময়, বা তার CPU লোডের পরে একটি থ্রেশহোল্ডের উপরে বা নীচে থাকা অবস্থায় স্যুইচ করুন । সিপিইউ নিয়মগুলি তীর বোতামগুলির সাথে পুনরায় সাজানো যেতে পারে; যখন সিপিইউ শর্তগুলি ওভারল্যাপ হয় তখন শীর্ষ অগ্রাধিকার জয়ী হয় ।</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>সিস্টেম লোড</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>সাময়িকভাবে একটি পরিকল্পনা ব্যবহার করুন, তারপরে পূর্ববর্তী পরিকল্পনাটি পুনরুদ্ধার করুন ।</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>অস্থায়ী পরিকল্পনা: {0} মিনিট বাকি আছে</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>ব্যবহারের শর্তাবলী</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>থিম</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>৩০ মিনিট</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>এটি সক্রিয় পাওয়ার প্ল্যানকে প্রতিফলিত করে, আলাদা অ্যাপ সেটিং নয় । সর্বাধিক প্রসেসরের অবস্থা 99% বা তার চেয়ে কম হলে সিপিইউ/টার্বো বুস্ট অক্ষম বলে মনে করা হয় এবং 100% এ সক্ষম করা হয়; উন্নত পৃষ্ঠায় সেই মানটি স্যুইচ করা বা সম্পাদনা করা এই চেকবক্সটি আপডেট করে ।</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>সময়মত স্যুইচ</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>ট্রে আইকন</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>ট্রে ইন্টিগ্রেশন H.NotifyIcon.WinUI 2.2.0 দ্বারা সরবরাহ করা হয়, যা এমআইটি লাইসেন্সের অধীনে ব্যবহৃত হয় ।</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>ট্রে পপআপের আকার</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>ট্রে পপআপ টেক্সটের আকার</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান ম্যানেজার প্রো — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>ট্রিগার</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 ঘন্টা</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>পাওয়ার প্ল্যান পড়তে অক্ষম: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>অজানা পরিকল্পনা</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>আনপিন নেভিগেশন প্যানেল</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>সংস্করণ {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>হ্যাঁ</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>ঘন্টা</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>মিনিট</value>
+  </data>
+</root>

@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NavAbout.Content" xml:space="preserve">
+    <value>Giới thiệu</value>
+  </data>
+  <data name="About.Text" xml:space="preserve">
+    <value>Giới thiệu</value>
+  </data>
+  <data name="Above" xml:space="preserve">
+    <value>Trên</value>
+  </data>
+  <data name="ActivePowerPlan.Header" xml:space="preserve">
+    <value>Kế hoạch năng lượng hoạt động</value>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="NavAdvanced.Content" xml:space="preserve">
+    <value>Nâng cao</value>
+  </data>
+  <data name="Advanced.Text" xml:space="preserve">
+    <value>Nâng cao</value>
+  </data>
+  <data name="AppCpuLoad" xml:space="preserve">
+    <value>Tải CPU ứng dụng</value>
+  </data>
+  <data name="AppIsRunning" xml:space="preserve">
+    <value>Ứng dụng đang chạy</value>
+  </data>
+  <data name="Apply.Content" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+  <data name="ApplyCustomDuration.Content" xml:space="preserve">
+    <value>Áp dụng thời lượng tùy chỉnh</value>
+  </data>
+  <data name="AppRulesLabel" xml:space="preserve">
+    <value>Quy tắc ứng dụng</value>
+  </data>
+  <data name="AppRules.Text" xml:space="preserve">
+    <value>Quy tắc ứng dụng</value>
+  </data>
+  <data name="AutomaticallySwitchWithThePowerSource.Header" xml:space="preserve">
+    <value>Tự động chuyển đổi với nguồn điện</value>
+  </data>
+  <data name="NavAutomation.Content" xml:space="preserve">
+    <value>Tự động hóa</value>
+  </data>
+  <data name="Automation.Text" xml:space="preserve">
+    <value>Tự động hóa</value>
+  </data>
+  <data name="AutoSwitchBatteryAc" xml:space="preserve">
+    <value>Tự động chuyển đổi trên pin/AC</value>
+  </data>
+  <data name="BatteryAndAcPower.Text" xml:space="preserve">
+    <value>Pin và nguồn điện xoay chiều</value>
+  </data>
+  <data name="Below" xml:space="preserve">
+    <value>Dưới</value>
+  </data>
+  <data name="BrowseForExe.Content" xml:space="preserve">
+    <value>Duyệt tìm .exe</value>
+  </data>
+  <data name="BrowseInstalledApps.Content" xml:space="preserve">
+    <value>Duyệt các ứng dụng đã cài đặt</value>
+  </data>
+  <data name="CancelLabel" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="Cancel.Content" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="CancelTemporaryPlan" xml:space="preserve">
+    <value>Hủy kế hoạch tạm thời</value>
+  </data>
+  <data name="ChangesApplyImmediatelyPopupSettingsTake.Text" xml:space="preserve">
+    <value>Thay đổi được áp dụng ngay lập tức. Cài đặt cửa sổ bật lên có hiệu lực vào lần mở tiếp theo.</value>
+  </data>
+  <data name="ChooseHowTheTrayPopupAnd.Text" xml:space="preserve">
+    <value>Chọn giao diện cửa sổ bật lên của khay và cửa sổ Cài đặt.</value>
+  </data>
+  <data name="ChooseWhichInstalledPlansAppearIn.Text" xml:space="preserve">
+    <value>Chọn gói đã cài đặt xuất hiện trong menu khay.</value>
+  </data>
+  <data name="CommonWindowsPowerOptionsLoadImmediately.Text" xml:space="preserve">
+    <value>Các tùy chọn nguồn Windows phổ biến sẽ tải ngay lập tức. Chỉ mở rộng phần bên dưới khi bạn cần mọi cài đặt do PC này hiển thị.</value>
+  </data>
+  <data name="Condition.Header" xml:space="preserve">
+    <value>Điều kiện</value>
+  </data>
+  <data name="CpuBarChart" xml:space="preserve">
+    <value>Biểu đồ thanh CPU</value>
+  </data>
+  <data name="CpuPercentage" xml:space="preserve">
+    <value>Tỷ lệ phần trăm CPU</value>
+  </data>
+  <data name="CustomDuration.Text" xml:space="preserve">
+    <value>Thời lượng tùy chỉnh</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Tối</value>
+  </data>
+  <data name="DeleteSelected.Content" xml:space="preserve">
+    <value>Xóa mục đã chọn</value>
+  </data>
+  <data name="DisableAll.Content" xml:space="preserve">
+    <value>Tắt tất cả</value>
+  </data>
+  <data name="DisableCpuBoost.Content" xml:space="preserve">
+    <value>Tắt CPU Boost</value>
+  </data>
+  <data name="EnableAll.Content" xml:space="preserve">
+    <value>Bật tất cả</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Đã bật</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Thoát</value>
+  </data>
+  <data name="ExitAutomationName" xml:space="preserve">
+    <value>Thoát khỏi Power Plan Manager Pro</value>
+  </data>
+  <data name="FollowWindows" xml:space="preserve">
+    <value>Theo dõi Windows</value>
+  </data>
+  <data name="FourHours" xml:space="preserve">
+    <value>4 giờ</value>
+  </data>
+  <data name="NavGeneral.Content" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
+    <value>Cài đặt hoặc xóa các gói năng lượng Windows tiêu chuẩn. Windows sẽ yêu cầu quyền quản trị viên.</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Lớn</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Sáng</value>
+  </data>
+  <data name="LoadFromFile.Content" xml:space="preserve">
+    <value>Tải từ tệp...</value>
+  </data>
+  <data name="LoadSelected.Content" xml:space="preserve">
+    <value>Tải đã chọn</value>
+  </data>
+  <data name="ManifestDescription" xml:space="preserve">
+    <value>Chuyển đổi, tự động hóa và quản lý các gói năng lượng Windows từ khay hệ thống.</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Trung bình</value>
+  </data>
+  <data name="NoLaymanDescription" xml:space="preserve">
+    <value>Chưa có lời giải thích bằng ngôn ngữ đơn giản nào được viết cho cài đặt này.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OledBlack" xml:space="preserve">
+    <value>OLED Đen</value>
+  </data>
+  <data name="OnAcPowerLabel" xml:space="preserve">
+    <value>Bật nguồn điện xoay chiều</value>
+  </data>
+  <data name="OnAcPower.Text" xml:space="preserve">
+    <value>Bật nguồn điện xoay chiều</value>
+  </data>
+  <data name="OnBatteryLabel" xml:space="preserve">
+    <value>Bật pin</value>
+  </data>
+  <data name="OnBattery.Text" xml:space="preserve">
+    <value>Bật pin</value>
+  </data>
+  <data name="OneHour" xml:space="preserve">
+    <value>1 giờ</value>
+  </data>
+  <data name="OnLaunch.Text" xml:space="preserve">
+    <value>Khi ra mắt</value>
+  </data>
+  <data name="OpenApp" xml:space="preserve">
+    <value>Mở ứng dụng</value>
+  </data>
+  <data name="OpenAppAutomationName" xml:space="preserve">
+    <value>Mở Power Plan Manager Pro</value>
+  </data>
+  <data name="OpenSettingsAutomationName" xml:space="preserve">
+    <value>Mở cài đặt</value>
+  </data>
+  <data name="PinNavigationPaneOpen" xml:space="preserve">
+    <value>Mở cửa sổ điều hướng ghim</value>
+  </data>
+  <data name="PowerPlan.Header" xml:space="preserve">
+    <value>Mặt bằng điện</value>
+  </data>
+  <data name="PowerPlanAbbreviation" xml:space="preserve">
+    <value>Viết tắt của Power Plan</value>
+  </data>
+  <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
+    <value>Power Plan Manager Pro là một tiện ích Windows nhỏ để chuyển đổi các kế hoạch nguồn điện từ khay hệ thống, tự động hóa các thay đổi kế hoạch và quản lý cài đặt nguồn điện Windows mà không cần nâng cao toàn bộ ứng dụng.</value>
+  </data>
+  <data name="PowerPlanManagerProSettings.Text" xml:space="preserve">
+    <value>Cài đặt Power Plan Manager Pro</value>
+  </data>
+  <data name="NavPowerPlans.Content" xml:space="preserve">
+    <value>Các gói năng lượng</value>
+  </data>
+  <data name="PowerPlans.Text" xml:space="preserve">
+    <value>Các gói năng lượng</value>
+  </data>
+  <data name="PrivacyPolicy.Content" xml:space="preserve">
+    <value>Chính sách quyền riêng tư</value>
+  </data>
+  <data name="ProfileFiles.Text" xml:space="preserve">
+    <value>Tệp hồ sơ</value>
+  </data>
+  <data name="NavProfiles.Content" xml:space="preserve">
+    <value>Hồ sơ</value>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Hồ sơ</value>
+  </data>
+  <data name="ReenableCpuBoostContent" xml:space="preserve">
+    <value>Điều này sẽ tăng trạng thái bộ xử lý tối đa từ {0}% lên 100% để bật lại tăng tốc CPU. Tiếp tục?</value>
+  </data>
+  <data name="ReenableCpuBoostTitle" xml:space="preserve">
+    <value>Bật lại bộ tăng tốc CPU?</value>
+  </data>
+  <data name="RestoreWindowsDefaults.Content" xml:space="preserve">
+    <value>Khôi phục mặc định của Windows</value>
+  </data>
+  <data name="SaveAndRestoreSnapshotsOfThe.Text" xml:space="preserve">
+    <value>Lưu và khôi phục ảnh chụp nhanh về khả năng hiển thị cài đặt nâng cao và giá trị AC/DC của gói nguồn điện hiện tại.</value>
+  </data>
+  <data name="SavedProfiles.Text" xml:space="preserve">
+    <value>Hồ sơ đã lưu</value>
+  </data>
+  <data name="SaveNewProfile.Content" xml:space="preserve">
+    <value>Lưu hồ sơ mới</value>
+  </data>
+  <data name="SaveToFile.Content" xml:space="preserve">
+    <value>Lưu vào tệp...</value>
+  </data>
+  <data name="SelectPowerPlan" xml:space="preserve">
+    <value>Chọn gói điện {0}</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Cài đặt…</value>
+  </data>
+  <data name="SettingsWindowSize.Header" xml:space="preserve">
+    <value>Kích thước cửa sổ Cài đặt</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Cài đặt Power Plan Manager Pro</value>
+  </data>
+  <data name="ShowAllAdvancedSettings.Text" xml:space="preserve">
+    <value>Hiển thị tất cả cài đặt nâng cao</value>
+  </data>
+  <data name="ShowInTray.Text" xml:space="preserve">
+    <value>Hiển thị trong khay</value>
+  </data>
+  <data name="ShowThisWindow" xml:space="preserve">
+    <value>Hiển thị cửa sổ này</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Nhỏ</value>
+  </data>
+  <data name="StartHiddenInTray" xml:space="preserve">
+    <value>Bắt đầu ẩn trong khay</value>
+  </data>
+  <data name="StartupPermissionInstructions" xml:space="preserve">
+    <value>Bật Power Plan Manager Pro trong Windows Settings &gt; Apps &gt; Startup, sau đó thử lại.</value>
+  </data>
+  <data name="StartupPermissionNeeded" xml:space="preserve">
+    <value>Cần có quyền khởi động</value>
+  </data>
+  <data name="StartWithWindows.Content" xml:space="preserve">
+    <value>Bắt đầu với Windows</value>
+  </data>
+  <data name="Static" xml:space="preserve">
+    <value>Tĩnh</value>
+  </data>
+  <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
+    <value>Chuyển đổi kế hoạch sau khi tải CPU tổng thể ở trên hoặc dưới ngưỡng trong khoảng chín giây.</value>
+  </data>
+  <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
+    <value>Chuyển đổi trong khi một ứng dụng đang chạy hoặc sau khi tải CPU luôn ở trên hoặc dưới một ngưỡng. Các quy tắc CPU có thể được sắp xếp lại bằng các nút mũi tên; chiến thắng ưu tiên hàng đầu khi các điều kiện CPU chồng chéo.</value>
+  </data>
+  <data name="SystemLoad.Text" xml:space="preserve">
+    <value>Tải trọng hệ thống</value>
+  </data>
+  <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
+    <value>Tạm thời sử dụng một kế hoạch, sau đó khôi phục lại kế hoạch trước đó.</value>
+  </data>
+  <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
+    <value>Kế hoạch tạm thời: còn lại tối thiểu {0}</value>
+  </data>
+  <data name="TermsOfUse.Content" xml:space="preserve">
+    <value>Điều khoản sử dụng</value>
+  </data>
+  <data name="Theme.Header" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="ThirtyMinutes" xml:space="preserve">
+    <value>30 phút</value>
+  </data>
+  <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
+    <value>Điều này phản ánh kế hoạch năng lượng đang hoạt động, không phải là một cài đặt ứng dụng riêng biệt. Tăng tốc CPU/turbo được coi là vô hiệu hóa khi trạng thái bộ xử lý tối đa là 99% hoặc thấp hơn và được bật ở mức 100%; chuyển đổi gói hoặc chỉnh sửa giá trị đó trên trang Nâng cao cập nhật hộp kiểm này.</value>
+  </data>
+  <data name="TimedSwitches.Text" xml:space="preserve">
+    <value>Công tắc hẹn giờ</value>
+  </data>
+  <data name="TrayIcon.Header" xml:space="preserve">
+    <value>Biểu tượng khay</value>
+  </data>
+  <data name="TrayIntegrationIsProvidedByH.Text" xml:space="preserve">
+    <value>Tích hợp khay được cung cấp bởi H.NotifyIcon.WinUI 2.2.0, được sử dụng theo Giấy phép MIT.</value>
+  </data>
+  <data name="TrayPopupSize.Header" xml:space="preserve">
+    <value>Kích thước cửa sổ bật lên của khay</value>
+  </data>
+  <data name="TrayPopupTextSize.Header" xml:space="preserve">
+    <value>Kích thước văn bản bật lên khay</value>
+  </data>
+  <data name="TrayTooltipCpu" xml:space="preserve">
+    <value>Power Plan Manager Pro — CPU {0:0}%, {1}</value>
+  </data>
+  <data name="TrayTooltipPlan" xml:space="preserve">
+    <value>Quản lý kế hoạch điện Pro — {0}</value>
+  </data>
+  <data name="Trigger.Header" xml:space="preserve">
+    <value>Kích hoạt</value>
+  </data>
+  <data name="TwoHours" xml:space="preserve">
+    <value>2 giờ</value>
+  </data>
+  <data name="NavUi.Content" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Ui.Text" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="UnableToReadPowerPlans" xml:space="preserve">
+    <value>Không thể đọc các gói điện: {0}</value>
+  </data>
+  <data name="UnknownPlan" xml:space="preserve">
+    <value>Gói không xác định</value>
+  </data>
+  <data name="UnpinNavigationPane" xml:space="preserve">
+    <value>Bỏ ghim ngăn điều hướng</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Phiên bản {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="CpuPercent.Header" xml:space="preserve">
+    <value>CPU (%)</value>
+  </data>
+  <data name="Hours.Header" xml:space="preserve">
+    <value>Giờ</value>
+  </data>
+  <data name="Minutes.Header" xml:space="preserve">
+    <value>Phút</value>
+  </data>
+</root>
