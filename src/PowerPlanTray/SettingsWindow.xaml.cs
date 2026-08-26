@@ -926,6 +926,47 @@ public sealed partial class SettingsWindow : Window
             settingList.Children.Add(CreateSettingRowOrUnavailable(schemeGuid, subgroupGuid, settingGuid, settingName));
         }
 
+        var settingExpanders = settingList.Children.OfType<Expander>().ToArray();
+        var toggleIcon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), FontSize = 12 };
+        var toggleSettings = new Button
+        {
+            Content = toggleIcon,
+            Width = 28,
+            Height = 28,
+            MinWidth = 28,
+            MinHeight = 28,
+            Padding = new Thickness(0),
+            Margin = new Thickness(0, 2, 4, 0),
+            VerticalAlignment = VerticalAlignment.Top
+        };
+        void UpdateSettingsToggle()
+        {
+            bool allExpanded = settingExpanders.Length > 0 && settingExpanders.All(setting => setting.IsExpanded);
+            toggleIcon.Glyph = allExpanded ? "\uE70E" : "\uE70D";
+            string label = allExpanded ? "Collapse all settings in this category" : "Expand all settings in this category";
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(toggleSettings, label);
+            ToolTipService.SetToolTip(toggleSettings, label);
+        }
+        foreach (Expander setting in settingExpanders)
+        {
+            setting.Expanding += (_, _) => UpdateSettingsToggle();
+            setting.Collapsed += (_, _) => UpdateSettingsToggle();
+        }
+        toggleSettings.Click += (_, _) =>
+        {
+            bool expand = settingExpanders.Any(setting => !setting.IsExpanded);
+            foreach (Expander setting in settingExpanders) setting.IsExpanded = expand;
+            UpdateSettingsToggle();
+        };
+        UpdateSettingsToggle();
+
+        var categoryContent = new Grid();
+        categoryContent.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        categoryContent.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        categoryContent.Children.Add(toggleSettings);
+        Grid.SetColumn(settingList, 1);
+        categoryContent.Children.Add(settingList);
+
         var categoryKey = (isHiddenSection, subgroupGuid);
         var category = new Expander
         {
@@ -934,8 +975,9 @@ public sealed partial class SettingsWindow : Window
                 Text = $"{subgroupName} ({settings.Count})",
                 Style = (Style)Application.Current.Resources["BodyTextBlockStyle"]
             },
-            Content = settingList,
+            Content = categoryContent,
             IsExpanded = _expandedAdvancedCategories.Contains(categoryKey),
+            Tag = categoryKey,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
             MinHeight = 36,
@@ -945,6 +987,31 @@ public sealed partial class SettingsWindow : Window
         category.Collapsed += (_, _) => _expandedAdvancedCategories.Remove(categoryKey);
         return category;
     }
+
+    private void SetAdvancedCategoriesExpanded(StackPanel panel, bool expanded)
+    {
+        foreach (Expander category in panel.Children.OfType<Expander>())
+        {
+            category.IsExpanded = expanded;
+            if (category.Tag is ValueTuple<bool, Guid> categoryKey)
+            {
+                if (expanded) _expandedAdvancedCategories.Add(categoryKey);
+                else _expandedAdvancedCategories.Remove(categoryKey);
+            }
+        }
+    }
+
+    private void OnExpandShownAdvancedClick(object sender, RoutedEventArgs e) =>
+        SetAdvancedCategoriesExpanded(AdvancedSettingsPanel, true);
+
+    private void OnCollapseShownAdvancedClick(object sender, RoutedEventArgs e) =>
+        SetAdvancedCategoriesExpanded(AdvancedSettingsPanel, false);
+
+    private void OnExpandHiddenAdvancedClick(object sender, RoutedEventArgs e) =>
+        SetAdvancedCategoriesExpanded(AllAdvancedSettingsPanel, true);
+
+    private void OnCollapseHiddenAdvancedClick(object sender, RoutedEventArgs e) =>
+        SetAdvancedCategoriesExpanded(AllAdvancedSettingsPanel, false);
 
     private FrameworkElement CreateSettingRowOrUnavailable(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string? settingName = null)
     {
@@ -1159,10 +1226,11 @@ public sealed partial class SettingsWindow : Window
 
     private FrameworkElement CreateSettingRow(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string settingName)
     {
-        var heading = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var heading = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6 };
         heading.Children.Add(new TextBlock { Text = settingName,
-            VerticalAlignment = VerticalAlignment.Center, MaxWidth = 650, TextWrapping = TextWrapping.Wrap });
-        var info = new Button { Content = "i", Width = 32, Height = 32, CornerRadius = new CornerRadius(16), Padding = new Thickness(0) };
+            VerticalAlignment = VerticalAlignment.Center, MaxWidth = 650, TextWrapping = TextWrapping.Wrap, FontSize = 13 });
+        var info = new Button { Content = "i", Width = 26, Height = 26, MinWidth = 26, MinHeight = 26,
+            CornerRadius = new CornerRadius(13), Padding = new Thickness(0) };
         info.Click += (_, _) => ShowSettingInfo(info, subgroupGuid, settingGuid);
         heading.Children.Add(info);
 
@@ -1204,8 +1272,8 @@ public sealed partial class SettingsWindow : Window
             IsExpanded = _expandedAdvancedSettings.Contains(settingKey),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
-            MinHeight = 36,
-            Padding = new Thickness(2)
+            MinHeight = 28,
+            Padding = new Thickness(0)
         };
         setting.Expanding += (_, _) => _expandedAdvancedSettings.Add(settingKey);
         setting.Collapsed += (_, _) => _expandedAdvancedSettings.Remove(settingKey);
