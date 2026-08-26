@@ -269,14 +269,6 @@ public sealed partial class SettingsWindow : Window
     {
         string? tag = (args.SelectedItemContainer as NavigationViewItem)?.Tag as string;
 
-        if (tag == "Advanced" && !await EnsureAdvancedWarningAcknowledgedAsync())
-        {
-            SettingsNavigationView.SelectedItem = SettingsNavigationView.MenuItems
-                .OfType<NavigationViewItem>()
-                .FirstOrDefault(item => item.Tag as string == "General");
-            return;
-        }
-
         GeneralPage.Visibility = tag == "General" ? Visibility.Visible : Visibility.Collapsed;
         PowerPlansPage.Visibility = tag == "PowerPlans" ? Visibility.Visible : Visibility.Collapsed;
         AutomationPage.Visibility = tag == "Automation" ? Visibility.Visible : Visibility.Collapsed;
@@ -303,10 +295,8 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private async Task<bool> EnsureAdvancedWarningAcknowledgedAsync()
+    private async Task<bool> ShowAdvancedWarningDialogAsync()
     {
-        if (_appSettingsService.AdvancedWarningAcknowledged) return true;
-
         var dialog = new ContentDialog
         {
             Title = L("AdvancedWarningTitle"),
@@ -316,9 +306,7 @@ public sealed partial class SettingsWindow : Window
             DefaultButton = ContentDialogButton.Close,
             XamlRoot = Content.XamlRoot,
         };
-        bool acknowledged = await dialog.ShowAsync() == ContentDialogResult.Primary;
-        if (acknowledged) _appSettingsService.AdvancedWarningAcknowledged = true;
-        return acknowledged;
+        return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
 
     private void RefreshAutomationPage()
@@ -1081,8 +1069,18 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void OnHiddenAdvancedExpanding(Expander sender, ExpanderExpandingEventArgs args)
+    private async void OnHiddenAdvancedExpanding(Expander sender, ExpanderExpandingEventArgs args)
     {
+        if (!_appSettingsService.AdvancedWarningAcknowledged)
+        {
+            bool acknowledged = await ShowAdvancedWarningDialogAsync();
+            if (!acknowledged)
+            {
+                sender.IsExpanded = false;
+                return;
+            }
+            _appSettingsService.AdvancedWarningAcknowledged = true;
+        }
         AllAdvancedSection.Visibility = Visibility.Visible;
         AdvancedExpanderHeaderText.Text = "Hide Hidden Advanced Settings";
     }
@@ -1091,6 +1089,21 @@ public sealed partial class SettingsWindow : Window
     {
         AllAdvancedSection.Visibility = Visibility.Collapsed;
         AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
+    }
+
+    private void OnAdvancedWarningIconClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button target) return;
+        target.Flyout = new Flyout
+        {
+            Content = new TextBlock
+            {
+                Text = L("AdvancedWarningContent"),
+                TextWrapping = TextWrapping.Wrap,
+                MaxWidth = Math.Max(240, Math.Min(480, WindowRoot.ActualWidth - 72)),
+            },
+        };
+        target.Flyout.ShowAt(target);
     }
 
     private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e)
