@@ -213,6 +213,9 @@
                     <Button x:Uid="DisableAll" Click="OnDisableAllAdvancedClick" />
                     <Button Content="Expand all" Click="OnExpandHiddenAdvancedClick" />
                     <Button Content="Collapse all" Click="OnCollapseHiddenAdvancedClick" />
+                    <Button Click="OnAdvancedWarningIconClick" Background="Transparent" BorderThickness="0" Padding="6" ToolTipService.ToolTip="Advanced settings warning">
+                      <FontIcon Glyph="&#xE7BA;" Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+                    </Button>
                   </StackPanel>
                   <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7">
                     <StackPanel.ChildrenTransitions>
