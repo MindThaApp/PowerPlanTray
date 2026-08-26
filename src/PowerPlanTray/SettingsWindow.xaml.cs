@@ -33,6 +33,7 @@ public sealed partial class SettingsWindow : Window
     private bool _isInitializing;
     private bool _hasInitialized;
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
+    private readonly Dictionary<(Guid SubgroupGuid, Guid SettingGuid), bool> _pendingAdvancedVisibilityChanges = new();
     private readonly HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> _expandedAdvancedCategories = new();
     private readonly HashSet<(Guid SubgroupGuid, Guid SettingGuid)> _expandedAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
@@ -267,6 +268,15 @@ public sealed partial class SettingsWindow : Window
     private async void OnNavigationSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
         string? tag = (args.SelectedItemContainer as NavigationViewItem)?.Tag as string;
+
+        if (tag == "Advanced" && !await EnsureAdvancedWarningAcknowledgedAsync())
+        {
+            SettingsNavigationView.SelectedItem = SettingsNavigationView.MenuItems
+                .OfType<NavigationViewItem>()
+                .FirstOrDefault(item => item.Tag as string == "General");
+            return;
+        }
+
         GeneralPage.Visibility = tag == "General" ? Visibility.Visible : Visibility.Collapsed;
         PowerPlansPage.Visibility = tag == "PowerPlans" ? Visibility.Visible : Visibility.Collapsed;
         AutomationPage.Visibility = tag == "Automation" ? Visibility.Visible : Visibility.Collapsed;
@@ -291,6 +301,24 @@ public sealed partial class SettingsWindow : Window
         {
             await InitializeProfilesAsync();
         }
+    }
+
+    private async Task<bool> EnsureAdvancedWarningAcknowledgedAsync()
+    {
+        if (_appSettingsService.AdvancedWarningAcknowledged) return true;
+
+        var dialog = new ContentDialog
+        {
+            Title = L("AdvancedWarningTitle"),
+            Content = new TextBlock { Text = L("AdvancedWarningContent"), TextWrapping = TextWrapping.Wrap },
+            PrimaryButtonText = L("AdvancedWarningAgree"),
+            CloseButtonText = L("AdvancedWarningDecline"),
+            DefaultButton = ContentDialogButton.Close,
+            XamlRoot = Content.XamlRoot,
+        };
+        bool acknowledged = await dialog.ShowAsync() == ContentDialogResult.Primary;
+        if (acknowledged) _appSettingsService.AdvancedWarningAcknowledged = true;
+        return acknowledged;
     }
 
     private void RefreshAutomationPage()
@@ -878,6 +906,8 @@ public sealed partial class SettingsWindow : Window
     private async Task RefreshAdvancedSettingsAsync()
     {
         if (AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
+        _pendingAdvancedVisibilityChanges.Clear();
+        UpdateAdvancedVisibilityButtons();
         AdvancedSettingsPanel.Children.Clear();
         AllAdvancedSettingsPanel.Children.Clear();
         _allAdvancedSettings.Clear();
@@ -1102,6 +1132,48 @@ public sealed partial class SettingsWindow : Window
     private async void OnDisableAllAdvancedClick(object sender, RoutedEventArgs e) =>
         await SetVisibilityAsync(GetCurrentlyHiddenAdvancedSettings(), true, "Disabling all hidden settings");
 
+    private void UpdateAdvancedVisibilityButtons()
+    {
+        bool hasPendingChanges = _pendingAdvancedVisibilityChanges.Count > 0;
+        ApplyAdvancedVisibilityButton.IsEnabled = hasPendingChanges;
+        RevertAdvancedVisibilityButton.IsEnabled = hasPendingChanges;
+    }
+
+    private async void OnApplyAdvancedVisibilityClick(object sender, RoutedEventArgs e)
+    {
+        if (_pendingAdvancedVisibilityChanges.Count == 0) return;
+
+        var changes = _pendingAdvancedVisibilityChanges
+            .Select(change => (change.Key.SubgroupGuid, change.Key.SettingGuid, change.Value))
+            .ToArray();
+        ApplyAdvancedVisibilityButton.IsEnabled = false;
+        RevertAdvancedVisibilityButton.IsEnabled = false;
+        AdvancedStatusText.Text = $"Applying {changes.Length} visibility change{(changes.Length == 1 ? string.Empty : "s")}...";
+
+        bool succeeded = await _elevationService.SetSettingsHiddenAsync(changes);
+        if (succeeded)
+        {
+            _pendingAdvancedVisibilityChanges.Clear();
+            await RefreshAdvancedSettingsAsync();
+            AdvancedStatusText.Text = $"Applied {changes.Length} visibility change{(changes.Length == 1 ? string.Empty : "s")}.";
+        }
+        else
+        {
+            UpdateAdvancedVisibilityButtons();
+            AdvancedStatusText.Text = _elevationService.LastOperationWasCancelled
+                ? "Administrator permission was cancelled; staged visibility changes were kept."
+                : "Couldn't apply visibility changes; staged changes were kept.";
+        }
+    }
+
+    private async void OnRevertAdvancedVisibilityClick(object sender, RoutedEventArgs e)
+    {
+        if (_pendingAdvancedVisibilityChanges.Count == 0) return;
+        _pendingAdvancedVisibilityChanges.Clear();
+        await RefreshAdvancedSettingsAsync();
+        AdvancedStatusText.Text = "Reverted staged visibility changes.";
+    }
+
     private IEnumerable<(Guid SubgroupGuid, Guid SettingGuid)> GetCurrentlyHiddenAdvancedSettings() =>
         _allAdvancedSettings.Where(setting => _powerSchemeService.IsSettingHidden(setting.SubgroupGuid, setting.SettingGuid)).ToArray();
 
@@ -1293,24 +1365,24 @@ public sealed partial class SettingsWindow : Window
         details.Children.Add(values);
 
         var footer = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid) };
+        bool actualHidden = _powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
+        var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !actualHidden };
         var status = new TextBlock { VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap };
-        unhide.Click += async (_, _) =>
+        unhide.Click += (_, _) =>
         {
-            unhide.IsEnabled = false;
-            bool succeeded = await _elevationService.SetSettingHiddenAsync(subgroupGuid, settingGuid, unhide.IsChecked != true);
-            if (succeeded)
+            var settingKey = (subgroupGuid, settingGuid);
+            bool desiredHidden = unhide.IsChecked != true;
+            if (desiredHidden == actualHidden)
             {
-                await RefreshAdvancedSettingsAsync();
-                AdvancedStatusText.Text = "Windows Power Options visibility updated.";
+                _pendingAdvancedVisibilityChanges.Remove(settingKey);
+                status.Text = string.Empty;
             }
             else
             {
-                status.Text = _elevationService.LastOperationWasCancelled
-                    ? "Administrator permission was cancelled." : "Couldn't update visibility.";
-                unhide.IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
-                unhide.IsEnabled = true;
+                _pendingAdvancedVisibilityChanges[settingKey] = desiredHidden;
+                status.Text = "Pending";
             }
+            UpdateAdvancedVisibilityButtons();
         };
         footer.Children.Add(unhide);
         footer.Children.Add(status);

@@ -180,13 +180,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
           </Grid.RowDefinitions>
-          <StackPanel MaxWidth="1000" Padding="32,32,32,12" Spacing="12" HorizontalAlignment="Left">
-            <TextBlock x:Uid="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
-            <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />
+          <StackPanel MaxWidth="1000" Padding="32,12,32,8" Spacing="8" Orientation="Horizontal" HorizontalAlignment="Left">
             <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnAdvancedPlanSelectionChanged" />
+            <Button x:Uid="Apply" x:Name="ApplyAdvancedVisibilityButton" Click="OnApplyAdvancedVisibilityClick" IsEnabled="False" VerticalAlignment="Bottom" />
+            <Button x:Name="RevertAdvancedVisibilityButton" Content="Revert" Click="OnRevertAdvancedVisibilityClick" IsEnabled="False" VerticalAlignment="Bottom" />
           </StackPanel>
           <ScrollViewer Grid.Row="1">
           <StackPanel x:Name="AdvancedPagePanel" MaxWidth="1000" Padding="32,4,32,32" Spacing="16" HorizontalAlignment="Left">
+            <TextBlock x:Uid="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />
             <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="8">
               <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" />
