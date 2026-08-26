@@ -13,6 +13,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Win32;
 using System.Reflection;
 
@@ -914,7 +915,12 @@ public sealed partial class SettingsWindow : Window
     private FrameworkElement CreateSettingsCategory(Guid schemeGuid, Guid subgroupGuid, string subgroupName,
         IReadOnlyList<(Guid SettingGuid, string SettingName)> settings, bool isHiddenSection)
     {
-        var settingList = new StackPanel { Spacing = 6, Margin = new Thickness(8, 0, 8, 0) };
+        var settingList = new StackPanel
+        {
+            Spacing = 6,
+            Margin = new Thickness(8, 0, 8, 0),
+            ChildrenTransitions = new TransitionCollection { new RepositionThemeTransition() }
+        };
         foreach ((Guid settingGuid, string settingName) in settings)
         {
             settingList.Children.Add(CreateSettingRowOrUnavailable(schemeGuid, subgroupGuid, settingGuid, settingName));
@@ -926,7 +932,7 @@ public sealed partial class SettingsWindow : Window
             Header = new TextBlock
             {
                 Text = $"{subgroupName} ({settings.Count})",
-                Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"]
+                Style = (Style)Application.Current.Resources["BodyTextBlockStyle"]
             },
             Content = settingList,
             IsExpanded = _expandedAdvancedCategories.Contains(categoryKey),
@@ -1154,7 +1160,7 @@ public sealed partial class SettingsWindow : Window
     private FrameworkElement CreateSettingRow(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string settingName)
     {
         var heading = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        heading.Children.Add(new TextBlock { Text = settingName, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+        heading.Children.Add(new TextBlock { Text = settingName,
             VerticalAlignment = VerticalAlignment.Center, MaxWidth = 650, TextWrapping = TextWrapping.Wrap });
         var info = new Button { Content = "i", Width = 32, Height = 32, CornerRadius = new CornerRadius(16), Padding = new Thickness(0) };
         info.Click += (_, _) => ShowSettingInfo(info, subgroupGuid, settingGuid);
@@ -1249,12 +1255,13 @@ public sealed partial class SettingsWindow : Window
 
     private void ShowSettingInfo(Button target, Guid subgroupGuid, Guid settingGuid)
     {
-        var content = new StackPanel { Spacing = 8, MaxWidth = 480 };
+        double availableWidth = Math.Max(0, WindowRoot.ActualWidth - 96);
+        var content = new StackPanel { Spacing = 8, MaxWidth = Math.Min(480, availableWidth) };
         content.Children.Add(new TextBlock { Text = "Windows description", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold });
         content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", TextWrapping = TextWrapping.Wrap });
         content.Children.Add(new TextBlock { Text = "In plain terms", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 0) });
         content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, TextWrapping = TextWrapping.Wrap });
-        target.Flyout = new Flyout { Content = content };
+        target.Flyout = new Flyout { Content = content, ShouldConstrainToRootBounds = true };
         target.Flyout.ShowAt(target);
     }
 
