@@ -17,6 +17,8 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Win32;
 using System.Reflection;
 using Windows.Foundation;
+using Microsoft.UI.Xaml.Hosting;
+using System.Numerics;
 
 namespace PowerPlanTray;
 
@@ -867,7 +869,7 @@ public sealed partial class SettingsWindow : Window
         {
             _allAdvancedSettings.Clear();
             AllAdvancedSettingsPanel.Children.Clear();
-            AllAdvancedSection.Visibility = Visibility.Collapsed;
+            HiddenAdvancedExpander.IsExpanded = false;
             AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
             RefreshAdvancedSettings();
         }
@@ -952,14 +954,14 @@ public sealed partial class SettingsWindow : Window
         {
             setting.RegisterPropertyChangedCallback(Expander.IsExpandedProperty, (_, _) =>
             {
-                QueueAdvancedReflow(settingList);
+                QueueAdvancedReflow(settingList, isHiddenSection ? AllAdvancedSettingsPanel : AdvancedSettingsPanel, AdvancedPagePanel);
                 UpdateSettingsToggle();
             });
         }
         toggleSettings.Click += (_, _) =>
         {
             bool expand = settingExpanders.Any(setting => !setting.IsExpanded);
-            QueueAdvancedReflow(settingList);
+            QueueAdvancedReflow(settingList, isHiddenSection ? AllAdvancedSettingsPanel : AdvancedSettingsPanel, AdvancedPagePanel);
             foreach (Expander setting in settingExpanders) setting.IsExpanded = expand;
             UpdateSettingsToggle();
         };
@@ -990,11 +992,16 @@ public sealed partial class SettingsWindow : Window
         };
         category.RegisterPropertyChangedCallback(Expander.IsExpandedProperty, (_, _) =>
         {
-            if (category.Parent is StackPanel parent) QueueAdvancedReflow(parent);
+            if (category.Parent is StackPanel parent) QueueAdvancedReflow(parent, AdvancedPagePanel);
             if (category.IsExpanded) _expandedAdvancedCategories.Add(categoryKey);
             else _expandedAdvancedCategories.Remove(categoryKey);
         });
         return category;
+    }
+
+    private void QueueAdvancedReflow(params StackPanel[] panels)
+    {
+        foreach (StackPanel panel in panels.Distinct()) QueueAdvancedReflow(panel);
     }
 
     private void QueueAdvancedReflow(StackPanel panel)
@@ -1019,22 +1026,14 @@ public sealed partial class SettingsWindow : Window
                 double offset = oldY - newY;
                 if (Math.Abs(offset) < 0.5) continue;
 
-                var transform = child.RenderTransform as TranslateTransform ?? new TranslateTransform();
-                child.RenderTransform = transform;
-                transform.Y = offset;
-
-                var animation = new DoubleAnimation
-                {
-                    From = offset,
-                    To = 0,
-                    Duration = TimeSpan.FromMilliseconds(300),
-                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-                };
-                Storyboard.SetTarget(animation, transform);
-                Storyboard.SetTargetProperty(animation, nameof(TranslateTransform.Y));
-                var storyboard = new Storyboard();
-                storyboard.Children.Add(animation);
-                storyboard.Begin();
+                var visual = ElementCompositionPreview.GetElementVisual(child);
+                ElementCompositionPreview.SetIsTranslationEnabled(child, true);
+                child.Translation = new Vector3(0, (float)offset, 0);
+                var animation = visual.Compositor.CreateVector3KeyFrameAnimation();
+                animation.InsertKeyFrame(1, Vector3.Zero, visual.Compositor.CreateCubicBezierEasingFunction(
+                    new Vector2(0.1f, 0.9f), new Vector2(0.2f, 1.0f)));
+                animation.Duration = TimeSpan.FromMilliseconds(300);
+                visual.StartAnimation("Translation", animation);
             }
         }
 
@@ -1044,7 +1043,7 @@ public sealed partial class SettingsWindow : Window
     private void SetAdvancedCategoriesExpanded(StackPanel panel, bool expanded)
     {
         if (!panel.Children.OfType<Expander>().Any(category => category.IsExpanded != expanded)) return;
-        QueueAdvancedReflow(panel);
+        QueueAdvancedReflow(panel, AdvancedPagePanel);
         foreach (Expander category in panel.Children.OfType<Expander>())
         {
             category.IsExpanded = expanded;
@@ -1084,17 +1083,16 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void OnShowAllAdvancedClick(object sender, RoutedEventArgs e)
+    private void OnHiddenAdvancedExpanding(Expander sender, ExpanderExpandingEventArgs args)
     {
-        if (AllAdvancedSection.Visibility == Visibility.Visible)
-        {
-            AllAdvancedSection.Visibility = Visibility.Collapsed;
-            AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
-            return;
-        }
-
         AllAdvancedSection.Visibility = Visibility.Visible;
         AdvancedExpanderHeaderText.Text = "Hide Hidden Advanced Settings";
+    }
+
+    private void OnHiddenAdvancedCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
+    {
+        AllAdvancedSection.Visibility = Visibility.Collapsed;
+        AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
     }
 
     private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e) =>
