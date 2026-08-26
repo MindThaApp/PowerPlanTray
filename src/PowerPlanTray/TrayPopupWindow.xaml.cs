@@ -74,6 +74,7 @@ public sealed partial class TrayPopupWindow : Window
         _deactivationTimer.Interval = TimeSpan.FromMilliseconds(100);
         _deactivationTimer.IsRepeating = false;
         _deactivationTimer.Tick += OnDeactivationTimerTick;
+        _automation.TimedSwitchStateChanged += OnTimedSwitchStateChanged;
         Activated += OnActivated;
         PopupBorder.KeyDown += OnKeyDown;
     }
@@ -161,28 +162,6 @@ public sealed partial class TrayPopupWindow : Window
         AddSeparator();
         AddAutomationSection(all);
 
-        List<AutoSwitchRule> rules = _settings.GetAutomationRules()
-            .Where(r => r.Enabled && r.Trigger is AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove).ToList();
-        if (rules.Count > 0)
-        {
-            var rulesPanel = new StackPanel { Spacing = 2 };
-            foreach (AutoSwitchRule rule in rules)
-            {
-                PowerScheme? target = all.FirstOrDefault(s => s.Guid == rule.TargetPlanGuid);
-                if (target is not null)
-                    rulesPanel.Children.Add(CreateAction($"{rule.AppExecutableName} → {target.Name}", () => { _switchScheme(target.Guid); Hide(); }));
-            }
-            PopupContent.Children.Add(new Expander { Header = L("AppRulesLabel"), Content = rulesPanel, HorizontalAlignment = HorizontalAlignment.Stretch });
-        }
-
-        TimedSwitchInfo? timed = _automation.CurrentTimedSwitch;
-        if (timed is not null)
-        {
-            int minutes = Math.Max(1, (int)Math.Ceiling(timed.Remaining.TotalMinutes));
-            AddMessage(F("TemporaryPlanMinutesRemaining", minutes));
-            AddAction(L("CancelTemporaryPlan"), () => { _automation.CancelTimedSwitch(); Hide(); });
-        }
-
         AddSeparator();
         AddAction(L("SettingsMenu"), () => { Hide(); _showSettings(); }, automationId: L("OpenSettingsAutomationName"));
         AddAction(L("Exit"), _exit, automationId: L("ExitAutomationName"));
@@ -190,7 +169,11 @@ public sealed partial class TrayPopupWindow : Window
 
     private void AddAutomationSection(IReadOnlyList<PowerScheme> schemes)
     {
-        var panel = new StackPanel { Spacing = 8, Padding = new Thickness(4, 6, 4, 6) };
+        var panel = new StackPanel { Spacing = 8, Padding = new Thickness(4, 4, 4, 4), MinWidth = 390 };
+        AddSectionHeading(panel, L("TimedSwitches/Text"));
+        AddTimedSwitchControls(panel, schemes);
+
+        AddSectionHeading(panel, L("BatteryAndAcPower/Text"));
         var enabled = new ToggleSwitch
         {
             Header = L("Enabled"),
@@ -203,19 +186,28 @@ public sealed partial class TrayPopupWindow : Window
             _automation.RefreshConfiguration(enabled.IsOn);
         };
         panel.Children.Add(enabled);
-        panel.Children.Add(CreatePlanPicker(L("OnBatteryLabel"), schemes, _settings.BatteryPlanGuid, guid =>
+        var powerSourcePlans = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        powerSourcePlans.Children.Add(CreatePlanPicker(L("OnBatteryLabel"), schemes, _settings.BatteryPlanGuid, guid =>
         {
             _settings.BatteryPlanGuid = guid;
             _automation.RefreshConfiguration(_settings.AutoSwitchBatteryAcEnabled && _powerSource.IsOnBattery);
-        }));
-        panel.Children.Add(CreatePlanPicker(L("OnAcPowerLabel"), schemes, _settings.AcPlanGuid, guid =>
+        }, 189));
+        powerSourcePlans.Children.Add(CreatePlanPicker(L("OnAcPowerLabel"), schemes, _settings.AcPlanGuid, guid =>
         {
             _settings.AcPlanGuid = guid;
             _automation.RefreshConfiguration(_settings.AutoSwitchBatteryAcEnabled && !_powerSource.IsOnBattery);
-        }));
+        }, 189));
+        panel.Children.Add(powerSourcePlans);
+
+        List<AutoSwitchRule> rules = _settings.GetAutomationRules();
+        AddRuleSection(panel, L("AppRulesLabel"), rules.Where(rule => rule.Trigger is
+            AutomationTrigger.AppRunning or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove), schemes);
+        AddRuleSection(panel, L("SystemLoad/Text"), rules.Where(rule => rule.Trigger is
+            AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove), schemes);
+
         var expander = new Expander
         {
-            Header = _settings.AutoSwitchBatteryAcEnabled ? "✓  " + L("AutoSwitchBatteryAc") : L("AutoSwitchBatteryAc"),
+            Header = L("Automation/Text"),
             Content = panel,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
@@ -225,9 +217,120 @@ public sealed partial class TrayPopupWindow : Window
         PopupContent.Children.Add(expander);
     }
 
-    private static FrameworkElement CreatePlanPicker(string header, IReadOnlyList<PowerScheme> schemes, Guid? selected, Action<Guid> changed)
+    private void AddTimedSwitchControls(StackPanel panel, IReadOnlyList<PowerScheme> schemes)
+    {
+        TimedSwitchInfo? timed = _automation.CurrentTimedSwitch;
+        if (timed is not null)
+        {
+            string planName = schemes.FirstOrDefault(scheme => scheme.Guid == timed.TargetPlanGuid)?.Name ?? "Temporary plan";
+            int minutes = Math.Max(1, (int)Math.Ceiling(timed.Remaining.TotalMinutes));
+            panel.Children.Add(new TextBlock { Text = $"{planName} — {F("TemporaryPlanMinutesRemaining", minutes)}", TextWrapping = TextWrapping.Wrap });
+            panel.Children.Add(CreateAction(L("CancelTemporaryPlan"), () =>
+            {
+                _automation.CancelTimedSwitch();
+                BuildContent(true);
+                ScheduleResizeToContent();
+            }));
+            return;
+        }
+
+        var planPicker = new ComboBox { Header = L("PowerPlan/Header"), ItemsSource = schemes, DisplayMemberPath = "Name", Width = 174 };
+        Guid active = _powerSchemes.GetActiveSchemeGuid();
+        planPicker.SelectedItem = schemes.FirstOrDefault(scheme => scheme.Guid != active) ?? schemes.FirstOrDefault();
+        var durationPicker = new ComboBox { Header = "Duration", Width = 120, SelectedIndex = 0 };
+        durationPicker.Items.Add("30 minutes");
+        durationPicker.Items.Add("1 hour");
+        durationPicker.Items.Add("2 hours");
+        durationPicker.Items.Add("4 hours");
+        var apply = new Button { Content = L("Apply/Content"), Width = 80, VerticalAlignment = VerticalAlignment.Bottom };
+        var error = new TextBlock { Foreground = (Brush)Application.Current.Resources["SystemFillColorCriticalBrush"], TextWrapping = TextWrapping.Wrap };
+        apply.Click += async (_, _) =>
+        {
+            if (planPicker.SelectedItem is not PowerScheme plan) return;
+            TimeSpan duration = durationPicker.SelectedIndex switch
+            {
+                1 => TimeSpan.FromHours(1),
+                2 => TimeSpan.FromHours(2),
+                3 => TimeSpan.FromHours(4),
+                _ => TimeSpan.FromMinutes(30),
+            };
+            try
+            {
+                await _automation.ApplyTimedSwitchAsync(plan.Guid, duration);
+            }
+            catch (Exception ex) { error.Text = $"Couldn't apply the temporary plan: {ex.Message}"; }
+        };
+        var controls = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        controls.Children.Add(planPicker);
+        controls.Children.Add(durationPicker);
+        controls.Children.Add(apply);
+        panel.Children.Add(controls);
+        panel.Children.Add(error);
+    }
+
+    private void OnTimedSwitchStateChanged(object? sender, EventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            if (!_isShowing || !_fullMenu) return;
+            BuildContent(true);
+            ScheduleResizeToContent();
+        });
+    }
+
+    private void AddRuleSection(StackPanel panel, string heading, IEnumerable<AutoSwitchRule> rules, IReadOnlyList<PowerScheme> schemes)
+    {
+        AddSectionHeading(panel, heading);
+        AutoSwitchRule[] configured = rules.OrderBy(rule => rule.Priority).ToArray();
+        if (configured.Length == 0)
+        {
+            panel.Children.Add(new TextBlock { Text = "No rules configured.", Foreground = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"] });
+            return;
+        }
+
+        foreach (AutoSwitchRule rule in configured)
+        {
+            string planName = schemes.FirstOrDefault(scheme => scheme.Guid == rule.TargetPlanGuid)?.Name ?? "Unavailable plan";
+            string description = rule.Trigger switch
+            {
+                AutomationTrigger.AppRunning => $"{rule.AppExecutableName} → {planName}",
+                AutomationTrigger.ProcessCpuBelow => $"{rule.AppExecutableName} CPU below {rule.CpuThresholdPercent:G}% → {planName}",
+                AutomationTrigger.ProcessCpuAbove => $"{rule.AppExecutableName} CPU above {rule.CpuThresholdPercent:G}% → {planName}",
+                AutomationTrigger.SystemCpuBelow => $"CPU below {rule.CpuThresholdPercent:G}% → {planName}",
+                _ => $"CPU above {rule.CpuThresholdPercent:G}% → {planName}",
+            };
+            var checkBox = new CheckBox
+            {
+                IsChecked = rule.Enabled,
+                Content = new TextBlock { Text = description, TextWrapping = TextWrapping.Wrap },
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+            };
+            checkBox.Click += (_, _) => SetRuleEnabled(rule.Id, checkBox.IsChecked == true);
+            panel.Children.Add(checkBox);
+        }
+    }
+
+    private void SetRuleEnabled(Guid id, bool enabled)
+    {
+        List<AutoSwitchRule> rules = _settings.GetAutomationRules();
+        AutoSwitchRule? rule = rules.FirstOrDefault(candidate => candidate.Id == id);
+        if (rule is null) return;
+        rule.Enabled = enabled;
+        _settings.SetAutomationRules(rules);
+        _automation.RefreshConfiguration();
+    }
+
+    private static void AddSectionHeading(StackPanel panel, string text) => panel.Children.Add(new TextBlock
+    {
+        Text = text,
+        FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+        Margin = new Thickness(0, 4, 0, 0),
+    });
+
+    private static FrameworkElement CreatePlanPicker(string header, IReadOnlyList<PowerScheme> schemes, Guid? selected, Action<Guid> changed, double? width = null)
     {
         var combo = new ComboBox { Header = header, ItemsSource = schemes, DisplayMemberPath = "Name", HorizontalAlignment = HorizontalAlignment.Stretch };
+        if (width.HasValue) combo.Width = width.Value;
         combo.SelectedItem = schemes.FirstOrDefault(s => s.Guid == selected);
         combo.SelectionChanged += (_, _) => { if (combo.SelectedItem is PowerScheme scheme) changed(scheme.Guid); };
         return combo;

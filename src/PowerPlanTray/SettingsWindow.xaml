@@ -22,8 +22,8 @@
           </NavigationViewItem.Icon>
         </NavigationViewItem>
         <NavigationViewItem x:Uid="NavAutomation" Icon="Sync" Tag="Automation" />
-        <NavigationViewItem x:Uid="NavUi" Icon="View" Tag="UI" />
         <NavigationViewItem x:Uid="NavAdvanced" Icon="Repair" Tag="Advanced" />
+        <NavigationViewItem x:Uid="NavUi" Icon="View" Tag="UI" />
         <NavigationViewItem x:Uid="NavProfiles" Icon="Save" Tag="Profiles" />
         <NavigationViewItem x:Uid="NavAbout" Icon="Help" Tag="About" />
       </NavigationView.MenuItems>
