@@ -923,11 +923,12 @@ public sealed partial class SettingsWindow : Window
             Header = new TextBlock
             {
                 Text = $"{subgroupName} ({settings.Count})",
-                Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"]
+                Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"]
             },
             Content = settingList,
             IsExpanded = false,
-            HorizontalAlignment = HorizontalAlignment.Stretch
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Padding = new Thickness(4)
         };
     }
 
