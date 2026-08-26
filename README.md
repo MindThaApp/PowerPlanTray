@@ -149,10 +149,13 @@ $msix = "artifacts\AppPackages\PowerPlanTray_1.0.0.0_x64_Debug_Test\PowerPlanTra
 & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" `
   sign /fd SHA256 /sha1 "E5F2C6F2784824283849DC59E764D99DC0FB9499" $msix
 
-# 3. Install (first time) / reinstall (after code changes - remove then re-add,
-#    since Add-AppxPackage rejects a same-version reinstall with different content)
-Get-AppxPackage -Name 34458MindtheApp.PowerPlanManager | Remove-AppxPackage -ErrorAction SilentlyContinue
-Add-AppxPackage -Path $msix
+# 3. Install (first time) / update in place (after code changes). Debug builds never bump
+#    the version number, so Add-AppxPackage needs -ForceUpdateFromAnyVersion to accept a
+#    same-version reinstall. Do NOT Remove-AppxPackage first - that performs a full uninstall,
+#    which deletes the app's ApplicationData (LocalSettings/LocalFolder - automation rules,
+#    saved Advanced-settings profiles, UI prefs) before the reinstall. -ForceUpdateFromAnyVersion
+#    instead updates the existing package in place and preserves that data across rebuilds.
+Add-AppxPackage -Path $msix -ForceApplicationShutdown -ForceUpdateFromAnyVersion
 
 # 4. Launch via its AUMID (package identity - this is what makes ms-appx:// asset
 #    URIs, DPI handling, etc. resolve correctly; running the raw .exe still won't work)
