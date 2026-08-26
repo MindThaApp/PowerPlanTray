@@ -285,7 +285,7 @@ public sealed partial class SettingsWindow : Window
         }
         else if (tag == "Advanced")
         {
-            RefreshAdvancedSettings();
+            await RefreshAdvancedSettingsAsync();
         }
         else if (tag == "Profiles")
         {
@@ -863,7 +863,7 @@ public sealed partial class SettingsWindow : Window
         catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read power plans: {ex.Message}"; }
     }
 
-    private void OnAdvancedPlanSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnAdvancedPlanSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (_hasInitialized)
         {
@@ -871,11 +871,11 @@ public sealed partial class SettingsWindow : Window
             AllAdvancedSettingsPanel.Children.Clear();
             HiddenAdvancedExpander.IsExpanded = false;
             AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
-            RefreshAdvancedSettings();
+            await RefreshAdvancedSettingsAsync();
         }
     }
 
-    private void RefreshAdvancedSettings()
+    private async Task RefreshAdvancedSettingsAsync()
     {
         if (AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
         AdvancedSettingsPanel.Children.Clear();
@@ -886,6 +886,7 @@ public sealed partial class SettingsWindow : Window
         {
             int visibleCount = 0;
             int hiddenCount = 0;
+            var currentVisibility = new List<AdvancedSettingVisibility>();
             foreach ((Guid subgroupGuid, string subgroupName) in _powerSchemeService.GetSubgroups(scheme.Guid))
             {
                 var visibleSettings = new List<(Guid SettingGuid, string SettingName)>();
@@ -893,7 +894,14 @@ public sealed partial class SettingsWindow : Window
                 foreach ((Guid settingGuid, string settingName) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
                 {
                     _allAdvancedSettings.Add((subgroupGuid, settingGuid));
-                    if (_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid))
+                    bool hidden = _powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
+                    currentVisibility.Add(new AdvancedSettingVisibility
+                    {
+                        SubgroupGuid = subgroupGuid,
+                        SettingGuid = settingGuid,
+                        Hidden = hidden,
+                    });
+                    if (hidden)
                         hiddenSettings.Add((settingGuid, settingName));
                     else
                         visibleSettings.Add((settingGuid, settingName));
@@ -910,6 +918,10 @@ public sealed partial class SettingsWindow : Window
                     AllAdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, hiddenSettings, true));
                     hiddenCount += hiddenSettings.Count;
                 }
+            }
+            if (await _appSettingsService.GetAdvancedVisibilityBaselineAsync() is null)
+            {
+                await _appSettingsService.TrySetAdvancedVisibilityBaselineAsync(currentVisibility);
             }
             AdvancedStatusText.Text = $"Loaded {visibleCount} shown and {hiddenCount} hidden advanced settings.";
         }
@@ -1051,8 +1063,29 @@ public sealed partial class SettingsWindow : Window
         AdvancedExpanderHeaderText.Text = "Show Hidden Advanced Settings";
     }
 
-    private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e) =>
-        await SetVisibilityAsync(SettingDescriptions.CommonSettings.Select(s => (s.SubgroupGuid, s.SettingGuid)), false, "Restoring common Windows visibility");
+    private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e)
+    {
+        IReadOnlyList<AdvancedSettingVisibility>? baseline = await _appSettingsService.GetAdvancedVisibilityBaselineAsync();
+        if (baseline is null)
+        {
+            AdvancedStatusText.Text = "No Windows visibility baseline is available.";
+            return;
+        }
+
+        AdvancedStatusText.Text = $"Restoring Windows visibility defaults (0/{baseline.Count})...";
+        bool succeeded = await _elevationService.SetSettingsHiddenAsync(
+            baseline.Select(setting => (setting.SubgroupGuid, setting.SettingGuid, setting.Hidden)));
+        if (succeeded)
+        {
+            await RefreshAdvancedSettingsAsync();
+            AdvancedStatusText.Text = $"Restoring Windows visibility defaults complete ({baseline.Count}/{baseline.Count}).";
+        }
+        else
+        {
+            AdvancedStatusText.Text = _elevationService.LastOperationWasCancelled
+                ? "Administrator permission was cancelled." : "Restoring Windows visibility defaults failed.";
+        }
+    }
 
     private async void OnEnableAllAdvancedClick(object sender, RoutedEventArgs e) =>
         await SetVisibilityAsync(GetCurrentlyHiddenAdvancedSettings(), false, "Enabling all hidden settings");
@@ -1070,7 +1103,7 @@ public sealed partial class SettingsWindow : Window
         bool succeeded = await _elevationService.SetSettingsHiddenAsync(targets, hidden);
         if (succeeded)
         {
-            RefreshAdvancedSettings();
+            await RefreshAdvancedSettingsAsync();
             AdvancedStatusText.Text = $"{operation} complete ({targets.Length}/{targets.Length}).";
         }
         else
@@ -1259,7 +1292,7 @@ public sealed partial class SettingsWindow : Window
             bool succeeded = await _elevationService.SetSettingHiddenAsync(subgroupGuid, settingGuid, unhide.IsChecked != true);
             if (succeeded)
             {
-                RefreshAdvancedSettings();
+                await RefreshAdvancedSettingsAsync();
                 AdvancedStatusText.Text = "Windows Power Options visibility updated.";
             }
             else

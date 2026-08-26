@@ -16,6 +16,7 @@ public sealed class AppSettingsService
     private const string AcPlanGuidKey = nameof(AcPlanGuid);
     private const string AutomationRulesKey = "AutomationRules";
     private const string AdvancedProfilesFileName = "advanced-settings-profiles.json";
+    private const string AdvancedVisibilityBaselineFileName = "advanced-settings-visibility-baseline.json";
     private const string ThemeKey = nameof(Theme);
     private const string PopupSizeKey = nameof(PopupSize);
     private const string PopupTextSizeKey = nameof(PopupTextSize);
@@ -163,6 +164,34 @@ public sealed class AppSettingsService
         StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
             AdvancedProfilesFileName, CreationCollisionOption.ReplaceExisting);
         await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(profiles, new JsonSerializerOptions { WriteIndented = true }));
+    }
+
+    public async Task<List<AdvancedSettingVisibility>?> GetAdvancedVisibilityBaselineAsync()
+    {
+        try
+        {
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(AdvancedVisibilityBaselineFileName);
+            return JsonSerializer.Deserialize<List<AdvancedSettingVisibility>>(await FileIO.ReadTextAsync(file))
+                ?? throw new JsonException("The advanced-settings visibility baseline is empty.");
+        }
+        catch (FileNotFoundException) { return null; }
+    }
+
+    public async Task<bool> TrySetAdvancedVisibilityBaselineAsync(IEnumerable<AdvancedSettingVisibility> settings)
+    {
+        StorageFile file;
+        try
+        {
+            file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
+                AdvancedVisibilityBaselineFileName, CreationCollisionOption.FailIfExists);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true }));
+        return true;
     }
 
     private bool GetBoolean(string key, bool defaultValue) =>
