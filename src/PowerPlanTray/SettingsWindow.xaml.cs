@@ -1072,13 +1072,22 @@ public sealed partial class SettingsWindow : Window
             return;
         }
 
-        AdvancedStatusText.Text = $"Restoring Windows visibility defaults (0/{baseline.Count})...";
+        var settingsToChange = baseline
+            .Where(setting => _powerSchemeService.IsSettingHidden(setting.SubgroupGuid, setting.SettingGuid) != setting.Hidden)
+            .ToArray();
+        if (settingsToChange.Length == 0)
+        {
+            AdvancedStatusText.Text = "Already at Windows visibility defaults.";
+            return;
+        }
+
+        AdvancedStatusText.Text = $"Restoring Windows visibility defaults (0/{settingsToChange.Length})...";
         bool succeeded = await _elevationService.SetSettingsHiddenAsync(
-            baseline.Select(setting => (setting.SubgroupGuid, setting.SettingGuid, setting.Hidden)));
+            settingsToChange.Select(setting => (setting.SubgroupGuid, setting.SettingGuid, setting.Hidden)));
         if (succeeded)
         {
             await RefreshAdvancedSettingsAsync();
-            AdvancedStatusText.Text = $"Restoring Windows visibility defaults complete ({baseline.Count}/{baseline.Count}).";
+            AdvancedStatusText.Text = $"Restoring Windows visibility defaults complete ({settingsToChange.Length}/{settingsToChange.Length}).";
         }
         else
         {
