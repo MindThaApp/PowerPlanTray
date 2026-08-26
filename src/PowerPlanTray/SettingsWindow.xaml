@@ -179,7 +179,7 @@
             <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" SelectionChanged="OnAdvancedPlanSelectionChanged" />
             <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
             <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" HorizontalAlignment="Left" />
-            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="16" />
+            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="12" />
             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalAlignment="Stretch">
               <StackPanel>
                 <Button x:Name="ShowAllAdvancedButton" Click="OnShowAllAdvancedClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="16,14" CornerRadius="8">
@@ -194,7 +194,7 @@
                 <Button x:Uid="EnableAll" Click="OnEnableAllAdvancedClick" />
                 <Button x:Uid="DisableAll" Click="OnDisableAllAdvancedClick" />
               </StackPanel>
-              <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="16" />
+              <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="12" />
             </StackPanel>
           </StackPanel>
         </ScrollViewer>
