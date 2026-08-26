@@ -178,7 +178,11 @@
             <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />
             <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" SelectionChanged="OnAdvancedPlanSelectionChanged" />
             <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
-            <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" HorizontalAlignment="Left" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" />
+              <Button Content="Expand all" Click="OnExpandShownAdvancedClick" />
+              <Button Content="Collapse all" Click="OnCollapseShownAdvancedClick" />
+            </StackPanel>
             <StackPanel x:Name="AdvancedSettingsPanel" Spacing="7">
               <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
@@ -197,6 +201,8 @@
                   <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button x:Uid="EnableAll" Click="OnEnableAllAdvancedClick" />
                     <Button x:Uid="DisableAll" Click="OnDisableAllAdvancedClick" />
+                    <Button Content="Expand all" Click="OnExpandHiddenAdvancedClick" />
+                    <Button Content="Collapse all" Click="OnCollapseHiddenAdvancedClick" />
                   </StackPanel>
                   <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7">
                     <StackPanel.ChildrenTransitions>
