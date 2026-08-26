@@ -16,9 +16,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Win32;
 using System.Reflection;
-using Windows.Foundation;
-using Microsoft.UI.Xaml.Hosting;
-using System.Numerics;
 
 namespace PowerPlanTray;
 
@@ -38,7 +35,6 @@ public sealed partial class SettingsWindow : Window
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
     private readonly HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> _expandedAdvancedCategories = new();
     private readonly HashSet<(Guid SubgroupGuid, Guid SettingGuid)> _expandedAdvancedSettings = new();
-    private readonly HashSet<StackPanel> _pendingAdvancedReflows = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
     private static string NoLaymanDescription => L("NoLaymanDescription");
     private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
@@ -926,7 +922,8 @@ public sealed partial class SettingsWindow : Window
         var settingList = new StackPanel
         {
             Spacing = 6,
-            Margin = new Thickness(8, 0, 8, 0)
+            Margin = new Thickness(8, 0, 8, 0),
+            ChildrenTransitions = new TransitionCollection { new RepositionThemeTransition() }
         };
         foreach ((Guid settingGuid, string settingName) in settings)
         {
@@ -958,14 +955,12 @@ public sealed partial class SettingsWindow : Window
         {
             setting.RegisterPropertyChangedCallback(Expander.IsExpandedProperty, (_, _) =>
             {
-                QueueAdvancedReflow(settingList, isHiddenSection ? AllAdvancedSettingsPanel : AdvancedSettingsPanel, AdvancedPagePanel);
                 UpdateSettingsToggle();
             });
         }
         toggleSettings.Click += (_, _) =>
         {
             bool expand = settingExpanders.Any(setting => !setting.IsExpanded);
-            QueueAdvancedReflow(settingList, isHiddenSection ? AllAdvancedSettingsPanel : AdvancedSettingsPanel, AdvancedPagePanel);
             foreach (Expander setting in settingExpanders) setting.IsExpanded = expand;
             UpdateSettingsToggle();
         };
@@ -996,58 +991,15 @@ public sealed partial class SettingsWindow : Window
         };
         category.RegisterPropertyChangedCallback(Expander.IsExpandedProperty, (_, _) =>
         {
-            if (category.Parent is StackPanel parent) QueueAdvancedReflow(parent, AdvancedPagePanel);
             if (category.IsExpanded) _expandedAdvancedCategories.Add(categoryKey);
             else _expandedAdvancedCategories.Remove(categoryKey);
         });
         return category;
     }
 
-    private void QueueAdvancedReflow(params StackPanel[] panels)
-    {
-        foreach (StackPanel panel in panels.Distinct()) QueueAdvancedReflow(panel);
-    }
-
-    private void QueueAdvancedReflow(StackPanel panel)
-    {
-        if (!_pendingAdvancedReflows.Add(panel)) return;
-
-        var positions = panel.Children
-            .OfType<UIElement>()
-            .ToDictionary(child => child, child => child.TransformToVisual(panel).TransformPoint(new Point()).Y);
-        double oldHeight = panel.ActualHeight;
-
-        void OnLayoutUpdated(object? sender, object args)
-        {
-            if (Math.Abs(panel.ActualHeight - oldHeight) < 0.5) return;
-            panel.LayoutUpdated -= OnLayoutUpdated;
-            _pendingAdvancedReflows.Remove(panel);
-
-            foreach ((UIElement child, double oldY) in positions)
-            {
-                if (!panel.Children.Contains(child)) continue;
-                double newY = child.TransformToVisual(panel).TransformPoint(new Point()).Y;
-                double offset = oldY - newY;
-                if (Math.Abs(offset) < 0.5) continue;
-
-                var visual = ElementCompositionPreview.GetElementVisual(child);
-                ElementCompositionPreview.SetIsTranslationEnabled(child, true);
-                child.Translation = new Vector3(0, (float)offset, 0);
-                var animation = visual.Compositor.CreateVector3KeyFrameAnimation();
-                animation.InsertKeyFrame(1, Vector3.Zero, visual.Compositor.CreateCubicBezierEasingFunction(
-                    new Vector2(0.1f, 0.9f), new Vector2(0.2f, 1.0f)));
-                animation.Duration = TimeSpan.FromMilliseconds(300);
-                visual.StartAnimation("Translation", animation);
-            }
-        }
-
-        panel.LayoutUpdated += OnLayoutUpdated;
-    }
-
     private void SetAdvancedCategoriesExpanded(StackPanel panel, bool expanded)
     {
         if (!panel.Children.OfType<Expander>().Any(category => category.IsExpanded != expanded)) return;
-        QueueAdvancedReflow(panel, AdvancedPagePanel);
         foreach (Expander category in panel.Children.OfType<Expander>())
         {
             category.IsExpanded = expanded;

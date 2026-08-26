@@ -175,18 +175,31 @@
             <TextBlock x:Name="ProfilesStatusText" TextWrapping="Wrap" />
           </StackPanel>
         </ScrollViewer>
-        <ScrollViewer x:Name="AdvancedPage" Visibility="Collapsed">
-          <StackPanel x:Name="AdvancedPagePanel" MaxWidth="1000" Padding="32" Spacing="16" HorizontalAlignment="Left">
+        <Grid x:Name="AdvancedPage" Visibility="Collapsed">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <StackPanel MaxWidth="1000" Padding="32,32,32,12" Spacing="12" HorizontalAlignment="Left">
             <TextBlock x:Uid="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />
-            <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" SelectionChanged="OnAdvancedPlanSelectionChanged" />
+            <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnAdvancedPlanSelectionChanged" />
+          </StackPanel>
+          <ScrollViewer Grid.Row="1">
+          <StackPanel x:Name="AdvancedPagePanel" MaxWidth="1000" Padding="32,4,32,32" Spacing="16" HorizontalAlignment="Left">
             <TextBlock x:Name="AdvancedStatusText" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="8">
               <Button x:Uid="RestoreWindowsDefaults" Click="OnRestoreWindowsDefaultsClick" />
               <Button Content="Expand all" Click="OnExpandShownAdvancedClick" />
               <Button Content="Collapse all" Click="OnCollapseShownAdvancedClick" />
             </StackPanel>
-            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="7" />
+            <StackPanel x:Name="AdvancedSettingsPanel" Spacing="7">
+              <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                  <RepositionThemeTransition />
+                </TransitionCollection>
+              </StackPanel.ChildrenTransitions>
+            </StackPanel>
             <Expander x:Name="HiddenAdvancedExpander" BorderBrush="{ThemeResource SystemFillColorCautionBrush}" BorderThickness="1" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="OnHiddenAdvancedExpanding" Collapsed="OnHiddenAdvancedCollapsed">
               <Expander.Header>
                 <TextBlock x:Uid="ShowAllAdvancedSettings" x:Name="AdvancedExpanderHeaderText" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -199,12 +212,19 @@
                     <Button Content="Expand all" Click="OnExpandHiddenAdvancedClick" />
                     <Button Content="Collapse all" Click="OnCollapseHiddenAdvancedClick" />
                   </StackPanel>
-                  <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7" />
+                  <StackPanel x:Name="AllAdvancedSettingsPanel" Spacing="7">
+                    <StackPanel.ChildrenTransitions>
+                      <TransitionCollection>
+                        <RepositionThemeTransition />
+                      </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
+                  </StackPanel>
                 </StackPanel>
               </Expander.Content>
             </Expander>
           </StackPanel>
-        </ScrollViewer>
+          </ScrollViewer>
+        </Grid>
         <ScrollViewer x:Name="AboutPage" Visibility="Collapsed">
           <StackPanel MaxWidth="640" Padding="32" Spacing="16" HorizontalAlignment="Left">
             <TextBlock x:Uid="About" Style="{ThemeResource TitleTextBlockStyle}" />
