@@ -31,7 +31,6 @@ public sealed partial class SettingsWindow : Window
     private IReadOnlyList<PowerScheme> _automationSchemes = Array.Empty<PowerScheme>();
     private bool _isInitializing;
     private bool _hasInitialized;
-    private bool _allAdvancedSettingsLoaded;
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
     private static string NoLaymanDescription => L("NoLaymanDescription");
@@ -861,7 +860,6 @@ public sealed partial class SettingsWindow : Window
     {
         if (_hasInitialized)
         {
-            _allAdvancedSettingsLoaded = false;
             _allAdvancedSettings.Clear();
             AllAdvancedSettingsPanel.Children.Clear();
             AllAdvancedSection.Visibility = Visibility.Collapsed;
@@ -874,29 +872,72 @@ public sealed partial class SettingsWindow : Window
     {
         if (AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
         AdvancedSettingsPanel.Children.Clear();
+        AllAdvancedSettingsPanel.Children.Clear();
+        _allAdvancedSettings.Clear();
         AdvancedStatusText.Text = string.Empty;
         try
         {
-            foreach (IGrouping<Guid, CommonPowerSetting> subgroup in SettingDescriptions.CommonSettings.GroupBy(setting => setting.SubgroupGuid))
+            int visibleCount = 0;
+            int hiddenCount = 0;
+            foreach ((Guid subgroupGuid, string subgroupName) in _powerSchemeService.GetSubgroups(scheme.Guid))
             {
-                var group = new StackPanel { Spacing = 10 };
-                string subgroupName;
-                try { subgroupName = _powerSchemeService.GetSubgroupName(scheme.Guid, subgroup.Key); }
-                catch { subgroupName = subgroup.Key.ToString(); }
-                group.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(subgroupName) ? subgroup.Key.ToString() : subgroupName, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] });
-                foreach (CommonPowerSetting setting in subgroup)
-                    group.Children.Add(CreateSettingRowOrUnavailable(scheme.Guid, setting.SubgroupGuid, setting.SettingGuid));
-                AdvancedSettingsPanel.Children.Add(group);
+                var visibleSettings = new List<(Guid SettingGuid, string SettingName)>();
+                var hiddenSettings = new List<(Guid SettingGuid, string SettingName)>();
+                foreach ((Guid settingGuid, string settingName) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
+                {
+                    _allAdvancedSettings.Add((subgroupGuid, settingGuid));
+                    if (_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid))
+                        hiddenSettings.Add((settingGuid, settingName));
+                    else
+                        visibleSettings.Add((settingGuid, settingName));
+                }
+
+                string categoryName = string.IsNullOrWhiteSpace(subgroupName) ? subgroupGuid.ToString() : subgroupName;
+                if (visibleSettings.Count > 0)
+                {
+                    AdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, visibleSettings));
+                    visibleCount += visibleSettings.Count;
+                }
+                if (hiddenSettings.Count > 0)
+                {
+                    AllAdvancedSettingsPanel.Children.Add(CreateSettingsCategory(scheme.Guid, subgroupGuid, categoryName, hiddenSettings));
+                    hiddenCount += hiddenSettings.Count;
+                }
             }
+            AdvancedStatusText.Text = $"Loaded {visibleCount} shown and {hiddenCount} hidden advanced settings.";
         }
         catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read advanced settings: {ex.Message}"; }
     }
 
-    private FrameworkElement CreateSettingRowOrUnavailable(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid)
+    private FrameworkElement CreateSettingsCategory(Guid schemeGuid, Guid subgroupGuid, string subgroupName,
+        IReadOnlyList<(Guid SettingGuid, string SettingName)> settings)
+    {
+        var settingList = new StackPanel { Spacing = 6 };
+        foreach ((Guid settingGuid, string settingName) in settings)
+        {
+            settingList.Children.Add(CreateSettingRowOrUnavailable(schemeGuid, subgroupGuid, settingGuid, settingName));
+        }
+
+        return new Expander
+        {
+            Header = new TextBlock
+            {
+                Text = $"{subgroupName} ({settings.Count})",
+                Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"]
+            },
+            Content = settingList,
+            IsExpanded = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+    }
+
+    private FrameworkElement CreateSettingRowOrUnavailable(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string? settingName = null)
     {
         try
         {
-            string name = _powerSchemeService.GetSettingName(schemeGuid, subgroupGuid, settingGuid);
+            string name = string.IsNullOrWhiteSpace(settingName)
+                ? _powerSchemeService.GetSettingName(schemeGuid, subgroupGuid, settingGuid)
+                : settingName;
             return CreateSettingRow(schemeGuid, subgroupGuid, settingGuid,
                 string.IsNullOrWhiteSpace(name) ? settingGuid.ToString() : name);
         }
@@ -906,7 +947,7 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private async void OnShowAllAdvancedClick(object sender, RoutedEventArgs e)
+    private void OnShowAllAdvancedClick(object sender, RoutedEventArgs e)
     {
         if (AllAdvancedSection.Visibility == Visibility.Visible)
         {
@@ -917,29 +958,6 @@ public sealed partial class SettingsWindow : Window
 
         AllAdvancedSection.Visibility = Visibility.Visible;
         AdvancedExpanderHeaderText.Text = "Hide all advanced settings";
-        if (_allAdvancedSettingsLoaded || AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
-        AdvancedStatusText.Text = "Loading all advanced settings...";
-        await Task.Yield();
-        try
-        {
-            foreach ((Guid subgroupGuid, string subgroupName) in _powerSchemeService.GetSubgroups(scheme.Guid))
-            {
-                var group = new StackPanel { Spacing = 10 };
-                group.Children.Add(new TextBlock { Text = subgroupName, Style = (Style)Application.Current.Resources["SubtitleTextBlockStyle"] });
-                foreach ((Guid settingGuid, string settingName) in _powerSchemeService.GetSettings(scheme.Guid, subgroupGuid))
-                {
-                    if (!_allAdvancedSettings.Contains((subgroupGuid, settingGuid)))
-                    {
-                        _allAdvancedSettings.Add((subgroupGuid, settingGuid));
-                    }
-                    group.Children.Add(CreateSettingRow(scheme.Guid, subgroupGuid, settingGuid, settingName));
-                }
-                AllAdvancedSettingsPanel.Children.Add(group);
-            }
-            _allAdvancedSettingsLoaded = true;
-            AdvancedStatusText.Text = $"Loaded {_allAdvancedSettings.Count} advanced settings.";
-        }
-        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read advanced settings: {ex.Message}"; }
     }
 
     private async void OnRestoreWindowsDefaultsClick(object sender, RoutedEventArgs e) =>
@@ -956,8 +974,16 @@ public sealed partial class SettingsWindow : Window
         var targets = settings.Distinct().ToArray();
         AdvancedStatusText.Text = $"{operation} (0/{targets.Length})...";
         bool succeeded = await _elevationService.SetSettingsHiddenAsync(targets, hidden);
-        AdvancedStatusText.Text = succeeded ? $"{operation} complete ({targets.Length}/{targets.Length})."
-            : _elevationService.LastOperationWasCancelled ? "Administrator permission was cancelled." : $"{operation} failed.";
+        if (succeeded)
+        {
+            RefreshAdvancedSettings();
+            AdvancedStatusText.Text = $"{operation} complete ({targets.Length}/{targets.Length}).";
+        }
+        else
+        {
+            AdvancedStatusText.Text = _elevationService.LastOperationWasCancelled
+                ? "Administrator permission was cancelled." : $"{operation} failed.";
+        }
         return succeeded;
     }
 
@@ -1115,20 +1141,19 @@ public sealed partial class SettingsWindow : Window
 
     private FrameworkElement CreateSettingRow(Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, string settingName)
     {
-        var panel = new StackPanel { Spacing = 6, Padding = new Thickness(12) };
         var heading = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         heading.Children.Add(new TextBlock { Text = settingName, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             VerticalAlignment = VerticalAlignment.Center, MaxWidth = 650, TextWrapping = TextWrapping.Wrap });
         var info = new Button { Content = "i", Width = 32, Height = 32, CornerRadius = new CornerRadius(16), Padding = new Thickness(0) };
         info.Click += (_, _) => ShowSettingInfo(info, subgroupGuid, settingGuid);
         heading.Children.Add(info);
-        panel.Children.Add(heading);
 
+        var details = new StackPanel { Spacing = 6, Padding = new Thickness(12, 6, 12, 12) };
         PowerSettingMetadata metadata = _powerSchemeService.GetSettingMetadata(subgroupGuid, settingGuid);
         var values = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
         values.Children.Add(CreateValueEditor("Plugged in", schemeGuid, subgroupGuid, settingGuid, true, metadata));
         values.Children.Add(CreateValueEditor("On battery", schemeGuid, subgroupGuid, settingGuid, false, metadata));
-        panel.Children.Add(values);
+        details.Children.Add(values);
 
         var footer = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid) };
@@ -1137,15 +1162,29 @@ public sealed partial class SettingsWindow : Window
         {
             unhide.IsEnabled = false;
             bool succeeded = await _elevationService.SetSettingHiddenAsync(subgroupGuid, settingGuid, unhide.IsChecked != true);
-            status.Text = succeeded ? "Updated." : _elevationService.LastOperationWasCancelled
-                ? "Administrator permission was cancelled." : "Couldn't update visibility.";
-            unhide.IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
-            unhide.IsEnabled = true;
+            if (succeeded)
+            {
+                RefreshAdvancedSettings();
+                AdvancedStatusText.Text = "Windows Power Options visibility updated.";
+            }
+            else
+            {
+                status.Text = _elevationService.LastOperationWasCancelled
+                    ? "Administrator permission was cancelled." : "Couldn't update visibility.";
+                unhide.IsChecked = !_powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
+                unhide.IsEnabled = true;
+            }
         };
         footer.Children.Add(unhide);
         footer.Children.Add(status);
-        panel.Children.Add(footer);
-        return panel;
+        details.Children.Add(footer);
+        return new Expander
+        {
+            Header = heading,
+            Content = details,
+            IsExpanded = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
     }
 
     private FrameworkElement CreateValueEditor(string header, Guid schemeGuid, Guid subgroupGuid, Guid settingGuid,
