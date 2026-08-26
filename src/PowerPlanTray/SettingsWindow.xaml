@@ -38,10 +38,13 @@
             </StackPanel>
             <ComboBox x:Uid="ActivePowerPlan" x:Name="GeneralPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnGeneralPlanSelectionChanged" />
             <CheckBox x:Uid="StartWithWindows" x:Name="StartWithWindowsCheckBox" Click="OnStartWithWindowsClick" />
+            <StackPanel x:Name="WindowsStartupBehaviorPanel" Spacing="8">
+              <TextBlock x:Uid="OnWindowsStartup" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <RadioButtons x:Name="WindowsStartupBehaviorRadioButtons" SelectionChanged="OnWindowsStartupBehaviorSelectionChanged" />
+            </StackPanel>
             <StackPanel Spacing="8">
-              <TextBlock x:Uid="OnLaunch" Style="{ThemeResource SubtitleTextBlockStyle}" />
-              <RadioButtons x:Name="LaunchBehaviorRadioButtons" SelectionChanged="OnLaunchBehaviorSelectionChanged">
-              </RadioButtons>
+              <TextBlock x:Uid="OnManualLaunch" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <RadioButtons x:Name="ManualLaunchBehaviorRadioButtons" SelectionChanged="OnManualLaunchBehaviorSelectionChanged" />
             </StackPanel>
           </StackPanel>
         </ScrollViewer>
