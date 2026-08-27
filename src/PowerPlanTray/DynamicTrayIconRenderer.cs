@@ -10,7 +10,7 @@ internal static class DynamicTrayIconRenderer
 {
     private const int Size = 32;
 
-    public static Icon Render(TrayIconMode mode, double cpuLoad, string planName)
+    public static Icon Render(TrayIconMode mode, double cpuLoad, string planName, Color? gaugeColor = null, double gaugeValue = 0)
     {
         using var bitmap = new Bitmap(Size, Size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -18,10 +18,15 @@ internal static class DynamicTrayIconRenderer
             graphics.Clear(Color.Transparent);
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-            using var background = new SolidBrush(Color.FromArgb(255, 24, 104, 183));
+            Color tileColor = mode == TrayIconMode.Gauge && gaugeColor.HasValue
+                ? gaugeColor.Value
+                : Color.FromArgb(255, 24, 104, 183);
+            using var background = new SolidBrush(tileColor);
             graphics.FillRoundedRectangle(background, new Rectangle(1, 1, 30, 30), 6);
 
-            if (mode == TrayIconMode.CpuBarChart)
+            if (mode == TrayIconMode.Gauge)
+                DrawGauge(graphics, gaugeValue);
+            else if (mode == TrayIconMode.CpuBarChart)
                 DrawBar(graphics, cpuLoad);
             else
                 DrawText(graphics, mode == TrayIconMode.CpuPercentText
@@ -64,6 +69,34 @@ internal static class DynamicTrayIconRenderer
         int height = (int)Math.Round(18 * Math.Clamp(cpuLoad, 0, 100) / 100d);
         using var fill = new SolidBrush(cpuLoad >= 80 ? Color.FromArgb(255, 255, 193, 7) : Color.White);
         graphics.FillRectangle(fill, 10, 24 - height, 13, height);
+    }
+
+    // Speedometer-style 270-degree arc open at the bottom (a 90-degree gap centered on
+    // straight down). GDI+ angles here are measured clockwise from the positive x-axis with
+    // the y-axis pointing down, matching AddArc's convention, so the same start/sweep values
+    // used for DrawArc also work directly for the needle-angle trig below.
+    private static void DrawGauge(Graphics graphics, double value)
+    {
+        const float centerX = Size / 2f;
+        const float centerY = Size / 2f + 1f;
+        const float radius = 11f;
+        const float startAngleDegrees = 135f;
+        const float sweepAngleDegrees = 270f;
+
+        using (var arcPen = new Pen(Color.White, 3.5f) { StartCap = LineCap.Round, EndCap = LineCap.Round })
+            graphics.DrawArc(arcPen, centerX - radius, centerY - radius, radius * 2, radius * 2, startAngleDegrees, sweepAngleDegrees);
+
+        double t = Math.Clamp(value, 0, 100) / 100d;
+        double needleAngleRadians = (startAngleDegrees + sweepAngleDegrees * t) * Math.PI / 180d;
+        const float needleLength = radius - 1.5f;
+        float needleX = centerX + needleLength * (float)Math.Cos(needleAngleRadians);
+        float needleY = centerY + needleLength * (float)Math.Sin(needleAngleRadians);
+        using (var needlePen = new Pen(Color.White, 2.5f) { StartCap = LineCap.Round, EndCap = LineCap.Round })
+            graphics.DrawLine(needlePen, centerX, centerY, needleX, needleY);
+
+        const float hubRadius = 2f;
+        using var hubBrush = new SolidBrush(Color.White);
+        graphics.FillEllipse(hubBrush, centerX - hubRadius, centerY - hubRadius, hubRadius * 2, hubRadius * 2);
     }
 
     private static void FillRoundedRectangle(this Graphics graphics, Brush brush, Rectangle bounds, int radius)

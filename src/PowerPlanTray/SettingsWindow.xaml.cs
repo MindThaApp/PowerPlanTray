@@ -67,7 +67,8 @@ public sealed partial class SettingsWindow : Window
         AppCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
         TimedDurationRadioButtons.ItemsSource = new[] { L("ThirtyMinutes"), L("OneHour"), L("TwoHours"), L("FourHours") };
         ThemeComboBox.ItemsSource = new[] { L("FollowWindows"), L("Light"), L("Dark"), L("OledBlack") };
-        TrayIconModeComboBox.ItemsSource = new[] { L("Static"), L("CpuPercentage"), L("CpuBarChart"), L("PowerPlanAbbreviation") };
+        TrayIconModeComboBox.ItemsSource = new[] { L("Static"), L("CpuPercentage"), L("CpuBarChart"), L("PowerPlanAbbreviation"), L("Gauge") };
+        GaugeMetricComboBox.ItemsSource = new[] { L("GaugeMetricCpu"), L("GaugeMetricMemory"), L("GaugeMetricDisk"), L("GaugeMetricNetwork"), L("GaugeMetricGpu") };
         PopupSizeComboBox.ItemsSource = SettingsWindowSizeComboBox.ItemsSource = PopupTextSizeComboBox.ItemsSource = new[] { L("Small"), L("Medium"), L("Large") };
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
         WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
@@ -90,10 +91,53 @@ public sealed partial class SettingsWindow : Window
         _isInitializing = true;
         ThemeComboBox.SelectedIndex = (int)_appSettingsService.Theme;
         TrayIconModeComboBox.SelectedIndex = (int)_appSettingsService.TrayIconMode;
+        GaugeMetricComboBox.SelectedIndex = (int)_appSettingsService.TrayIconGaugeMetric;
+        SetGaugeColorSwatch(ParseHexColor(_appSettingsService.TrayIconGaugeColor));
+        UpdateGaugeOptionsVisibility();
         PopupSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupSize;
         PopupTextSizeComboBox.SelectedIndex = (int)_appSettingsService.PopupTextSize;
         SettingsWindowSizeComboBox.SelectedIndex = (int)_appSettingsService.SettingsWindowSize;
         _isInitializing = false;
+    }
+
+    private void UpdateGaugeOptionsVisibility() =>
+        GaugeOptionsPanel.Visibility = TrayIconModeComboBox.SelectedIndex == (int)TrayIconMode.Gauge ? Visibility.Visible : Visibility.Collapsed;
+
+    private static Windows.UI.Color ParseHexColor(string hex)
+    {
+        string trimmed = hex.TrimStart('#');
+        try
+        {
+            return trimmed.Length switch
+            {
+                8 => Windows.UI.Color.FromArgb(Convert.ToByte(trimmed[..2], 16), Convert.ToByte(trimmed[2..4], 16), Convert.ToByte(trimmed[4..6], 16), Convert.ToByte(trimmed[6..8], 16)),
+                _ => Windows.UI.Color.FromArgb(255, Convert.ToByte(trimmed[..2], 16), Convert.ToByte(trimmed[2..4], 16), Convert.ToByte(trimmed[4..6], 16)),
+            };
+        }
+        catch { return Windows.UI.Color.FromArgb(255, 0x7A, 0x3F, 0xD4); }
+    }
+
+    private static string FormatHexColor(Windows.UI.Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+
+    private void SetGaugeColorSwatch(Windows.UI.Color color)
+    {
+        GaugeColorSwatch.Background = new SolidColorBrush(color);
+        GaugeColorPicker.Color = color;
+    }
+
+    private void OnGaugeMetricSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isInitializing || GaugeMetricComboBox.SelectedIndex < 0) return;
+        _appSettingsService.TrayIconGaugeMetric = (TrayGaugeMetric)GaugeMetricComboBox.SelectedIndex;
+        UiPreferencesChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnGaugeColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        if (_isInitializing) return;
+        SetGaugeColorSwatch(args.NewColor);
+        _appSettingsService.TrayIconGaugeColor = FormatHexColor(args.NewColor);
+        UiPreferencesChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void ApplyUiPreferences()
@@ -218,6 +262,7 @@ public sealed partial class SettingsWindow : Window
         _appSettingsService.PopupSize = (UiSize)PopupSizeComboBox.SelectedIndex;
         _appSettingsService.PopupTextSize = (UiSize)PopupTextSizeComboBox.SelectedIndex;
         _appSettingsService.SettingsWindowSize = (UiSize)SettingsWindowSizeComboBox.SelectedIndex;
+        UpdateGaugeOptionsVisibility();
         ApplyUiPreferences();
         if (ReferenceEquals(sender, SettingsWindowSizeComboBox)) ApplyWindowSize();
         UiPreferencesChanged?.Invoke(this, EventArgs.Empty);

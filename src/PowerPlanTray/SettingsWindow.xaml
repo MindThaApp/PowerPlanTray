@@ -138,6 +138,18 @@
             </ComboBox>
             <ComboBox x:Uid="TrayIcon" x:Name="TrayIconModeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
             </ComboBox>
+            <StackPanel x:Name="GaugeOptionsPanel" Orientation="Horizontal" Spacing="12" Visibility="Collapsed">
+              <ComboBox x:Uid="GaugeMetric" x:Name="GaugeMetricComboBox" Width="180" SelectionChanged="OnGaugeMetricSelectionChanged">
+              </ComboBox>
+              <Button x:Name="GaugeColorButton" Width="48" Height="32" Padding="0">
+                <Button.Flyout>
+                  <Flyout>
+                    <ColorPicker x:Name="GaugeColorPicker" IsAlphaEnabled="False" ColorChanged="OnGaugeColorChanged" />
+                  </Flyout>
+                </Button.Flyout>
+                <Border x:Name="GaugeColorSwatch" Width="24" Height="20" CornerRadius="3" BorderBrush="Gray" BorderThickness="1" />
+              </Button>
+            </StackPanel>
             <ComboBox x:Uid="TrayPopupSize" x:Name="PopupSizeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">
             </ComboBox>
             <ComboBox x:Uid="TrayPopupTextSize" x:Name="PopupTextSizeComboBox" Width="260" HorizontalAlignment="Left" SelectionChanged="OnUiPreferenceChanged">

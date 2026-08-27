@@ -121,6 +121,27 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="CpuPercentage" xml:space="preserve">
     <value>CPU percentage</value>
   </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Gauge</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Gauge metric</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
   <data name="CustomDuration.Text" xml:space="preserve">
     <value>Custom duration</value>
   </data>
@@ -363,6 +384,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   </data>
   <data name="TrayTooltipPlan" xml:space="preserve">
     <value>Power Plan Manager Pro — {0}</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0} {1:0}%, {2}</value>
   </data>
   <data name="Trigger.Header" xml:space="preserve">
     <value>Trigger</value>
