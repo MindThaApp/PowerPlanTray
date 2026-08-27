@@ -145,11 +145,19 @@ public sealed partial class TrayPopupWindow : Window
             IReadOnlySet<Guid> visible = _settings.GetVisiblePlanGuids();
             foreach (PowerScheme scheme in all.Where(s => visible.Count == 0 || visible.Contains(s.Guid)))
             {
-                AddAction(scheme.Guid == active ? $"✓  {scheme.Name}" : $"    {scheme.Name}", () =>
+                Button planButton = AddAction(scheme.Guid == active ? $"✓  {scheme.Name}" : $"    {scheme.Name}", () =>
                 {
                     _switchScheme(scheme.Guid);
-                    Hide();
+                    DispatcherQueue.TryEnqueue(() =>
+                    {
+                        if (!_isShowing) return;
+                        BuildContent(fullMenu);
+                        PopupContent.Children.OfType<Button>()
+                            .FirstOrDefault(button => button.Tag is Guid guid && guid == scheme.Guid)
+                            ?.Focus(FocusState.Programmatic);
+                    });
                 }, new Windows.UI.Text.FontWeight { Weight = (ushort)(scheme.Guid == active ? 600 : 400) }, F("SelectPowerPlan", scheme.Name));
+                planButton.Tag = scheme.Guid;
             }
         }
         catch (Exception ex)
@@ -336,8 +344,12 @@ public sealed partial class TrayPopupWindow : Window
         return combo;
     }
 
-    private void AddAction(string text, Action action, Windows.UI.Text.FontWeight? weight = null, string? automationId = null) =>
-        PopupContent.Children.Add(CreateAction(text, action, weight, automationId));
+    private Button AddAction(string text, Action action, Windows.UI.Text.FontWeight? weight = null, string? automationId = null)
+    {
+        Button button = CreateAction(text, action, weight, automationId);
+        PopupContent.Children.Add(button);
+        return button;
+    }
 
     private static Button CreateAction(string text, Action action, Windows.UI.Text.FontWeight? weight = null, string? automationId = null)
     {

@@ -34,6 +34,7 @@ public sealed partial class SettingsWindow : Window
     private bool _hasInitialized;
     private readonly List<(Guid SubgroupGuid, Guid SettingGuid)> _allAdvancedSettings = new();
     private readonly Dictionary<(Guid SubgroupGuid, Guid SettingGuid), bool> _pendingAdvancedVisibilityChanges = new();
+    private readonly Dictionary<(Guid SchemeGuid, Guid SubgroupGuid, Guid SettingGuid, bool Ac), uint> _pendingAdvancedValueChanges = new();
     private readonly HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> _expandedAdvancedCategories = new();
     private readonly HashSet<(Guid SubgroupGuid, Guid SettingGuid)> _expandedAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
@@ -945,11 +946,15 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private async Task RefreshAdvancedSettingsAsync()
+    private async Task RefreshAdvancedSettingsAsync(bool clearPendingChanges = true)
     {
         if (AdvancedPlanComboBox.SelectedItem is not PowerScheme scheme) return;
-        _pendingAdvancedVisibilityChanges.Clear();
-        UpdateAdvancedVisibilityButtons();
+        if (clearPendingChanges)
+        {
+            _pendingAdvancedVisibilityChanges.Clear();
+            _pendingAdvancedValueChanges.Clear();
+        }
+        UpdateAdvancedChangeButtons();
         AdvancedSettingsPanel.Children.Clear();
         AllAdvancedSettingsPanel.Children.Clear();
         _allAdvancedSettings.Clear();
@@ -1199,46 +1204,69 @@ public sealed partial class SettingsWindow : Window
     private async void OnDisableAllAdvancedClick(object sender, RoutedEventArgs e) =>
         await SetVisibilityAsync(GetCurrentlyHiddenAdvancedSettings(), true, "Disabling all hidden settings");
 
-    private void UpdateAdvancedVisibilityButtons()
+    private void UpdateAdvancedChangeButtons()
     {
-        bool hasPendingChanges = _pendingAdvancedVisibilityChanges.Count > 0;
+        bool hasPendingChanges = _pendingAdvancedVisibilityChanges.Count > 0 || _pendingAdvancedValueChanges.Count > 0;
         ApplyAdvancedVisibilityButton.IsEnabled = hasPendingChanges;
         RevertAdvancedVisibilityButton.IsEnabled = hasPendingChanges;
     }
 
-    private async void OnApplyAdvancedVisibilityClick(object sender, RoutedEventArgs e)
+    private async void OnApplyAdvancedChangesClick(object sender, RoutedEventArgs e)
     {
-        if (_pendingAdvancedVisibilityChanges.Count == 0) return;
+        if (_pendingAdvancedVisibilityChanges.Count == 0 && _pendingAdvancedValueChanges.Count == 0) return;
 
-        var changes = _pendingAdvancedVisibilityChanges
+        var visibilityChanges = _pendingAdvancedVisibilityChanges
             .Select(change => (change.Key.SubgroupGuid, change.Key.SettingGuid, change.Value))
             .ToArray();
+        var valueChanges = _pendingAdvancedValueChanges.ToArray();
+        int totalChanges = visibilityChanges.Length + valueChanges.Length;
         ApplyAdvancedVisibilityButton.IsEnabled = false;
         RevertAdvancedVisibilityButton.IsEnabled = false;
-        AdvancedStatusText.Text = $"Applying {changes.Length} visibility change{(changes.Length == 1 ? string.Empty : "s")}...";
+        AdvancedStatusText.Text = $"Applying {totalChanges} advanced change{(totalChanges == 1 ? string.Empty : "s")}...";
 
-        bool succeeded = await _elevationService.SetSettingsHiddenAsync(changes);
-        if (succeeded)
+        bool visibilitySucceeded = visibilityChanges.Length == 0 ||
+            await _elevationService.SetSettingsHiddenAsync(visibilityChanges);
+        if (visibilitySucceeded) _pendingAdvancedVisibilityChanges.Clear();
+
+        int valueFailures = 0;
+        foreach (var change in valueChanges)
         {
-            _pendingAdvancedVisibilityChanges.Clear();
+            try
+            {
+                var key = change.Key;
+                if (key.Ac) _powerSchemeService.SetACValue(key.SchemeGuid, key.SubgroupGuid, key.SettingGuid, change.Value);
+                else _powerSchemeService.SetDCValue(key.SchemeGuid, key.SubgroupGuid, key.SettingGuid, change.Value);
+                _pendingAdvancedValueChanges.Remove(key);
+            }
+            catch { valueFailures++; }
+        }
+
+        if (_pendingAdvancedVisibilityChanges.Count == 0 && _pendingAdvancedValueChanges.Count == 0)
+        {
             await RefreshAdvancedSettingsAsync();
-            AdvancedStatusText.Text = $"Applied {changes.Length} visibility change{(changes.Length == 1 ? string.Empty : "s")}.";
+            RefreshCpuBoostState();
+            AdvancedStatusText.Text = $"Applied {totalChanges} advanced change{(totalChanges == 1 ? string.Empty : "s")}.";
         }
         else
         {
-            UpdateAdvancedVisibilityButtons();
-            AdvancedStatusText.Text = _elevationService.LastOperationWasCancelled
+            string visibilityFailure = visibilitySucceeded ? string.Empty : _elevationService.LastOperationWasCancelled
                 ? "Administrator permission was cancelled; staged visibility changes were kept."
-                : "Couldn't apply visibility changes; staged changes were kept.";
+                : "Couldn't apply visibility changes; staged visibility changes were kept.";
+            string valueFailure = valueFailures == 0 ? string.Empty
+                : $"Couldn't apply {valueFailures} value change{(valueFailures == 1 ? string.Empty : "s")}; those changes were kept.";
+            await RefreshAdvancedSettingsAsync(clearPendingChanges: false);
+            RefreshCpuBoostState();
+            AdvancedStatusText.Text = string.Join(" ", new[] { visibilityFailure, valueFailure }.Where(message => message.Length > 0));
         }
     }
 
-    private async void OnRevertAdvancedVisibilityClick(object sender, RoutedEventArgs e)
+    private async void OnRevertAdvancedChangesClick(object sender, RoutedEventArgs e)
     {
-        if (_pendingAdvancedVisibilityChanges.Count == 0) return;
+        if (_pendingAdvancedVisibilityChanges.Count == 0 && _pendingAdvancedValueChanges.Count == 0) return;
         _pendingAdvancedVisibilityChanges.Clear();
+        _pendingAdvancedValueChanges.Clear();
         await RefreshAdvancedSettingsAsync();
-        AdvancedStatusText.Text = "Reverted staged visibility changes.";
+        AdvancedStatusText.Text = "Reverted staged advanced changes.";
     }
 
     private IEnumerable<(Guid SubgroupGuid, Guid SettingGuid)> GetCurrentlyHiddenAdvancedSettings() =>
@@ -1433,11 +1461,17 @@ public sealed partial class SettingsWindow : Window
 
         var footer = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         bool actualHidden = _powerSchemeService.IsSettingHidden(subgroupGuid, settingGuid);
-        var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !actualHidden };
-        var status = new TextBlock { VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap };
+        var settingKey = (subgroupGuid, settingGuid);
+        bool displayedHidden = _pendingAdvancedVisibilityChanges.GetValueOrDefault(settingKey, actualHidden);
+        var unhide = new CheckBox { Content = "Shown in Windows Power Options", IsChecked = !displayedHidden };
+        var status = new TextBlock
+        {
+            Text = displayedHidden == actualHidden ? string.Empty : "Pending",
+            VerticalAlignment = VerticalAlignment.Center,
+            TextWrapping = TextWrapping.Wrap
+        };
         unhide.Click += (_, _) =>
         {
-            var settingKey = (subgroupGuid, settingGuid);
             bool desiredHidden = unhide.IsChecked != true;
             if (desiredHidden == actualHidden)
             {
@@ -1449,12 +1483,11 @@ public sealed partial class SettingsWindow : Window
                 _pendingAdvancedVisibilityChanges[settingKey] = desiredHidden;
                 status.Text = "Pending";
             }
-            UpdateAdvancedVisibilityButtons();
+            UpdateAdvancedChangeButtons();
         };
         footer.Children.Add(unhide);
         footer.Children.Add(status);
         details.Children.Add(footer);
-        var settingKey = (subgroupGuid, settingGuid);
         var setting = new Expander
         {
             Header = heading,
@@ -1475,40 +1508,55 @@ public sealed partial class SettingsWindow : Window
     {
         uint current = ac ? _powerSchemeService.GetACValue(schemeGuid, subgroupGuid, settingGuid)
                           : _powerSchemeService.GetDCValue(schemeGuid, subgroupGuid, settingGuid);
+        var key = (schemeGuid, subgroupGuid, settingGuid, ac);
+        uint displayed = _pendingAdvancedValueChanges.GetValueOrDefault(key, current);
+        var status = new TextBlock
+        {
+            Text = displayed == current ? string.Empty : "Pending",
+            VerticalAlignment = VerticalAlignment.Center,
+            TextWrapping = TextWrapping.Wrap
+        };
+        var container = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        void StageValue(uint value)
+        {
+            if (value == current)
+            {
+                _pendingAdvancedValueChanges.Remove(key);
+                status.Text = string.Empty;
+            }
+            else
+            {
+                _pendingAdvancedValueChanges[key] = value;
+                status.Text = "Pending";
+            }
+            UpdateAdvancedChangeButtons();
+        }
         if (metadata.Choices.Count > 0)
         {
             var combo = new ComboBox { Header = header, ItemsSource = metadata.Choices, DisplayMemberPath = "Name", Width = 220 };
-            combo.SelectedItem = metadata.Choices.FirstOrDefault(choice => choice.Value == current);
+            combo.SelectedItem = metadata.Choices.FirstOrDefault(choice => choice.Value == displayed);
             combo.SelectionChanged += (_, _) =>
             {
-                if (combo.SelectedItem is PowerSettingChoice choice) SetValue(ac, schemeGuid, subgroupGuid, settingGuid, choice.Value);
+                if (combo.SelectedItem is PowerSettingChoice choice) StageValue(choice.Value);
             };
-            return combo;
+            container.Children.Add(combo);
+            container.Children.Add(status);
+            return container;
         }
 
         var number = new NumberBox { Header = string.IsNullOrWhiteSpace(metadata.Units) ? header : $"{header} ({metadata.Units})",
-            Value = current, Width = 220, SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact };
+            Value = displayed, Width = 220, SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact };
         if (metadata.Minimum is uint min) number.Minimum = min;
         if (metadata.Maximum is uint max) number.Maximum = max;
         if (metadata.Increment is uint increment && increment > 0) number.SmallChange = increment;
         number.ValueChanged += (_, args) =>
         {
             if (!double.IsNaN(args.NewValue) && args.NewValue >= 0 && args.NewValue <= uint.MaxValue)
-                SetValue(ac, schemeGuid, subgroupGuid, settingGuid, checked((uint)Math.Round(args.NewValue)));
+                StageValue(checked((uint)Math.Round(args.NewValue)));
         };
-        return number;
-    }
-
-    private void SetValue(bool ac, Guid schemeGuid, Guid subgroupGuid, Guid settingGuid, uint value)
-    {
-        try
-        {
-            if (ac) _powerSchemeService.SetACValue(schemeGuid, subgroupGuid, settingGuid, value);
-            else _powerSchemeService.SetDCValue(schemeGuid, subgroupGuid, settingGuid, value);
-            AdvancedStatusText.Text = "Setting applied.";
-            RefreshCpuBoostState();
-        }
-        catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't apply setting: {ex.Message}"; }
+        container.Children.Add(number);
+        container.Children.Add(status);
+        return container;
     }
 
     private void ShowSettingInfo(Button target, Guid subgroupGuid, Guid settingGuid)
