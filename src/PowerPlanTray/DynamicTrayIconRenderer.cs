@@ -91,12 +91,18 @@ internal static class DynamicTrayIconRenderer
         const float needleLength = radius - 1.5f;
         float needleX = centerX + needleLength * (float)Math.Cos(needleAngleRadians);
         float needleY = centerY + needleLength * (float)Math.Sin(needleAngleRadians);
-        using (var needlePen = new Pen(Color.White, 2.5f) { StartCap = LineCap.Round, EndCap = LineCap.Round })
-            graphics.DrawLine(needlePen, centerX, centerY, needleX, needleY);
-
-        const float hubRadius = 2f;
-        using var hubBrush = new SolidBrush(Color.White);
-        graphics.FillEllipse(hubBrush, centerX - hubRadius, centerY - hubRadius, hubRadius * 2, hubRadius * 2);
+        const float needleHalfWidth = 2f;
+        float perpendicularX = -(float)Math.Sin(needleAngleRadians) * needleHalfWidth;
+        float perpendicularY = (float)Math.Cos(needleAngleRadians) * needleHalfWidth;
+        PointF[] needleCorners =
+        {
+            new(centerX + perpendicularX, centerY + perpendicularY),
+            new(needleX + perpendicularX, needleY + perpendicularY),
+            new(needleX - perpendicularX, needleY - perpendicularY),
+            new(centerX - perpendicularX, centerY - perpendicularY)
+        };
+        using var needleBrush = new SolidBrush(Color.White);
+        graphics.FillPolygon(needleBrush, needleCorners);
     }
 
     private static void FillRoundedRectangle(this Graphics graphics, Brush brush, Rectangle bounds, int radius)
