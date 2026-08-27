@@ -300,7 +300,7 @@ public sealed partial class SettingsWindow : Window
         var dialog = new ContentDialog
         {
             Title = L("AdvancedWarningTitle"),
-            Content = new TextBlock { Text = L("AdvancedWarningContent"), TextWrapping = TextWrapping.Wrap },
+            Content = new TextBlock { Text = L("AdvancedWarningContent"), TextWrapping = TextWrapping.Wrap, Width = ComputeFlyoutContentWidth() },
             PrimaryButtonText = L("AdvancedWarningAgree"),
             CloseButtonText = L("AdvancedWarningDecline"),
             DefaultButton = ContentDialogButton.Close,
@@ -308,6 +308,15 @@ public sealed partial class SettingsWindow : Window
         };
         return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
+
+    // FlyoutPresenter/ContentDialog add horizontal padding around content. Give the
+    // content an explicit finite width so an infinite measure pass cannot let text
+    // retain its unwrapped desired width and get clipped instead of wrapping.
+    // Subtracts extra margin beyond FlyoutPresenter's own padding as a safety buffer:
+    // text measured right at the edge of the available width can still get clipped by
+    // a character or two due to measure/arrange rounding, so leave headroom rather than
+    // sizing exactly to the computed maximum.
+    private double ComputeFlyoutContentWidth() => Math.Max(120, Math.Min(440, WindowRoot.ActualWidth - 120));
 
     private void RefreshAutomationPage()
     {
@@ -1100,7 +1109,7 @@ public sealed partial class SettingsWindow : Window
             {
                 Text = L("AdvancedWarningContent"),
                 TextWrapping = TextWrapping.Wrap,
-                MaxWidth = Math.Max(240, Math.Min(480, WindowRoot.ActualWidth - 72)),
+                Width = ComputeFlyoutContentWidth(),
             },
         };
         target.Flyout.ShowAt(target);
@@ -1459,15 +1468,16 @@ public sealed partial class SettingsWindow : Window
 
     private void ShowSettingInfo(Button target, Guid subgroupGuid, Guid settingGuid)
     {
-        // FlyoutPresenter adds 24 px of horizontal padding. Give the content an
-        // explicit finite width so StackPanel's infinite measure pass cannot let
-        // either description retain its unwrapped desired width.
-        double contentWidth = Math.Max(120, Math.Min(480, WindowRoot.ActualWidth - 72));
+        // MaxWidth alone is not sufficient here: with an infinite-width flyout measure
+        // pass, MaxWidth on the TextBlock/StackPanel doesn't reliably force wrapping
+        // before the FlyoutPresenter clips to root bounds, so text can still get cut
+        // off mid-word instead of wrapping. An explicit finite Width is required.
+        double contentWidth = ComputeFlyoutContentWidth();
         var content = new StackPanel { Spacing = 8, Width = contentWidth };
         content.Children.Add(new TextBlock { Text = "Windows description", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold });
-        content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", Width = contentWidth, TextWrapping = TextWrapping.WrapWholeWords });
+        content.Children.Add(new TextBlock { Text = _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid) ?? "No Windows description is available.", Width = contentWidth, TextWrapping = TextWrapping.Wrap });
         content.Children.Add(new TextBlock { Text = "In plain terms", FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 0) });
-        content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, Width = contentWidth, TextWrapping = TextWrapping.WrapWholeWords });
+        content.Children.Add(new TextBlock { Text = SettingDescriptions.GetLaymanDescription(settingGuid) ?? NoLaymanDescription, Width = contentWidth, TextWrapping = TextWrapping.Wrap });
         target.Flyout = new Flyout { Content = content, ShouldConstrainToRootBounds = true };
         target.Flyout.ShowAt(target);
     }

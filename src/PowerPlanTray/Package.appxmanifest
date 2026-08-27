@@ -11,7 +11,7 @@
   <Identity
     Name="34458MindtheApp.PowerPlanManager"
     Publisher="CN=FE63C3BB-418B-484C-852F-E7985F260BC3"
-    Version="1.0.0.2" />
+    Version="1.0.0.7" />
 
   <Properties>
     <DisplayName>Power Plan Manager Pro</DisplayName>
