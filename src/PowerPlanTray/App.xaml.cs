@@ -18,12 +18,14 @@ public partial class App : Application
     private readonly AppSettingsService _appSettingsService = new();
     private readonly PowerSourceMonitor _powerSourceMonitor = new();
     private readonly AutomationRuleEngine _automationRuleEngine;
+    private readonly SystemMetricMonitorService _gaugeMetricMonitor = new();
     private Window? _hiddenWindow;
     private TaskbarIcon? _trayIcon;
     private TrayPopupWindow? _trayPopup;
     private SettingsWindow? _settingsWindow;
     private Icon? _dynamicTrayIcon;
     private double _latestCpuLoad;
+    private double _latestGaugeValue;
     private readonly BitmapImage _staticTrayIcon = new(new Uri("ms-appx:///Assets/TrayIcon.ico"));
 
     public App()
@@ -49,6 +51,7 @@ public partial class App : Application
             RightClickCommand = new RelayCommand(() => _trayPopup.Show(fullMenu: true)),
         };
         _automationRuleEngine.SystemCpuLoadUpdated += OnSystemCpuLoadUpdated;
+        _gaugeMetricMonitor.MetricUpdated += OnGaugeMetricUpdated;
         // LeftClickCommand deliberately waits for the system double-click
         // interval. This app has no double-click action, so handle the raw
         // mouse-up notification directly for an immediate, reliable toggle.
@@ -109,6 +112,18 @@ public partial class App : Application
     {
         bool needsCpu = _appSettingsService.TrayIconMode is TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart;
         _automationRuleEngine.SetCpuStatusMonitoringRequired(needsCpu || _appSettingsService.TrayIconMode == TrayIconMode.PowerPlanAbbreviation);
+
+        bool needsGauge = _appSettingsService.TrayIconMode == TrayIconMode.Gauge;
+        if (needsGauge)
+        {
+            _gaugeMetricMonitor.SetMetric(_appSettingsService.TrayIconGaugeMetric);
+            _gaugeMetricMonitor.Start();
+        }
+        else
+        {
+            _gaugeMetricMonitor.Stop();
+        }
+
         if (_appSettingsService.TrayIconMode == TrayIconMode.Static)
         {
             if (_trayIcon is not null)
@@ -130,13 +145,37 @@ public partial class App : Application
         _hiddenWindow?.DispatcherQueue.TryEnqueue(UpdateDynamicTrayIcon);
     }
 
+    private void OnGaugeMetricUpdated(object? sender, double value)
+    {
+        _latestGaugeValue = value;
+        _hiddenWindow?.DispatcherQueue.TryEnqueue(UpdateDynamicTrayIcon);
+    }
+
+    private static Color? ParseGaugeColor(string hex)
+    {
+        if (string.IsNullOrWhiteSpace(hex)) return null;
+        string trimmed = hex.TrimStart('#');
+        try
+        {
+            return trimmed.Length switch
+            {
+                6 => Color.FromArgb(255, Convert.ToInt32(trimmed[..2], 16), Convert.ToInt32(trimmed[2..4], 16), Convert.ToInt32(trimmed[4..6], 16)),
+                8 => Color.FromArgb(Convert.ToInt32(trimmed[..2], 16), Convert.ToInt32(trimmed[2..4], 16), Convert.ToInt32(trimmed[4..6], 16), Convert.ToInt32(trimmed[6..8], 16)),
+                _ => null,
+            };
+        }
+        catch (FormatException) { return null; }
+    }
+
     private void UpdateDynamicTrayIcon()
     {
         if (_trayIcon is null || _appSettingsService.TrayIconMode == TrayIconMode.Static) return;
         try
         {
             string planName = GetActivePlanName();
-            Icon replacement = DynamicTrayIconRenderer.Render(_appSettingsService.TrayIconMode, _latestCpuLoad, planName);
+            Icon replacement = DynamicTrayIconRenderer.Render(
+                _appSettingsService.TrayIconMode, _latestCpuLoad, planName,
+                ParseGaugeColor(_appSettingsService.TrayIconGaugeColor), _latestGaugeValue);
             _trayIcon.IconSource = null;
             _trayIcon.Icon = replacement;
             Icon? previous = _dynamicTrayIcon;
@@ -145,6 +184,7 @@ public partial class App : Application
             _trayIcon.ToolTipText = _appSettingsService.TrayIconMode switch
             {
                 TrayIconMode.CpuPercentText or TrayIconMode.CpuBarChart => F("TrayTooltipCpu", Math.Round(_latestCpuLoad), planName),
+                TrayIconMode.Gauge => F("TrayTooltipGauge", GaugeMetricLabel(_appSettingsService.TrayIconGaugeMetric), Math.Round(_latestGaugeValue), planName),
                 _ => F("TrayTooltipPlan", planName),
             };
         }
@@ -158,6 +198,15 @@ public partial class App : Application
             _dynamicTrayIcon = null;
         }
     }
+
+    private static string GaugeMetricLabel(TrayGaugeMetric metric) => metric switch
+    {
+        TrayGaugeMetric.Memory => L("GaugeMetricMemory"),
+        TrayGaugeMetric.Disk => L("GaugeMetricDisk"),
+        TrayGaugeMetric.Network => L("GaugeMetricNetwork"),
+        TrayGaugeMetric.Gpu => L("GaugeMetricGpu"),
+        _ => L("GaugeMetricCpu"),
+    };
 
     private string GetActivePlanName()
     {

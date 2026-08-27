@@ -17,7 +17,7 @@ public sealed class CpuLoadMonitorService : IDisposable
     private readonly Dictionary<int, ProcessSample> _processSamples = new();
     private Timer? _timer;
     private int _polling;
-    private ulong? _previousIdle, _previousKernel, _previousUser;
+    private readonly SystemCpuUsageSampler _cpuSampler = new();
 
     public event EventHandler<double>? SystemCpuLoadUpdated;
 
@@ -83,16 +83,7 @@ public sealed class CpuLoadMonitorService : IDisposable
         if (exit) _exited(rule.Id);
     }
 
-    private double? SampleSystemCpu()
-    {
-        if (!GetSystemTimes(out FILETIME idleFt, out FILETIME kernelFt, out FILETIME userFt)) return null;
-        ulong idle = ToUInt64(idleFt), kernel = ToUInt64(kernelFt), user = ToUInt64(userFt);
-        if (!_previousIdle.HasValue) { _previousIdle = idle; _previousKernel = kernel; _previousUser = user; return null; }
-        ulong idleDelta = idle - _previousIdle.Value;
-        ulong totalDelta = kernel - _previousKernel!.Value + user - _previousUser!.Value;
-        _previousIdle = idle; _previousKernel = kernel; _previousUser = user;
-        return totalDelta == 0 ? null : Math.Clamp(100d * (totalDelta - Math.Min(idleDelta, totalDelta)) / totalDelta, 0, 100);
-    }
+    private double? SampleSystemCpu() => _cpuSampler.Sample();
 
     private Dictionary<string, double> SampleProcessCpu(IEnumerable<AutoSwitchRule> rules)
     {
@@ -124,9 +115,27 @@ public sealed class CpuLoadMonitorService : IDisposable
 
     private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
     private static AutoSwitchRule CloneRule(AutoSwitchRule r) => new() { Id = r.Id, Trigger = r.Trigger, TargetPlanGuid = r.TargetPlanGuid, AppExecutableName = r.AppExecutableName, CpuThresholdPercent = r.CpuThresholdPercent, Priority = r.Priority, Name = r.Name, Enabled = r.Enabled };
-    private static ulong ToUInt64(FILETIME ft) => ((ulong)ft.High << 32) | ft.Low;
     public void Dispose() => Stop();
     private readonly record struct ProcessSample(TimeSpan Cpu, DateTime At);
+}
+
+/// <summary>Shared GetSystemTimes delta-based total system CPU percentage sampler, reused by callers that need a live 0-100 CPU reading.</summary>
+internal sealed class SystemCpuUsageSampler
+{
+    private ulong? _previousIdle, _previousKernel, _previousUser;
+
+    public double? Sample()
+    {
+        if (!GetSystemTimes(out FILETIME idleFt, out FILETIME kernelFt, out FILETIME userFt)) return null;
+        ulong idle = ToUInt64(idleFt), kernel = ToUInt64(kernelFt), user = ToUInt64(userFt);
+        if (!_previousIdle.HasValue) { _previousIdle = idle; _previousKernel = kernel; _previousUser = user; return null; }
+        ulong idleDelta = idle - _previousIdle.Value;
+        ulong totalDelta = kernel - _previousKernel!.Value + user - _previousUser!.Value;
+        _previousIdle = idle; _previousKernel = kernel; _previousUser = user;
+        return totalDelta == 0 ? null : Math.Clamp(100d * (totalDelta - Math.Min(idleDelta, totalDelta)) / totalDelta, 0, 100);
+    }
+
+    private static ulong ToUInt64(FILETIME ft) => ((ulong)ft.High << 32) | ft.Low;
     [StructLayout(LayoutKind.Sequential)] private struct FILETIME { public uint Low, High; }
     [DllImport("kernel32.dll")] private static extern bool GetSystemTimes(out FILETIME idle, out FILETIME kernel, out FILETIME user);
 }

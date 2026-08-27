@@ -21,4 +21,15 @@ public enum TrayIconMode
     CpuPercentText,
     CpuBarChart,
     PowerPlanAbbreviation,
+    Gauge,
+}
+
+/// <summary>A Task Manager Performance-tab-style system metric, each expressed as a 0-100 percentage.</summary>
+public enum TrayGaugeMetric
+{
+    Cpu,
+    Memory,
+    Disk,
+    Network,
+    Gpu,
 }

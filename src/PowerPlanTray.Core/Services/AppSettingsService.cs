@@ -23,6 +23,9 @@ public sealed class AppSettingsService
     private const string SettingsWindowSizeKey = nameof(SettingsWindowSize);
     private const string NavigationPanePinnedKey = nameof(NavigationPanePinned);
     private const string TrayIconModeKey = nameof(TrayIconMode);
+    private const string TrayIconGaugeMetricKey = nameof(TrayIconGaugeMetric);
+    private const string TrayIconGaugeColorKey = nameof(TrayIconGaugeColor);
+    private const string DefaultTrayIconGaugeColor = "#7A3FD4";
     private const string AdvancedWarningAcknowledgedKey = nameof(AdvancedWarningAcknowledged);
 
     private readonly ApplicationDataContainer _localSettings =
@@ -92,6 +95,19 @@ public sealed class AppSettingsService
     {
         get => GetEnum(TrayIconModeKey, Models.TrayIconMode.Static);
         set => _localSettings.Values[TrayIconModeKey] = value.ToString();
+    }
+
+    public TrayGaugeMetric TrayIconGaugeMetric
+    {
+        get => GetEnum(TrayIconGaugeMetricKey, TrayGaugeMetric.Cpu);
+        set => _localSettings.Values[TrayIconGaugeMetricKey] = value.ToString();
+    }
+
+    /// <summary>Hex ARGB/RGB string (e.g. "#7A3FD4") for the Gauge tray icon's accent color.</summary>
+    public string TrayIconGaugeColor
+    {
+        get => GetString(TrayIconGaugeColorKey, DefaultTrayIconGaugeColor);
+        set => _localSettings.Values[TrayIconGaugeColorKey] = value;
     }
 
     public bool AutoSwitchBatteryAcEnabled
@@ -204,6 +220,11 @@ public sealed class AppSettingsService
     private bool GetBoolean(string key, bool defaultValue) =>
         _localSettings.Values.TryGetValue(key, out object? value) && value is bool boolean
             ? boolean
+            : defaultValue;
+
+    private string GetString(string key, string defaultValue) =>
+        _localSettings.Values.TryGetValue(key, out object? value) && value is string serialized && !string.IsNullOrWhiteSpace(serialized)
+            ? serialized
             : defaultValue;
 
     private T GetEnum<T>(string key, T defaultValue) where T : struct, Enum =>
