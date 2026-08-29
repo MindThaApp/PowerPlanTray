@@ -27,9 +27,33 @@ public sealed class AppSettingsService
     private const string TrayIconGaugeColorKey = nameof(TrayIconGaugeColor);
     private const string DefaultTrayIconGaugeColor = "#7A3FD4";
     private const string AdvancedWarningAcknowledgedKey = nameof(AdvancedWarningAcknowledged);
+    private const string FirstLaunchUtcKey = nameof(FirstLaunchUtc);
 
     private readonly ApplicationDataContainer _localSettings =
         ApplicationData.Current.LocalSettings;
+
+    public AppSettingsService()
+    {
+        _ = FirstLaunchUtc;
+    }
+
+    public DateTimeOffset FirstLaunchUtc
+    {
+        get
+        {
+            if (_localSettings.Values.TryGetValue(FirstLaunchUtcKey, out object? value) &&
+                value is string serialized &&
+                DateTimeOffset.TryParseExact(serialized, "O", System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.RoundtripKind, out DateTimeOffset firstLaunchUtc))
+            {
+                return firstLaunchUtc.ToUniversalTime();
+            }
+
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+            _localSettings.Values[FirstLaunchUtcKey] = now.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
+            return now;
+        }
+    }
 
     public bool StartWithWindows
     {
