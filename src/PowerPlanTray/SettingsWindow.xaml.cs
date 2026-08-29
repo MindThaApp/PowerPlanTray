@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Win32;
 using System.Reflection;
+using Windows.Services.Store;
 
 namespace PowerPlanTray;
 
@@ -29,6 +30,7 @@ public sealed partial class SettingsWindow : Window
     private readonly ElevationService _elevationService = new();
     private readonly PowerSourceMonitor _powerSourceMonitor;
     private readonly AutomationRuleEngine _automationRuleEngine;
+    private readonly LicensingService _licensingService;
     private IReadOnlyList<PowerScheme> _automationSchemes = Array.Empty<PowerScheme>();
     private bool _isInitializing;
     private bool _hasInitialized;
@@ -51,12 +53,14 @@ public sealed partial class SettingsWindow : Window
         AppSettingsService appSettingsService,
         PowerSchemeService powerSchemeService,
         PowerSourceMonitor powerSourceMonitor,
-        AutomationRuleEngine automationRuleEngine)
+        AutomationRuleEngine automationRuleEngine,
+        LicensingService licensingService)
     {
         _appSettingsService = appSettingsService;
         _powerSchemeService = powerSchemeService;
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
+        _licensingService = licensingService;
         InitializeComponent();
         WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = L("SettingsWindowTitle");
@@ -521,9 +525,14 @@ public sealed partial class SettingsWindow : Window
         row.Children.Add(down);
     }
 
-    private void OnCpuRuleEnabledClick(object sender, RoutedEventArgs e)
+    private async void OnCpuRuleEnabledClick(object sender, RoutedEventArgs e)
     {
         if (sender is not CheckBox { Tag: Guid id } checkBox) return;
+        if (checkBox.IsChecked == true && !await EnsureProAccessAsync())
+        {
+            checkBox.IsChecked = false;
+            return;
+        }
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
         AutoSwitchRule? rule = rules.FirstOrDefault(candidate => candidate.Id == id);
         if (rule is null) return;
@@ -588,9 +597,16 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void OnBatteryAcToggleToggled(object sender, RoutedEventArgs e)
+    private async void OnBatteryAcToggleToggled(object sender, RoutedEventArgs e)
     {
         if (_isInitializing) return;
+        if (BatteryAcToggle.IsOn && !await EnsureProAccessAsync())
+        {
+            _isInitializing = true;
+            BatteryAcToggle.IsOn = false;
+            _isInitializing = false;
+            return;
+        }
         _appSettingsService.AutoSwitchBatteryAcEnabled = BatteryAcToggle.IsOn;
         AutomationConfigurationChanged(applyPowerState: BatteryAcToggle.IsOn);
     }
@@ -609,8 +625,9 @@ public sealed partial class SettingsWindow : Window
         AutomationConfigurationChanged(applyPowerState: !_powerSourceMonitor.IsOnBattery);
     }
 
-    private void OnAddAppRuleClick(object sender, RoutedEventArgs e)
+    private async void OnAddAppRuleClick(object sender, RoutedEventArgs e)
     {
+        if (!await EnsureProAccessAsync()) return;
         string executable = AppExecutableTextBox.Text.Trim();
         if (string.IsNullOrWhiteSpace(executable) || AppRulePlanComboBox.SelectedItem is not PowerScheme plan)
         {
@@ -639,9 +656,14 @@ public sealed partial class SettingsWindow : Window
         AppRuleStatusText.Text = string.Empty;
     }
 
-    private void OnAppRuleEnabledClick(object sender, RoutedEventArgs e)
+    private async void OnAppRuleEnabledClick(object sender, RoutedEventArgs e)
     {
         if (sender is not CheckBox { Tag: Guid id } checkBox) return;
+        if (checkBox.IsChecked == true && !await EnsureProAccessAsync())
+        {
+            checkBox.IsChecked = false;
+            return;
+        }
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
         AutoSwitchRule? rule = rules.FirstOrDefault(candidate => candidate.Id == id);
         if (rule is null) return;
@@ -674,8 +696,9 @@ public sealed partial class SettingsWindow : Window
         AppCpuThresholdNumberBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void OnAddSystemCpuRuleClick(object sender, RoutedEventArgs e)
+    private async void OnAddSystemCpuRuleClick(object sender, RoutedEventArgs e)
     {
+        if (!await EnsureProAccessAsync()) return;
         if (SystemCpuDirectionComboBox.SelectedIndex < 0 || SystemCpuPlanComboBox.SelectedItem is not PowerScheme plan) return;
         double threshold = SystemCpuThresholdNumberBox.Value;
         if (double.IsNaN(threshold) || threshold is < 0 or > 100)
@@ -1214,6 +1237,7 @@ public sealed partial class SettingsWindow : Window
     private async void OnApplyAdvancedChangesClick(object sender, RoutedEventArgs e)
     {
         if (_pendingAdvancedVisibilityChanges.Count == 0 && _pendingAdvancedValueChanges.Count == 0) return;
+        if (!await EnsureProAccessAsync()) return;
 
         var visibilityChanges = _pendingAdvancedVisibilityChanges
             .Select(change => (change.Key.SubgroupGuid, change.Key.SettingGuid, change.Value))
@@ -1258,6 +1282,52 @@ public sealed partial class SettingsWindow : Window
             RefreshCpuBoostState();
             AdvancedStatusText.Text = string.Join(" ", new[] { visibilityFailure, valueFailure }.Where(message => message.Length > 0));
         }
+    }
+
+    private async Task<bool> EnsureProAccessAsync()
+    {
+        if (await _licensingService.IsProUnlockedAsync())
+        {
+            _automationRuleEngine.SetProAccessEnabled(true);
+            return true;
+        }
+
+        var dialog = new ContentDialog
+        {
+            Title = "Power Plan Manager Pro Unlock",
+            Content = new TextBlock
+            {
+                Text = "This feature requires Power Plan Manager Pro Unlock. Your 7-day trial has ended. Unlock for $2.99?",
+                TextWrapping = TextWrapping.Wrap,
+                Width = ComputeFlyoutContentWidth(),
+            },
+            PrimaryButtonText = "Unlock",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = Content.XamlRoot,
+        };
+        if (await dialog.ShowAsync() != ContentDialogResult.Primary) return false;
+
+        StorePurchaseStatus status = await _licensingService.PurchaseProUnlockAsync();
+        if ((status is StorePurchaseStatus.Succeeded or StorePurchaseStatus.AlreadyPurchased) &&
+            await _licensingService.IsProUnlockedAsync(forceLicenseRefresh: true))
+        {
+            _automationRuleEngine.SetProAccessEnabled(true);
+            return true;
+        }
+
+        if (status != StorePurchaseStatus.NotPurchased)
+        {
+            var errorDialog = new ContentDialog
+            {
+                Title = "Purchase unavailable",
+                Content = "The purchase could not be completed. Please check your Microsoft Store connection and try again.",
+                CloseButtonText = "OK",
+                XamlRoot = Content.XamlRoot,
+            };
+            await errorDialog.ShowAsync();
+        }
+        return false;
     }
 
     private async void OnRevertAdvancedChangesClick(object sender, RoutedEventArgs e)

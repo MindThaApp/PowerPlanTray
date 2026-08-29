@@ -26,6 +26,7 @@ public sealed class AutomationRuleEngine : IDisposable
     private Guid? _appliedCpuRuleId;
     private bool _started;
     private bool _cpuStatusMonitoringRequired;
+    private bool _proAccessEnabled;
 
     public event EventHandler? TimedSwitchStateChanged;
     public event EventHandler<double>? SystemCpuLoadUpdated;
@@ -57,11 +58,12 @@ public sealed class AutomationRuleEngine : IDisposable
     public void RefreshConfiguration(bool applyCurrentPowerState = false)
     {
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
-        _processWatcher.UpdateRules(rules);
-        _cpuLoadMonitor.UpdateRules(rules);
+        List<AutoSwitchRule> proRules = _proAccessEnabled ? rules : new List<AutoSwitchRule>();
+        _processWatcher.UpdateRules(proRules);
+        _cpuLoadMonitor.UpdateRules(proRules);
         lock (_sync)
         {
-            Dictionary<Guid, AutoSwitchRule> configuredCpuRules = rules
+            Dictionary<Guid, AutoSwitchRule> configuredCpuRules = proRules
                 .Where(rule => rule.Enabled && IsCpuTrigger(rule.Trigger))
                 .ToDictionary(rule => rule.Id);
             foreach (Guid id in _activeCpuRules.Keys.ToArray())
@@ -71,18 +73,25 @@ public sealed class AutomationRuleEngine : IDisposable
             }
             if (_activeCpuRules.Count > 0) ApplyHighestPriorityCpuRule();
         }
-        if (rules.Any(rule => rule.Trigger == AutomationTrigger.AppRunning && rule.Enabled))
+        if (proRules.Any(rule => rule.Trigger == AutomationTrigger.AppRunning && rule.Enabled))
             _processWatcher.Start();
         else
             _processWatcher.Stop();
 
-        if (_cpuStatusMonitoringRequired || rules.Any(rule => rule.Enabled && rule.Trigger is (AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)))
+        if (_cpuStatusMonitoringRequired || proRules.Any(rule => rule.Enabled && rule.Trigger is (AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove)))
             _cpuLoadMonitor.Start();
         else
             _cpuLoadMonitor.Stop();
 
-        if (applyCurrentPowerState && _appSettingsService.AutoSwitchBatteryAcEnabled)
+        if (applyCurrentPowerState && _proAccessEnabled && _appSettingsService.AutoSwitchBatteryAcEnabled)
             ApplyPowerSource(_powerSourceMonitor.IsOnBattery);
+    }
+
+    public void SetProAccessEnabled(bool enabled)
+    {
+        if (_proAccessEnabled == enabled) return;
+        _proAccessEnabled = enabled;
+        RefreshConfiguration(applyCurrentPowerState: enabled);
     }
 
     public void SetCpuStatusMonitoringRequired(bool required)
@@ -160,7 +169,7 @@ public sealed class AutomationRuleEngine : IDisposable
 
     private void OnPowerSourceChanged(object? sender, bool isOnBattery)
     {
-        if (_appSettingsService.AutoSwitchBatteryAcEnabled) ApplyPowerSource(isOnBattery);
+        if (_proAccessEnabled && _appSettingsService.AutoSwitchBatteryAcEnabled) ApplyPowerSource(isOnBattery);
     }
 
     private void ApplyPowerSource(bool isOnBattery)

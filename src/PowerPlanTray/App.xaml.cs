@@ -16,6 +16,7 @@ public partial class App : Application
     private static string F(string key, params object?[] args) => Localization.Format(key, args);
     private readonly PowerSchemeService _powerSchemeService = new();
     private readonly AppSettingsService _appSettingsService = new();
+    private readonly LicensingService _licensingService;
     private readonly PowerSourceMonitor _powerSourceMonitor = new();
     private readonly AutomationRuleEngine _automationRuleEngine;
     private readonly SystemMetricMonitorService _gaugeMetricMonitor = new();
@@ -30,11 +31,12 @@ public partial class App : Application
 
     public App()
     {
+        _licensingService = new LicensingService(_appSettingsService);
         _automationRuleEngine = new AutomationRuleEngine(_powerSchemeService, _powerSourceMonitor, _appSettingsService);
         InitializeComponent();
     }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         _hiddenWindow = new Window { Title = "PowerPlanTray background host" };
         _trayPopup = new TrayPopupWindow(
@@ -63,7 +65,9 @@ public partial class App : Application
                 ShowSettingsWindow();
         };
 
+        _automationRuleEngine.SetProAccessEnabled(await _licensingService.IsProUnlockedAsync());
         _automationRuleEngine.Start();
+        _ = DisableProAutomationWhenTrialExpiresAsync();
         _trayIcon.ForceCreate();
         ApplyTrayIconMode();
         ExtendedActivationKind activationKind = AppInstance.GetCurrent().GetActivatedEventArgs().Kind;
@@ -73,13 +77,29 @@ public partial class App : Application
         if (!startHidden) ShowSettingsWindow();
     }
 
+    private async Task DisableProAutomationWhenTrialExpiresAsync()
+    {
+        TimeSpan remaining = _licensingService.TrialRemaining;
+        if (remaining <= TimeSpan.Zero) return;
+        try
+        {
+            await Task.Delay(remaining);
+            bool unlocked = await _licensingService.IsProUnlockedAsync(forceLicenseRefresh: true);
+            _hiddenWindow?.DispatcherQueue.TryEnqueue(() => _automationRuleEngine.SetProAccessEnabled(unlocked));
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"PowerPlanTray: trial-expiration refresh failed: {ex}");
+        }
+    }
+
     private void ShowSettingsWindow()
     {
         try
         {
             if (_settingsWindow is null)
             {
-                _settingsWindow = new SettingsWindow(_appSettingsService, _powerSchemeService, _powerSourceMonitor, _automationRuleEngine);
+                _settingsWindow = new SettingsWindow(_appSettingsService, _powerSchemeService, _powerSourceMonitor, _automationRuleEngine, _licensingService);
                 _settingsWindow.UiPreferencesChanged += (_, _) =>
                 {
                     _trayPopup?.ApplyPreferences();

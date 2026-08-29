@@ -23,15 +23,19 @@ public sealed class ProcessWatcherService : IDisposable
 
     public void UpdateRules(IEnumerable<AutoSwitchRule> rules)
     {
+        bool restorePlan;
         lock (_sync)
         {
+            bool hadRunningRule = _runningRuleIds.Count > 0;
             _rules = rules
                 .Where(rule => rule.Trigger == AutomationTrigger.AppRunning &&
                     rule.Enabled && !string.IsNullOrWhiteSpace(rule.AppExecutableName))
                 .Select(CloneRule)
                 .ToList();
             _runningRuleIds.IntersectWith(_rules.Select(rule => rule.Id));
+            restorePlan = hadRunningRule && _runningRuleIds.Count == 0;
         }
+        if (restorePlan) _lastAppStopped();
     }
 
     public void Start() => _timer ??= new Timer(Poll, null, TimeSpan.Zero, TimeSpan.FromSeconds(3));
