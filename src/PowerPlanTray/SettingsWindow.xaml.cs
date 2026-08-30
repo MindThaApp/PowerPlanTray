@@ -16,7 +16,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Win32;
 using System.Reflection;
+#if !LITE_EDITION
 using Windows.Services.Store;
+#endif
 
 namespace PowerPlanTray;
 
@@ -30,7 +32,9 @@ public sealed partial class SettingsWindow : Window
     private readonly ElevationService _elevationService = new();
     private readonly PowerSourceMonitor _powerSourceMonitor;
     private readonly AutomationRuleEngine _automationRuleEngine;
+#if !LITE_EDITION
     private readonly LicensingService _licensingService;
+#endif
     private IReadOnlyList<PowerScheme> _automationSchemes = Array.Empty<PowerScheme>();
     private bool _isInitializing;
     private bool _hasInitialized;
@@ -53,15 +57,26 @@ public sealed partial class SettingsWindow : Window
         AppSettingsService appSettingsService,
         PowerSchemeService powerSchemeService,
         PowerSourceMonitor powerSourceMonitor,
-        AutomationRuleEngine automationRuleEngine,
-        LicensingService licensingService)
+        AutomationRuleEngine automationRuleEngine
+#if !LITE_EDITION
+        , LicensingService licensingService
+#endif
+        )
     {
         _appSettingsService = appSettingsService;
         _powerSchemeService = powerSchemeService;
         _powerSourceMonitor = powerSourceMonitor;
         _automationRuleEngine = automationRuleEngine;
+#if !LITE_EDITION
         _licensingService = licensingService;
+#endif
         InitializeComponent();
+#if LITE_EDITION
+        BatteryAcPremiumBadge.Visibility = Visibility.Visible;
+        SystemCpuPremiumBadge.Visibility = Visibility.Visible;
+        AppRulesPremiumBadge.Visibility = Visibility.Visible;
+        AdvancedApplyPremiumBadge.Visibility = Visibility.Visible;
+#endif
         WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = L("SettingsWindowTitle");
         AboutVersionText.Text = F("VersionFormat", GetAppVersion());
@@ -426,6 +441,9 @@ public sealed partial class SettingsWindow : Window
             var remove = new Button { Content = "Remove", Tag = rule.Id };
             remove.Click += OnRemoveAppRuleClick;
             row.Children.Add(enabled);
+#if LITE_EDITION
+            row.Children.Add(CreatePremiumBadge());
+#endif
             AddPriorityButtons(row, rule);
             row.Children.Add(remove);
             AppRulesPanel.Children.Add(row);
@@ -502,6 +520,9 @@ public sealed partial class SettingsWindow : Window
             };
             enabled.Click += OnCpuRuleEnabledClick;
             row.Children.Add(enabled);
+#if LITE_EDITION
+            row.Children.Add(CreatePremiumBadge());
+#endif
             AddPriorityButtons(row, rule);
             var remove = new Button { Content = "Remove", Tag = rule.Id };
             remove.Click += OnRemoveCpuRuleClick;
@@ -1286,6 +1307,27 @@ public sealed partial class SettingsWindow : Window
 
     private async Task<bool> EnsureProAccessAsync()
     {
+#if LITE_EDITION
+        var dialog = new ContentDialog
+        {
+            Title = "Premium feature",
+            Content = new TextBlock
+            {
+                Text = "This feature is part of Power Plan Manager Pro.",
+                TextWrapping = TextWrapping.Wrap,
+                Width = ComputeFlyoutContentWidth(),
+            },
+            PrimaryButtonText = "View Pro in Microsoft Store",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = Content.XamlRoot,
+        };
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://apps.microsoft.com/detail/9NC994G4LCQG"));
+        }
+        return false;
+#else
         if (await _licensingService.IsProUnlockedAsync())
         {
             _automationRuleEngine.SetProAccessEnabled(true);
@@ -1328,7 +1370,17 @@ public sealed partial class SettingsWindow : Window
             await errorDialog.ShowAsync();
         }
         return false;
+#endif
     }
+
+#if LITE_EDITION
+    private static TextBlock CreatePremiumBadge() => new()
+    {
+        Text = "Premium",
+        Opacity = 0.65,
+        VerticalAlignment = VerticalAlignment.Center,
+    };
+#endif
 
     private async void OnRevertAdvancedChangesClick(object sender, RoutedEventArgs e)
     {

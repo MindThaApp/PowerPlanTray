@@ -64,7 +64,10 @@
             <TextBlock x:Uid="Automation" Style="{ThemeResource TitleTextBlockStyle}" />
             <StackPanel x:Name="BatteryAcSection" Spacing="12">
               <TextBlock x:Uid="BatteryAndAcPower" Style="{ThemeResource SubtitleTextBlockStyle}" />
-              <ToggleSwitch x:Uid="AutomaticallySwitchWithThePowerSource" x:Name="BatteryAcToggle" Toggled="OnBatteryAcToggleToggled" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <ToggleSwitch x:Uid="AutomaticallySwitchWithThePowerSource" x:Name="BatteryAcToggle" Toggled="OnBatteryAcToggleToggled" />
+                <TextBlock x:Name="BatteryAcPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
+              </StackPanel>
               <StackPanel Orientation="Horizontal" Spacing="12">
                 <TextBlock x:Uid="OnBattery" Width="120" VerticalAlignment="Center" />
                 <ComboBox x:Name="BatteryPlanComboBox" Width="260" DisplayMemberPath="Name" SelectionChanged="OnBatteryPlanSelectionChanged" />
@@ -75,7 +78,10 @@
               </StackPanel>
             </StackPanel>
             <StackPanel Spacing="12">
-              <TextBlock x:Uid="SystemLoad" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock x:Uid="SystemLoad" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Name="SystemCpuPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
+              </StackPanel>
               <TextBlock x:Uid="SwitchPlansAfterOverallCpuLoad" TextWrapping="Wrap" />
               <StackPanel x:Name="SystemCpuRulesPanel" Spacing="8" />
               <StackPanel Orientation="Horizontal" Spacing="8">
@@ -88,7 +94,10 @@
               <TextBlock x:Name="SystemCpuRuleStatusText" TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Spacing="12">
-              <TextBlock x:Uid="AppRules" Style="{ThemeResource SubtitleTextBlockStyle}" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock x:Uid="AppRules" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Name="AppRulesPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
+              </StackPanel>
               <TextBlock x:Uid="SwitchWhileAnAppIsRunning" TextWrapping="Wrap" />
               <StackPanel x:Name="AppRulesPanel" Spacing="8" />
               <StackPanel Orientation="Horizontal" Spacing="8">
@@ -195,6 +204,7 @@
           <StackPanel MaxWidth="1000" Padding="32,12,32,8" Spacing="8" Orientation="Horizontal" HorizontalAlignment="Left">
             <ComboBox x:Uid="PowerPlan" x:Name="AdvancedPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnAdvancedPlanSelectionChanged" />
             <Button x:Uid="Apply" x:Name="ApplyAdvancedVisibilityButton" Click="OnApplyAdvancedChangesClick" IsEnabled="False" VerticalAlignment="Bottom" />
+            <TextBlock x:Name="AdvancedApplyPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
             <Button x:Name="RevertAdvancedVisibilityButton" Content="Revert" Click="OnRevertAdvancedChangesClick" IsEnabled="False" VerticalAlignment="Bottom" />
           </StackPanel>
           <ScrollViewer Grid.Row="1">

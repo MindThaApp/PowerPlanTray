@@ -16,7 +16,9 @@ public partial class App : Application
     private static string F(string key, params object?[] args) => Localization.Format(key, args);
     private readonly PowerSchemeService _powerSchemeService = new();
     private readonly AppSettingsService _appSettingsService = new();
+#if !LITE_EDITION
     private readonly LicensingService _licensingService;
+#endif
     private readonly PowerSourceMonitor _powerSourceMonitor = new();
     private readonly AutomationRuleEngine _automationRuleEngine;
     private readonly SystemMetricMonitorService _gaugeMetricMonitor = new();
@@ -31,7 +33,9 @@ public partial class App : Application
 
     public App()
     {
+#if !LITE_EDITION
         _licensingService = new LicensingService(_appSettingsService);
+#endif
         _automationRuleEngine = new AutomationRuleEngine(_powerSchemeService, _powerSourceMonitor, _appSettingsService);
         InitializeComponent();
     }
@@ -65,9 +69,16 @@ public partial class App : Application
                 ShowSettingsWindow();
         };
 
+#if LITE_EDITION
+        await Task.CompletedTask;
+        _automationRuleEngine.SetProAccessEnabled(false);
+#else
         _automationRuleEngine.SetProAccessEnabled(await _licensingService.IsProUnlockedAsync());
+#endif
         _automationRuleEngine.Start();
+#if !LITE_EDITION
         _ = DisableProAutomationWhenTrialExpiresAsync();
+#endif
         _trayIcon.ForceCreate();
         ApplyTrayIconMode();
         ExtendedActivationKind activationKind = AppInstance.GetCurrent().GetActivatedEventArgs().Kind;
@@ -77,6 +88,7 @@ public partial class App : Application
         if (!startHidden) ShowSettingsWindow();
     }
 
+#if !LITE_EDITION
     private async Task DisableProAutomationWhenTrialExpiresAsync()
     {
         TimeSpan remaining = _licensingService.TrialRemaining;
@@ -92,6 +104,7 @@ public partial class App : Application
             System.Diagnostics.Debug.WriteLine($"PowerPlanTray: trial-expiration refresh failed: {ex}");
         }
     }
+#endif
 
     private void ShowSettingsWindow()
     {
@@ -99,7 +112,11 @@ public partial class App : Application
         {
             if (_settingsWindow is null)
             {
-                _settingsWindow = new SettingsWindow(_appSettingsService, _powerSchemeService, _powerSourceMonitor, _automationRuleEngine, _licensingService);
+                _settingsWindow = new SettingsWindow(_appSettingsService, _powerSchemeService, _powerSourceMonitor, _automationRuleEngine
+#if !LITE_EDITION
+                    , _licensingService
+#endif
+                    );
                 _settingsWindow.UiPreferencesChanged += (_, _) =>
                 {
                     _trayPopup?.ApplyPreferences();
