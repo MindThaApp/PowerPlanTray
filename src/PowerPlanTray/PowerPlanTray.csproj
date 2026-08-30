@@ -18,6 +18,24 @@
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(AppEdition)' == 'Lite'">
+    <DefineConstants>$(DefineConstants);LITE_EDITION</DefineConstants>
+    <OutputPath>bin\Lite\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\Lite\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(AppEdition)' != 'Lite'">
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(AppEdition)' == 'Lite'">
+    <AppxManifest Include="Package.Lite.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
