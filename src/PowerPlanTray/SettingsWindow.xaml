@@ -199,6 +199,7 @@
         <Grid x:Name="AdvancedPage" Visibility="Collapsed">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
           </Grid.RowDefinitions>
           <StackPanel MaxWidth="1000" Padding="32,12,32,8" Spacing="8" Orientation="Horizontal" HorizontalAlignment="Left">
@@ -207,7 +208,15 @@
             <TextBlock x:Name="AdvancedApplyPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
             <Button x:Name="RevertAdvancedVisibilityButton" Content="Revert" Click="OnRevertAdvancedChangesClick" IsEnabled="False" VerticalAlignment="Bottom" />
           </StackPanel>
-          <ScrollViewer Grid.Row="1">
+          <StackPanel Grid.Row="1" MaxWidth="1000" Padding="32,0,32,8" Spacing="4" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <AutoSuggestBox x:Uid="AdvancedSearchBox" x:Name="AdvancedSearchBox" QueryIcon="Find" Width="320" HorizontalAlignment="Left" TextChanged="OnAdvancedSearchTextChanged" />
+              <CheckBox x:Uid="AdvancedSearchIncludeHidden" x:Name="AdvancedSearchIncludeHiddenCheckBox" VerticalAlignment="Center" Checked="OnAdvancedSearchScopeChanged" Unchecked="OnAdvancedSearchScopeChanged" />
+              <CheckBox x:Uid="AdvancedSearchDescriptions" x:Name="AdvancedSearchDescriptionsCheckBox" VerticalAlignment="Center" Checked="OnAdvancedSearchScopeChanged" Unchecked="OnAdvancedSearchScopeChanged" />
+            </StackPanel>
+            <TextBlock x:Name="AdvancedSearchStatusText" TextWrapping="Wrap" Visibility="Collapsed" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+          <ScrollViewer Grid.Row="2">
           <StackPanel x:Name="AdvancedPagePanel" MaxWidth="1000" Padding="32,4,32,32" Spacing="16" HorizontalAlignment="Left">
             <TextBlock x:Uid="Advanced" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock x:Uid="CommonWindowsPowerOptionsLoadImmediately" TextWrapping="Wrap" />

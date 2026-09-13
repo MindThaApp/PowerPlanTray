@@ -44,6 +44,9 @@ public sealed partial class SettingsWindow : Window
     private readonly HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> _expandedAdvancedCategories = new();
     private readonly HashSet<(Guid SubgroupGuid, Guid SettingGuid)> _expandedAdvancedSettings = new();
     private List<AdvancedSettingsProfile> _advancedProfiles = new();
+    private HashSet<(bool IsHiddenSection, Guid SubgroupGuid)>? _advancedSearchCategorySnapshot;
+    private bool? _advancedSearchHiddenExpanderSnapshot;
+    private readonly record struct AdvancedSettingSearchTag(Guid SubgroupGuid, Guid SettingGuid, string SettingName);
     private static string NoLaymanDescription => L("NoLaymanDescription");
     private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
     private static readonly Guid ProcessorMaximumStateGuid = new("bc5038f7-23e0-4960-96da-33abaf5935ec");
@@ -1152,6 +1155,7 @@ public sealed partial class SettingsWindow : Window
                 await _appSettingsService.TrySetAdvancedVisibilityBaselineAsync(currentVisibility);
             }
             AdvancedStatusText.Text = $"Loaded {visibleCount} shown and {hiddenCount} hidden advanced settings.";
+            ApplyAdvancedSearchFilter();
         }
         catch (Exception ex) { AdvancedStatusText.Text = $"Couldn't read advanced settings: {ex.Message}"; }
     }
@@ -1249,6 +1253,125 @@ public sealed partial class SettingsWindow : Window
                 else _expandedAdvancedCategories.Remove(categoryKey);
             }
         }
+    }
+
+    private void OnAdvancedSearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput) return;
+        ApplyAdvancedSearchFilter();
+    }
+
+    private void OnAdvancedSearchScopeChanged(object sender, RoutedEventArgs e) => ApplyAdvancedSearchFilter();
+
+    private static IEnumerable<FrameworkElement> GetAdvancedSettingRows(Expander category) =>
+        category.Content is Grid grid && grid.Children.OfType<StackPanel>().FirstOrDefault() is StackPanel settingList
+            ? settingList.Children.OfType<FrameworkElement>()
+            : Enumerable.Empty<FrameworkElement>();
+
+    private string? TryGetSettingDescription(Guid subgroupGuid, Guid settingGuid)
+    {
+        try { return _powerSchemeService.GetSettingDescription(subgroupGuid, settingGuid); }
+        catch { return null; }
+    }
+
+    private static void ResetAdvancedPanelToUnfiltered(StackPanel panel, HashSet<(bool IsHiddenSection, Guid SubgroupGuid)> expansionState)
+    {
+        foreach (Expander category in panel.Children.OfType<Expander>())
+        {
+            category.Visibility = Visibility.Visible;
+            foreach (FrameworkElement row in GetAdvancedSettingRows(category)) row.Visibility = Visibility.Visible;
+            if (category.Tag is ValueTuple<bool, Guid> key)
+            {
+                bool expanded = expansionState.Contains(key);
+                if (category.IsExpanded != expanded) category.IsExpanded = expanded;
+            }
+        }
+    }
+
+    private bool FilterAdvancedPanel(StackPanel panel, string query, bool searchDescriptions, ref int totalCount, ref int matchCount)
+    {
+        bool anyMatch = false;
+        foreach (Expander category in panel.Children.OfType<Expander>())
+        {
+            bool categoryHasMatch = false;
+            foreach (FrameworkElement row in GetAdvancedSettingRows(category))
+            {
+                if (row is Expander settingExpander && settingExpander.Tag is AdvancedSettingSearchTag tag)
+                {
+                    totalCount++;
+                    bool match = tag.SettingName.Contains(query, StringComparison.OrdinalIgnoreCase);
+                    if (!match && searchDescriptions)
+                    {
+                        string? windowsDescription = TryGetSettingDescription(tag.SubgroupGuid, tag.SettingGuid);
+                        string? laymanDescription = SettingDescriptions.GetLaymanDescription(tag.SettingGuid);
+                        match = (windowsDescription?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false)
+                            || (laymanDescription?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false);
+                    }
+                    row.Visibility = match ? Visibility.Visible : Visibility.Collapsed;
+                    if (match) { matchCount++; categoryHasMatch = true; }
+                }
+                else
+                {
+                    row.Visibility = Visibility.Collapsed;
+                }
+            }
+            category.Visibility = categoryHasMatch ? Visibility.Visible : Visibility.Collapsed;
+            if (categoryHasMatch)
+            {
+                anyMatch = true;
+                if (!category.IsExpanded) category.IsExpanded = true;
+            }
+        }
+        return anyMatch;
+    }
+
+    private void ApplyAdvancedSearchFilter()
+    {
+        if (AdvancedSearchBox is null) return;
+        string query = (AdvancedSearchBox.Text ?? string.Empty).Trim();
+        bool isSearching = query.Length > 0;
+        bool includeHidden = AdvancedSearchIncludeHiddenCheckBox.IsChecked == true;
+        bool searchDescriptions = AdvancedSearchDescriptionsCheckBox.IsChecked == true;
+
+        if (isSearching && _advancedSearchCategorySnapshot is null)
+        {
+            _advancedSearchCategorySnapshot = new HashSet<(bool, Guid)>(_expandedAdvancedCategories);
+            _advancedSearchHiddenExpanderSnapshot = HiddenAdvancedExpander.IsExpanded;
+        }
+
+        if (!isSearching)
+        {
+            HashSet<(bool, Guid)> restoreState = _advancedSearchCategorySnapshot ?? _expandedAdvancedCategories;
+            ResetAdvancedPanelToUnfiltered(AdvancedSettingsPanel, restoreState);
+            ResetAdvancedPanelToUnfiltered(AllAdvancedSettingsPanel, restoreState);
+            if (_advancedSearchHiddenExpanderSnapshot is bool priorHiddenExpanded && HiddenAdvancedExpander.IsExpanded != priorHiddenExpanded)
+                HiddenAdvancedExpander.IsExpanded = priorHiddenExpanded;
+            _advancedSearchCategorySnapshot = null;
+            _advancedSearchHiddenExpanderSnapshot = null;
+            AdvancedSearchStatusText.Text = string.Empty;
+            AdvancedSearchStatusText.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        int totalCount = 0;
+        int matchCount = 0;
+        FilterAdvancedPanel(AdvancedSettingsPanel, query, searchDescriptions, ref totalCount, ref matchCount);
+
+        bool desiredHiddenExpanded;
+        if (includeHidden)
+        {
+            bool hiddenHasMatch = FilterAdvancedPanel(AllAdvancedSettingsPanel, query, searchDescriptions, ref totalCount, ref matchCount);
+            desiredHiddenExpanded = hiddenHasMatch;
+        }
+        else
+        {
+            ResetAdvancedPanelToUnfiltered(AllAdvancedSettingsPanel, _advancedSearchCategorySnapshot!);
+            desiredHiddenExpanded = _advancedSearchHiddenExpanderSnapshot ?? HiddenAdvancedExpander.IsExpanded;
+        }
+        if (HiddenAdvancedExpander.IsExpanded != desiredHiddenExpanded) HiddenAdvancedExpander.IsExpanded = desiredHiddenExpanded;
+
+        AdvancedSearchStatusText.Text = F("AdvancedSearchMatchStatus", matchCount, totalCount);
+        AdvancedSearchStatusText.Visibility = Visibility.Visible;
     }
 
     private void OnExpandShownAdvancedClick(object sender, RoutedEventArgs e) =>
@@ -1722,6 +1845,7 @@ public sealed partial class SettingsWindow : Window
             Header = heading,
             Content = details,
             IsExpanded = _expandedAdvancedSettings.Contains(settingKey),
+            Tag = new AdvancedSettingSearchTag(subgroupGuid, settingGuid, settingName),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
             MinHeight = 28,

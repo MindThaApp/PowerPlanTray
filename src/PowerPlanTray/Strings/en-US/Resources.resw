@@ -61,6 +61,18 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="AdvancedWarningDecline" xml:space="preserve">
     <value>Go back</value>
   </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search advanced settings...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Include hidden advanced settings</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Search descriptions too</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} of {1} settings match</value>
+  </data>
   <data name="AppRulesLabel" xml:space="preserve">
     <value>App rules</value>
   </data>
