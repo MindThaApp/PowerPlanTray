@@ -6,7 +6,7 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent">
-      <TextBlock x:Uid="PowerPlanManagerProSettings" Margin="16,0,0,0" VerticalAlignment="Center" />
+      <TextBlock x:Name="TitleBarText" Margin="16,0,0,0" VerticalAlignment="Center" />
     </Grid>
     <NavigationView x:Name="SettingsNavigationView" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" IsPaneToggleButtonVisible="True" PaneDisplayMode="LeftCompact" CompactPaneLength="48" OpenPaneLength="176" Background="Transparent" SelectionChanged="OnNavigationSelectionChanged">
       <NavigationView.PaneHeader>
@@ -257,7 +257,7 @@
             <TextBlock x:Uid="About" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock x:Name="AboutEditionText" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <TextBlock x:Name="AboutVersionText" />
-            <TextBlock x:Uid="PowerPlanManagerProIsA" TextWrapping="Wrap" />
+            <TextBlock x:Name="AboutDescriptionText" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="8">
               <Button x:Uid="PrivacyPolicy" Click="OnPrivacyPolicyClick" />
               <Button x:Uid="TermsOfUse" Click="OnTermsOfUseClick" />
