@@ -80,6 +80,7 @@ public sealed partial class SettingsWindow : Window
         WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = L("SettingsWindowTitle");
         AboutVersionText.Text = F("VersionFormat", GetAppVersion());
+        AboutEditionText.Text = Package.Current.DisplayName;
         WindowsStartupBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
         ManualLaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
         SystemCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
@@ -478,41 +479,70 @@ public sealed partial class SettingsWindow : Window
         button.IsEnabled = false;
         try
         {
-            string screenshotStatus;
+            var feedbackText = new TextBox
+            {
+                AcceptsReturn = true,
+                TextWrapping = TextWrapping.Wrap,
+                Height = 140,
+                PlaceholderText = "Describe your feedback, suggestion, or the bug you found...",
+            };
+            var attachScreenshot = new CheckBox
+            {
+                Content = "Attach a screenshot",
+                IsChecked = true,
+            };
+            var feedbackContent = new StackPanel { Spacing = 12, Width = ComputeFlyoutContentWidth() };
+            feedbackContent.Children.Add(feedbackText);
+            feedbackContent.Children.Add(attachScreenshot);
+            var feedbackDialog = new ContentDialog
+            {
+                Title = "Send Feedback",
+                Content = feedbackContent,
+                PrimaryButtonText = "Send",
+                CloseButtonText = "Cancel",
+                XamlRoot = Content.XamlRoot,
+            };
+            if (await feedbackDialog.ShowAsync() != ContentDialogResult.Primary) return;
+
+            string screenshotStatus = "";
             string? screenshotPath = null;
-            try
+            if (attachScreenshot.IsChecked == true)
             {
-                // Virtual-screen bounds include monitors left of or above the primary display.
-                int left = GetSystemMetrics(76); // SM_XVIRTUALSCREEN
-                int top = GetSystemMetrics(77); // SM_YVIRTUALSCREEN
-                int width = GetSystemMetrics(78); // SM_CXVIRTUALSCREEN
-                int height = GetSystemMetrics(79); // SM_CYVIRTUALSCREEN
-                string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
-                    $"PowerPlanTray_Feedback_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                using (var bitmap = new System.Drawing.Bitmap(width, height))
+                try
                 {
-                    using var graphics = System.Drawing.Graphics.FromImage(bitmap);
-                    graphics.CopyFromScreen(left, top, 0, 0, bitmap.Size);
-                    bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                    // Virtual-screen bounds include monitors left of or above the primary display.
+                    int left = GetSystemMetrics(76); // SM_XVIRTUALSCREEN
+                    int top = GetSystemMetrics(77); // SM_YVIRTUALSCREEN
+                    int width = GetSystemMetrics(78); // SM_CXVIRTUALSCREEN
+                    int height = GetSystemMetrics(79); // SM_CYVIRTUALSCREEN
+                    string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
+                        $"PowerPlanTray_Feedback_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                    using (var bitmap = new System.Drawing.Bitmap(width, height))
+                    {
+                        using var graphics = System.Drawing.Graphics.FromImage(bitmap);
+                        graphics.CopyFromScreen(left, top, 0, 0, bitmap.Size);
+                        bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    screenshotPath = path;
+                    var file = await StorageFile.GetFileFromPathAsync(path);
+                    var data = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                    data.SetBitmap(Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file));
+                    Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(data);
+                    Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+                    screenshotStatus = $"A screenshot was copied to your clipboard and saved to {path}.";
                 }
-                screenshotPath = path;
-                var file = await StorageFile.GetFileFromPathAsync(path);
-                var data = new Windows.ApplicationModel.DataTransfer.DataPackage();
-                data.SetBitmap(Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file));
-                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(data);
-                Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
-                screenshotStatus = $"A screenshot was copied to your clipboard and saved to {path}.";
-            }
-            catch (Exception)
-            {
-                screenshotStatus = screenshotPath is null
-                    ? "A screenshot couldn't be captured this time."
-                    : $"A screenshot was saved to {screenshotPath}, but couldn't be copied to your clipboard. You can attach the saved file.";
+                catch (Exception)
+                {
+                    screenshotStatus = screenshotPath is null
+                        ? "A screenshot couldn't be captured this time."
+                        : $"A screenshot was saved to {screenshotPath}, but couldn't be copied to your clipboard. You can attach the saved file.";
+                }
             }
 
             string subject = $"{Package.Current.DisplayName} {GetAppVersion()} - Feedback";
             string body = "Hello!\r\n\r\nI'd like to share some feedback, a suggestion, or a bug:\r\n\r\n"
-                + "[Please describe your feedback here.]\r\n\r\n" + screenshotStatus
+                + feedbackText.Text
+                + (string.IsNullOrEmpty(screenshotStatus) ? "" : "\r\n\r\n" + screenshotStatus)
                 + (screenshotPath is null ? "" : "\r\nPlease paste the screenshot into this email, or attach the saved file.");
             string mailtoString = $"mailto:MindaThaApp@gmail.com?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
             string launchStatus;
@@ -520,7 +550,8 @@ public sealed partial class SettingsWindow : Window
             {
                 bool launched = await Windows.System.Launcher.LaunchUriAsync(new Uri(mailtoString));
                 launchStatus = launched
-                    ? "Your email app should now be open - paste the screenshot in if available and describe your feedback."
+                    ? "Your email app should now be open with your feedback."
+                        + (screenshotPath is null ? "" : " Paste the screenshot into the email, or attach the saved file.")
                     : "Windows couldn't open an email app. Please send your feedback to MindaThaApp@gmail.com.";
             }
             catch (Exception)
@@ -531,7 +562,7 @@ public sealed partial class SettingsWindow : Window
             var dialog = new ContentDialog
             {
                 Title = "Send Feedback",
-                Content = $"{screenshotStatus}\n\n{launchStatus}",
+                Content = string.IsNullOrEmpty(screenshotStatus) ? launchStatus : $"{screenshotStatus}\n\n{launchStatus}",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
             };

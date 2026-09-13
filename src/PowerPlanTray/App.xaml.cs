@@ -49,7 +49,7 @@ public partial class App : Application
 
         _trayIcon = new TaskbarIcon
         {
-            ToolTipText = "Power Plan Manager Pro",
+            ToolTipText = Windows.ApplicationModel.Package.Current.DisplayName,
             IconSource = _staticTrayIcon,
             // Commands still receive tray mouse messages; None prevents the
             // library from also opening its native OS-drawn PopupMenu.
@@ -167,7 +167,7 @@ public partial class App : Application
             {
                 _trayIcon.Icon = null;
                 _trayIcon.IconSource = _staticTrayIcon;
-                _trayIcon.ToolTipText = "Power Plan Manager Pro";
+                _trayIcon.ToolTipText = Windows.ApplicationModel.Package.Current.DisplayName;
             }
             _dynamicTrayIcon?.Dispose();
             _dynamicTrayIcon = null;
@@ -230,7 +230,7 @@ public partial class App : Application
             System.Diagnostics.Debug.WriteLine($"PowerPlanTray: dynamic tray icon failed: {ex}");
             _trayIcon.Icon = null;
             _trayIcon.IconSource = _staticTrayIcon;
-            _trayIcon.ToolTipText = "Power Plan Manager Pro";
+            _trayIcon.ToolTipText = Windows.ApplicationModel.Package.Current.DisplayName;
             _dynamicTrayIcon?.Dispose();
             _dynamicTrayIcon = null;
         }

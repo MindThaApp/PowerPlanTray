@@ -255,7 +255,7 @@
         <ScrollViewer x:Name="AboutPage" Visibility="Collapsed">
           <StackPanel MaxWidth="640" Padding="32" Spacing="16" HorizontalAlignment="Left">
             <TextBlock x:Uid="About" Style="{ThemeResource TitleTextBlockStyle}" />
-            <TextBlock Text="Power Plan Manager Pro" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="AboutEditionText" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <TextBlock x:Name="AboutVersionText" />
             <TextBlock x:Uid="PowerPlanManagerProIsA" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="8">
