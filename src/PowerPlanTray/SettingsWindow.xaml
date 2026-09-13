@@ -261,6 +261,7 @@
             <StackPanel Orientation="Horizontal" Spacing="8">
               <Button x:Uid="PrivacyPolicy" Click="OnPrivacyPolicyClick" />
               <Button x:Uid="TermsOfUse" Click="OnTermsOfUseClick" />
+              <Button Content="Send Feedback" Click="OnSendFeedbackClick" />
             </StackPanel>
             <TextBlock x:Uid="TrayIntegrationIsProvidedByH" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
           </StackPanel>
