@@ -469,6 +469,80 @@ public sealed partial class SettingsWindow : Window
     private async void OnTermsOfUseClick(object sender, RoutedEventArgs e) =>
         await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/ramin-azizi/PowerPlanTray/blob/master/TERMS.md"));
 
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int index);
+
+    private async void OnSendFeedbackClick(object sender, RoutedEventArgs e)
+    {
+        var button = (Button)sender;
+        button.IsEnabled = false;
+        try
+        {
+            string screenshotStatus;
+            string? screenshotPath = null;
+            try
+            {
+                // Virtual-screen bounds include monitors left of or above the primary display.
+                int left = GetSystemMetrics(76); // SM_XVIRTUALSCREEN
+                int top = GetSystemMetrics(77); // SM_YVIRTUALSCREEN
+                int width = GetSystemMetrics(78); // SM_CXVIRTUALSCREEN
+                int height = GetSystemMetrics(79); // SM_CYVIRTUALSCREEN
+                string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
+                    $"PowerPlanTray_Feedback_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                using (var bitmap = new System.Drawing.Bitmap(width, height))
+                {
+                    using var graphics = System.Drawing.Graphics.FromImage(bitmap);
+                    graphics.CopyFromScreen(left, top, 0, 0, bitmap.Size);
+                    bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                }
+                screenshotPath = path;
+                var file = await StorageFile.GetFileFromPathAsync(path);
+                var data = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                data.SetBitmap(Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file));
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(data);
+                Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+                screenshotStatus = $"A screenshot was copied to your clipboard and saved to {path}.";
+            }
+            catch (Exception)
+            {
+                screenshotStatus = screenshotPath is null
+                    ? "A screenshot couldn't be captured this time."
+                    : $"A screenshot was saved to {screenshotPath}, but couldn't be copied to your clipboard. You can attach the saved file.";
+            }
+
+            string subject = $"{Package.Current.DisplayName} {GetAppVersion()} - Feedback";
+            string body = "Hello!\r\n\r\nI'd like to share some feedback, a suggestion, or a bug:\r\n\r\n"
+                + "[Please describe your feedback here.]\r\n\r\n" + screenshotStatus
+                + (screenshotPath is null ? "" : "\r\nPlease paste the screenshot into this email, or attach the saved file.");
+            string mailtoString = $"mailto:MindaThaApp@gmail.com?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
+            string launchStatus;
+            try
+            {
+                bool launched = await Windows.System.Launcher.LaunchUriAsync(new Uri(mailtoString));
+                launchStatus = launched
+                    ? "Your email app should now be open - paste the screenshot in if available and describe your feedback."
+                    : "Windows couldn't open an email app. Please send your feedback to MindaThaApp@gmail.com.";
+            }
+            catch (Exception)
+            {
+                launchStatus = "Your email app couldn't be opened. Please send your feedback to MindaThaApp@gmail.com.";
+            }
+
+            var dialog = new ContentDialog
+            {
+                Title = "Send Feedback",
+                Content = $"{screenshotStatus}\n\n{launchStatus}",
+                CloseButtonText = "OK",
+                XamlRoot = Content.XamlRoot,
+            };
+            await dialog.ShowAsync();
+        }
+        finally
+        {
+            button.IsEnabled = true;
+        }
+    }
+
     private void RefreshGeneralPlanSelector()
     {
         try
