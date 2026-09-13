@@ -147,7 +147,7 @@ $msbuild = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Community\MSBuild\C
 # 2. Sign the package with the dev cert from setup
 $msix = "artifacts\AppPackages\PowerPlanTray_1.0.0.0_x64_Debug_Test\PowerPlanTray_1.0.0.0_x64_Debug.msix"
 & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" `
-  sign /fd SHA256 /sha1 "E5F2C6F2784824283849DC59E764D99DC0FB9499" $msix
+  sign /fd SHA256 /sha1 "EB199CDD62B21570AE95D353295DEF885297D09F" $msix
 
 # 3. Install (first time) / update in place (after code changes). Debug builds never bump
 #    the version number, so Add-AppxPackage needs -ForceUpdateFromAnyVersion to accept a
