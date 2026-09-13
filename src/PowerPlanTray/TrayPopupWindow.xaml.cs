@@ -53,6 +53,7 @@ public sealed partial class TrayPopupWindow : Window
         _showSettings = showSettings;
         _exit = exit;
         InitializeComponent();
+        Title = Windows.ApplicationModel.Package.Current.DisplayName;
         PopupBorder.FlowDirection = Localization.FlowDirection;
 
         _hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
