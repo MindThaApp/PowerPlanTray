@@ -78,9 +78,11 @@ public sealed partial class SettingsWindow : Window
         AdvancedApplyPremiumBadge.Visibility = Visibility.Visible;
 #endif
         WindowRoot.FlowDirection = Localization.FlowDirection;
-        Title = L("SettingsWindowTitle");
+        Title = $"{Package.Current.DisplayName} Settings";
+        TitleBarText.Text = $"{Package.Current.DisplayName} Settings";
         AboutVersionText.Text = F("VersionFormat", GetAppVersion());
         AboutEditionText.Text = Package.Current.DisplayName;
+        AboutDescriptionText.Text = $"{Package.Current.DisplayName} is a small Windows utility for switching power plans from the system tray, automating plan changes, and managing Windows power settings without keeping the whole app elevated.";
         WindowsStartupBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
         ManualLaunchBehaviorRadioButtons.ItemsSource = new[] { L("StartHiddenInTray"), L("ShowThisWindow") };
         SystemCpuDirectionComboBox.ItemsSource = new[] { L("Below"), L("Above") };
