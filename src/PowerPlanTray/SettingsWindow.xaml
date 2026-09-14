@@ -53,6 +53,7 @@
             <TextBlock x:Uid="PowerPlans" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock x:Uid="InstallOrRemoveTheStandardWindows" TextWrapping="Wrap" />
             <StackPanel x:Name="DefaultPlansPanel" Spacing="12" />
+            <Button x:Uid="CreateNewPowerPlan" Click="OnCreateNewPowerPlanClick" HorizontalAlignment="Left" />
             <TextBlock x:Name="PowerPlanStatusText" TextWrapping="Wrap" />
             <TextBlock x:Uid="ShowInTray" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,12,0,0" />
             <TextBlock x:Uid="ChooseWhichInstalledPlansAppearIn" TextWrapping="Wrap" />

@@ -27,6 +27,9 @@
   <data name="Add.Content" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>Administrator permission was cancelled.</value>
+  </data>
   <data name="NavAdvanced.Content" xml:space="preserve">
     <value>Advanced</value>
   </data>
@@ -127,6 +130,18 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="Condition.Header" xml:space="preserve">
     <value>Condition</value>
   </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Couldn't create the power plan.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Create new power plan...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Create new power plan</value>
+  </data>
   <data name="CpuBarChart" xml:space="preserve">
     <value>CPU bar chart</value>
   </data>
@@ -214,6 +229,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="Medium" xml:space="preserve">
     <value>Medium</value>
   </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>New plan name</value>
+  </data>
   <data name="NoLaymanDescription" xml:space="preserve">
     <value>No plain-language explanation written yet for this setting.</value>
   </data>
@@ -264,6 +282,12 @@ Some of these settings can meaningfully change performance or power draw if set 
   </data>
   <data name="PowerPlanAbbreviation" xml:space="preserve">
     <value>Power plan abbreviation</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Copy</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>The power plan was created.</value>
   </data>
   <data name="PowerPlanManagerProIsA.Text" xml:space="preserve">
     <value>Power Plan Manager Pro is a small Windows utility for switching power plans from the system tray, automating plan changes, and managing Windows power settings without keeping the whole app elevated.</value>
@@ -360,6 +384,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   </data>
   <data name="TemporarilyUseAPlanThenRestore.Text" xml:space="preserve">
     <value>Temporarily use a plan, then restore the previous plan.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Template power plan</value>
   </data>
   <data name="TemporaryPlanMinutesRemaining" xml:space="preserve">
     <value>Temporary plan: {0} min remaining</value>

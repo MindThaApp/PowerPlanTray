@@ -2049,6 +2049,148 @@ public sealed partial class SettingsWindow : Window
         if (succeeded) PowerPlansChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private async void OnCreateNewPowerPlanClick(object sender, RoutedEventArgs e)
+    {
+        IReadOnlyList<PowerScheme> schemes;
+        try
+        {
+            schemes = _powerSchemeService.GetAllSchemes();
+        }
+        catch (Exception ex)
+        {
+            PowerPlanStatusText.Text = $"Couldn't read power plans: {ex.Message}";
+            return;
+        }
+
+        if (schemes.Count == 0) return;
+
+        Guid activeGuid;
+        try { activeGuid = _powerSchemeService.GetActiveSchemeGuid(); }
+        catch { activeGuid = schemes[0].Guid; }
+
+        PowerScheme initialTemplate = schemes.FirstOrDefault(scheme => scheme.Guid == activeGuid) ?? schemes[0];
+        var templateComboBox = new ComboBox
+        {
+            ItemsSource = schemes,
+            DisplayMemberPath = nameof(PowerScheme.Name),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            SelectedItem = initialTemplate,
+        };
+
+        var nameTextBox = new TextBox
+        {
+            MaxLength = 128,
+            Text = F("PowerPlanCopyName", initialTemplate.Name),
+        };
+
+        double contentWidth = ComputeFlyoutContentWidth();
+        var dialog = new ContentDialog
+        {
+            Title = L("CreateNewPowerPlanDialogTitle"),
+            PrimaryButtonText = L("Create"),
+            CloseButtonText = L("CancelLabel"),
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = Content.XamlRoot,
+            Content = new StackPanel
+            {
+                Spacing = 8,
+                Width = contentWidth,
+                Children =
+                {
+                    new TextBlock { Text = L("TemplatePowerPlan"), FontWeight = Microsoft.UI.Text.FontWeights.SemiBold },
+                    templateComboBox,
+                    new TextBlock { Text = L("NewPowerPlanName"), FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 0) },
+                    nameTextBox,
+                },
+            },
+        };
+
+        void UpdatePrimaryButtonEnabled()
+        {
+            string trimmed = nameTextBox.Text.Trim();
+            dialog.IsPrimaryButtonEnabled = trimmed.Length > 0 && trimmed.Length <= 128;
+        }
+
+        templateComboBox.SelectionChanged += (_, _) =>
+        {
+            if (templateComboBox.SelectedItem is PowerScheme selected)
+                nameTextBox.Text = F("PowerPlanCopyName", selected.Name);
+        };
+        nameTextBox.TextChanged += (_, _) => UpdatePrimaryButtonEnabled();
+        UpdatePrimaryButtonEnabled();
+
+        if (await dialog.ShowAsync() != ContentDialogResult.Primary) return;
+        if (templateComboBox.SelectedItem is not PowerScheme template) return;
+        string newName = nameTextBox.Text.Trim();
+        if (newName.Length == 0) return;
+
+        var button = sender as Button;
+        if (button is not null) button.IsEnabled = false;
+        try
+        {
+            HashSet<Guid> before;
+            try
+            {
+                before = _powerSchemeService.GetAllSchemes().Select(scheme => scheme.Guid).ToHashSet();
+            }
+            catch (Exception ex)
+            {
+                PowerPlanStatusText.Text = $"Couldn't read power plans: {ex.Message}";
+                return;
+            }
+
+            bool duplicated = await _elevationService.DuplicateSchemeAsync(template.Guid);
+            if (!duplicated)
+            {
+                PowerPlanStatusText.Text = _elevationService.LastOperationWasCancelled
+                    ? L("AdministratorPermissionWasCancelled")
+                    : L("CouldntCreatePowerPlan");
+                RefreshPowerPlans();
+                return;
+            }
+
+            Guid[] newGuids;
+            try
+            {
+                newGuids = _powerSchemeService.GetAllSchemes()
+                    .Select(scheme => scheme.Guid)
+                    .Where(guid => !before.Contains(guid))
+                    .ToArray();
+            }
+            catch (Exception ex)
+            {
+                PowerPlanStatusText.Text = $"Couldn't read power plans: {ex.Message}";
+                RefreshPowerPlans();
+                return;
+            }
+
+            if (newGuids.Length != 1)
+            {
+                PowerPlanStatusText.Text = L("CouldntCreatePowerPlan");
+                RefreshPowerPlans();
+                return;
+            }
+
+            bool succeeded = true;
+            if (!string.Equals(newName, template.Name, StringComparison.Ordinal))
+            {
+                succeeded = await _elevationService.ChangeSchemeNameAsync(newGuids[0], newName);
+            }
+
+            PowerPlanStatusText.Text = succeeded
+                ? L("PowerPlanCreated")
+                : _elevationService.LastOperationWasCancelled
+                    ? L("AdministratorPermissionWasCancelled")
+                    : L("CouldntCreatePowerPlan");
+            RefreshPowerPlans();
+            if (succeeded) PowerPlansChanged?.Invoke(this, EventArgs.Empty);
+        }
+        finally
+        {
+            if (button is not null) button.IsEnabled = true;
+        }
+    }
+
     private void OnPlanVisibilityClick(object sender, RoutedEventArgs e)
     {
         var visibleGuids = VisibilityPlansPanel.Children
