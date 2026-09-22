@@ -15,7 +15,7 @@
             <FontIcon Glyph="" FontSize="16" />
           </ToggleButton>
           <ToggleButton x:Name="KeepOnTopToggle" Click="OnKeepOnTopClick" Width="40" Height="40" HorizontalAlignment="Left">
-            <FontIcon Glyph="&#xE840;" FontSize="16" />
+            <SymbolIcon Symbol="View" />
           </ToggleButton>
         </StackPanel>
       </NavigationView.PaneHeader>
