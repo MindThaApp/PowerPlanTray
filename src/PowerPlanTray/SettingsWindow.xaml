@@ -31,9 +31,13 @@
         <ScrollViewer x:Name="GeneralPage">
           <StackPanel MaxWidth="640" Padding="32" Spacing="20" HorizontalAlignment="Left">
             <TextBlock x:Uid="General" Style="{ThemeResource TitleTextBlockStyle}" />
-            <CheckBox x:Uid="DisableCpuBoost" x:Name="DisableCpuBoostCheckBox" Click="OnDisableCpuBoostClick" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <CheckBox x:Uid="DisableCpuBoost" x:Name="DisableCpuBoostCheckBox" Click="OnDisableCpuBoostClick" />
+              <TextBlock x:Name="CpuBoostPremiumBadge" Text="Premium" Visibility="Collapsed" Opacity="0.65" VerticalAlignment="Center" />
+            </StackPanel>
             <StackPanel Spacing="6">
               <TextBlock x:Uid="ThisReflectsTheActivePowerPlan" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+              <TextBlock x:Uid="CpuBoostPremiumNote" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
               <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
             </StackPanel>
             <ComboBox x:Uid="ActivePowerPlan" x:Name="GeneralPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnGeneralPlanSelectionChanged" />
@@ -89,6 +93,7 @@
                 <ComboBox x:Uid="Condition" x:Name="SystemCpuDirectionComboBox" Width="110" SelectedIndex="0">
                 </ComboBox>
                 <NumberBox x:Name="SystemCpuThresholdNumberBox" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" x:Uid="CpuPercent" />
+                <NumberBox x:Name="SystemCpuSustainedSecondsNumberBox" Width="110" Minimum="1" Maximum="999" Value="9" SpinButtonPlacementMode="Compact" x:Uid="SustainedSecondsLabel" />
                 <ComboBox x:Uid="PowerPlan" x:Name="SystemCpuPlanComboBox" Width="210" DisplayMemberPath="Name" />
                 <Button x:Uid="Add" VerticalAlignment="Bottom" Click="OnAddSystemCpuRuleClick" />
               </StackPanel>
@@ -113,6 +118,11 @@
                 </ComboBox>
                 <NumberBox x:Name="AppCpuThresholdNumberBox" Width="120" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" Visibility="Collapsed" x:Uid="CpuPercent" />
               </StackPanel>
+              <StackPanel x:Name="AppRunningExtraConditionsPanel" Orientation="Horizontal" Spacing="8">
+                <NumberBox x:Name="AppMinRunningSecondsNumberBox" Width="150" Minimum="0" Maximum="999" Value="0" SpinButtonPlacementMode="Compact" x:Uid="MinRunningSecondsLabel" />
+                <NumberBox x:Name="AppRunningCpuThresholdNumberBox" Width="150" Minimum="0" Maximum="100" Value="0" SpinButtonPlacementMode="Compact" x:Uid="OptionalAppCpuPercentLabel" />
+              </StackPanel>
+              <TextBlock x:Uid="AppRunningExtraConditionsHint" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Button x:Uid="BrowseInstalledApps" Click="OnBrowseInstalledAppsClick" />
                 <Button x:Uid="BrowseForExe" Click="OnBrowseExecutableClick" />

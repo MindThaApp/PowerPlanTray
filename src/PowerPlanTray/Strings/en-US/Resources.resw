@@ -148,6 +148,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="CpuPercentage" xml:space="preserve">
     <value>CPU percentage</value>
   </data>
+  <data name="CpuBoostPremiumNote.Text" xml:space="preserve">
+    <value>Toggling this also sets the active plan's Processor performance boost mode (Advanced page) to match, not just Maximum processor state — both are real Windows Advanced Power Settings values, not an app-local flag. This is a Premium feature in the free Lite edition.</value>
+  </data>
   <data name="Gauge" xml:space="preserve">
     <value>Gauge</value>
   </data>
@@ -374,10 +377,22 @@ Some of these settings can meaningfully change performance or power draw if set 
     <value>Static</value>
   </data>
   <data name="SwitchPlansAfterOverallCpuLoad.Text" xml:space="preserve">
-    <value>Switch plans after overall CPU load stays above or below a threshold for about nine seconds.</value>
+    <value>Switch plans after overall CPU load stays above or below a threshold for a configurable duration (nine seconds by default).</value>
   </data>
   <data name="SwitchWhileAnAppIsRunning.Text" xml:space="preserve">
-    <value>Switch while an app is running, or after its CPU load stays above or below a threshold. CPU rules can be reordered with the arrow buttons; top priority wins when CPU conditions overlap.</value>
+    <value>Switch while an app is running, or after its CPU load stays above or below a threshold. CPU rules can be reordered with the arrow buttons; top priority wins when CPU conditions overlap. Optionally require the app to have run for a minimum time, or its own CPU usage to stay above a threshold, before switching.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Min. running (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (optional)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Leave both at 0 to switch as soon as the app starts (today's default). Set only seconds to wait that long before switching. Also set a CPU % to instead require the app's own CPU usage to stay above that percentage for that many seconds.</value>
   </data>
   <data name="SystemLoad.Text" xml:space="preserve">
     <value>System load</value>

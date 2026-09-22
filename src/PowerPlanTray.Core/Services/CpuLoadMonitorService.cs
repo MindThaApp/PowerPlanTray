@@ -7,7 +7,10 @@ namespace PowerPlanTray.Core.Services;
 /// <summary>Samples total and configured-process CPU every three seconds and debounces rule transitions.</summary>
 public sealed class CpuLoadMonitorService : IDisposable
 {
-    private const int RequiredSamples = 3;
+    private const double PollIntervalSeconds = 3;
+    /// <summary>Legacy fixed debounce (3 samples * 3s poll = ~9s), used as a fallback for rules
+    /// persisted before AutoSwitchRule.SustainedSeconds existed (which deserialize to 0).</summary>
+    private const double DefaultSustainedSeconds = 9;
     private readonly Action<AutoSwitchRule> _entered;
     private readonly Action<Guid> _exited;
     private readonly object _sync = new();
@@ -42,7 +45,7 @@ public sealed class CpuLoadMonitorService : IDisposable
         foreach (Guid id in removedActive) _exited(id);
     }
 
-    public void Start() => _timer ??= new Timer(Poll, null, TimeSpan.Zero, TimeSpan.FromSeconds(3));
+    public void Start() => _timer ??= new Timer(Poll, null, TimeSpan.Zero, TimeSpan.FromSeconds(PollIntervalSeconds));
     public void Stop() { _timer?.Dispose(); _timer = null; }
 
     private void Poll(object? state)
@@ -74,9 +77,11 @@ public sealed class CpuLoadMonitorService : IDisposable
         bool enter = false, exit = false;
         lock (_sync)
         {
+            double sustainedSeconds = rule.SustainedSeconds > 0 ? rule.SustainedSeconds : DefaultSustainedSeconds;
+            int requiredSamples = Math.Max(1, (int)Math.Ceiling(sustainedSeconds / PollIntervalSeconds));
             int count = condition ? _matchingSamples.GetValueOrDefault(rule.Id) + 1 : 0;
-            _matchingSamples[rule.Id] = Math.Min(count, RequiredSamples);
-            if (count >= RequiredSamples && _active.Add(rule.Id)) enter = true;
+            _matchingSamples[rule.Id] = Math.Min(count, requiredSamples);
+            if (count >= requiredSamples && _active.Add(rule.Id)) enter = true;
             else if (!condition && _active.Remove(rule.Id)) exit = true;
         }
         if (enter) _entered(rule);
@@ -114,7 +119,7 @@ public sealed class CpuLoadMonitorService : IDisposable
     }
 
     private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
-    private static AutoSwitchRule CloneRule(AutoSwitchRule r) => new() { Id = r.Id, Trigger = r.Trigger, TargetPlanGuid = r.TargetPlanGuid, AppExecutableName = r.AppExecutableName, CpuThresholdPercent = r.CpuThresholdPercent, Priority = r.Priority, Name = r.Name, Enabled = r.Enabled };
+    private static AutoSwitchRule CloneRule(AutoSwitchRule r) => new() { Id = r.Id, Trigger = r.Trigger, TargetPlanGuid = r.TargetPlanGuid, AppExecutableName = r.AppExecutableName, CpuThresholdPercent = r.CpuThresholdPercent, Priority = r.Priority, Name = r.Name, Enabled = r.Enabled, SustainedSeconds = r.SustainedSeconds };
     public void Dispose() => Stop();
     private readonly record struct ProcessSample(TimeSpan Cpu, DateTime At);
 }

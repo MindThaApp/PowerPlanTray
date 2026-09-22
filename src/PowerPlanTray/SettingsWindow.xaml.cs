@@ -50,6 +50,7 @@ public sealed partial class SettingsWindow : Window
     private static string NoLaymanDescription => L("NoLaymanDescription");
     private static readonly Guid ProcessorSubgroupGuid = new("54533251-82be-4824-96c1-47b60b740d00");
     private static readonly Guid ProcessorMaximumStateGuid = new("bc5038f7-23e0-4960-96da-33abaf5935ec");
+    private static readonly Guid ProcessorBoostModeGuid = new("be337238-0d82-4146-a960-4f3749d470c7");
 
     public event EventHandler? PowerPlansChanged;
 
@@ -79,6 +80,7 @@ public sealed partial class SettingsWindow : Window
         SystemCpuPremiumBadge.Visibility = Visibility.Visible;
         AppRulesPremiumBadge.Visibility = Visibility.Visible;
         AdvancedApplyPremiumBadge.Visibility = Visibility.Visible;
+        CpuBoostPremiumBadge.Visibility = Visibility.Visible;
 #endif
         WindowRoot.FlowDirection = Localization.FlowDirection;
         Title = $"{Package.Current.DisplayName} Settings";
@@ -437,7 +439,7 @@ public sealed partial class SettingsWindow : Window
             var enabled = new CheckBox
             {
                 Content = rule.Trigger == AutomationTrigger.AppRunning
-                    ? $"{rule.AppExecutableName} running → {planName}"
+                    ? $"{rule.AppExecutableName} running{DescribeAppRunningConditions(rule)} → {planName}"
                     : $"Priority {rule.Priority}: {rule.AppExecutableName} CPU {(rule.Trigger == AutomationTrigger.ProcessCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
                 IsChecked = rule.Enabled,
                 Tag = rule.Id,
@@ -623,7 +625,7 @@ public sealed partial class SettingsWindow : Window
             var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
             var enabled = new CheckBox
             {
-                Content = $"Priority {rule.Priority}: CPU {(rule.Trigger == AutomationTrigger.SystemCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% → {planName}",
+                Content = $"Priority {rule.Priority}: CPU {(rule.Trigger == AutomationTrigger.SystemCpuBelow ? "below" : "above")} {rule.CpuThresholdPercent:G}% for {EffectiveSustainedSeconds(rule):G}s → {planName}",
                 IsChecked = rule.Enabled,
                 Tag = rule.Id,
                 Width = 300,
@@ -698,6 +700,17 @@ public sealed partial class SettingsWindow : Window
     private static bool IsCpuTrigger(AutomationTrigger trigger) => trigger is
         AutomationTrigger.SystemCpuBelow or AutomationTrigger.SystemCpuAbove or
         AutomationTrigger.ProcessCpuBelow or AutomationTrigger.ProcessCpuAbove;
+
+    /// <summary>Matches CpuLoadMonitorService's fallback: rules persisted before SustainedSeconds
+    /// existed deserialize to 0 and keep the original ~9-second debounce.</summary>
+    private static double EffectiveSustainedSeconds(AutoSwitchRule rule) => rule.SustainedSeconds > 0 ? rule.SustainedSeconds : 9;
+
+    private static string DescribeAppRunningConditions(AutoSwitchRule rule)
+    {
+        if (rule.AppCpuGateEnabled) return $" and CPU above {rule.CpuThresholdPercent:G}% for {rule.SustainedSeconds:G}s";
+        if (rule.SustainedSeconds > 0) return $" for {rule.SustainedSeconds:G}s";
+        return string.Empty;
+    }
 
     private static List<AutoSwitchRule> GetCpuRulesInPriorityOrder(IEnumerable<AutoSwitchRule> rules) => rules
         .Where(rule => IsCpuTrigger(rule.Trigger))
@@ -774,15 +787,33 @@ public sealed partial class SettingsWindow : Window
             AppRuleStatusText.Text = "Enter a CPU threshold from 0 to 100%.";
             return;
         }
+
+        // Optional extra conditions for plain "app is running" rules: leaving both at their
+        // defaults (0) reproduces today's "switch as soon as the app starts" behavior exactly.
+        double minRunningSeconds = AppMinRunningSecondsNumberBox.Value;
+        if (double.IsNaN(minRunningSeconds) || minRunningSeconds < 0) minRunningSeconds = 0;
+        double appCpuThreshold = AppRunningCpuThresholdNumberBox.Value;
+        if (double.IsNaN(appCpuThreshold) || appCpuThreshold <= 0) appCpuThreshold = 0;
+        if (!cpuRule && appCpuThreshold > 100)
+        {
+            AppRuleStatusText.Text = "Enter a CPU threshold from 0 to 100%, or leave it at 0 to ignore CPU usage.";
+            return;
+        }
+        bool appCpuGateEnabled = !cpuRule && appCpuThreshold > 0;
+
         rules.Add(new AutoSwitchRule
         {
             Trigger = !cpuRule ? AutomationTrigger.AppRunning : AppCpuDirectionComboBox.SelectedIndex == 1 ? AutomationTrigger.ProcessCpuAbove : AutomationTrigger.ProcessCpuBelow,
             AppExecutableName = executable,
             TargetPlanGuid = plan.Guid,
-            CpuThresholdPercent = cpuRule ? threshold : 15,
+            CpuThresholdPercent = cpuRule ? threshold : appCpuGateEnabled ? appCpuThreshold : 0,
             Priority = cpuRule ? NextCpuPriority(rules) : 0,
+            SustainedSeconds = cpuRule ? 0 : minRunningSeconds,
+            AppCpuGateEnabled = appCpuGateEnabled,
         });
         SaveRules(rules);
+        AppMinRunningSecondsNumberBox.Value = 0;
+        AppRunningCpuThresholdNumberBox.Value = 0;
         AppExecutableTextBox.Text = string.Empty;
         AppRuleStatusText.Text = string.Empty;
     }
@@ -825,6 +856,8 @@ public sealed partial class SettingsWindow : Window
         bool visible = AppTriggerTypeComboBox.SelectedIndex == 1;
         AppCpuDirectionComboBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         AppCpuThresholdNumberBox.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        // The min-running-time / own-CPU-usage gate only applies to plain "app is running" rules.
+        AppRunningExtraConditionsPanel.Visibility = visible ? Visibility.Collapsed : Visibility.Visible;
     }
 
     private async void OnAddSystemCpuRuleClick(object sender, RoutedEventArgs e)
@@ -837,6 +870,12 @@ public sealed partial class SettingsWindow : Window
             SystemCpuRuleStatusText.Text = "Enter a CPU threshold from 0 to 100%.";
             return;
         }
+        double sustainedSeconds = SystemCpuSustainedSecondsNumberBox.Value;
+        if (double.IsNaN(sustainedSeconds) || sustainedSeconds < 1)
+        {
+            SystemCpuRuleStatusText.Text = "Enter a duration of at least 1 second.";
+            return;
+        }
         List<AutoSwitchRule> rules = _appSettingsService.GetAutomationRules();
         rules.Add(new AutoSwitchRule
         {
@@ -845,6 +884,7 @@ public sealed partial class SettingsWindow : Window
             CpuThresholdPercent = threshold,
             TargetPlanGuid = plan.Guid,
             Priority = NextCpuPriority(rules),
+            SustainedSeconds = sustainedSeconds,
         });
         SaveRules(rules);
         SystemCpuRuleStatusText.Text = string.Empty;
@@ -1946,6 +1986,13 @@ public sealed partial class SettingsWindow : Window
     private async void OnDisableCpuBoostClick(object sender, RoutedEventArgs e)
     {
         if (_isInitializing) return;
+        if (!await EnsureProAccessAsync())
+        {
+            _isInitializing = true;
+            DisableCpuBoostCheckBox.IsChecked = !(DisableCpuBoostCheckBox.IsChecked == true);
+            _isInitializing = false;
+            return;
+        }
         try
         {
             Guid active = _powerSchemeService.GetActiveSchemeGuid();
@@ -1953,6 +2000,7 @@ public sealed partial class SettingsWindow : Window
             if (DisableCpuBoostCheckBox.IsChecked == true)
             {
                 if (current == 100) _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid, 99);
+                _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorBoostModeGuid, 0);
             }
             else if (current <= 99)
             {
@@ -1961,7 +2009,10 @@ public sealed partial class SettingsWindow : Window
                     PrimaryButtonText = L("Yes"), CloseButtonText = L("CancelLabel"), DefaultButton = ContentDialogButton.Close,
                     XamlRoot = Content.XamlRoot };
                 if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                {
                     _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorMaximumStateGuid, 100);
+                    _powerSchemeService.SetACValue(active, ProcessorSubgroupGuid, ProcessorBoostModeGuid, 1);
+                }
                 else
                 {
                     _isInitializing = true;
