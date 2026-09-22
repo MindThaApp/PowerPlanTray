@@ -187,6 +187,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="DisableCpuBoost.Content" xml:space="preserve">
     <value>Disable CPU Boost</value>
   </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Don't keep window on top</value>
+  </data>
   <data name="EnableAll.Content" xml:space="preserve">
     <value>Enable All</value>
   </data>
@@ -213,6 +216,9 @@ Some of these settings can meaningfully change performance or power draw if set 
   </data>
   <data name="InstallOrRemoveTheStandardWindows.Text" xml:space="preserve">
     <value>Install or remove the standard Windows power plans. Windows will ask for administrator permission.</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Keep window on top</value>
   </data>
   <data name="Large" xml:space="preserve">
     <value>Large</value>

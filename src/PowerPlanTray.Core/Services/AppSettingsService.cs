@@ -22,6 +22,7 @@ public sealed class AppSettingsService
     private const string PopupTextSizeKey = nameof(PopupTextSize);
     private const string SettingsWindowSizeKey = nameof(SettingsWindowSize);
     private const string NavigationPanePinnedKey = nameof(NavigationPanePinned);
+    private const string KeepWindowOnTopKey = nameof(KeepWindowOnTop);
     private const string TrayIconModeKey = nameof(TrayIconMode);
     private const string TrayIconGaugeMetricKey = nameof(TrayIconGaugeMetric);
     private const string TrayIconGaugeColorKey = nameof(TrayIconGaugeColor);
@@ -107,6 +108,12 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(NavigationPanePinnedKey, defaultValue: false);
         set => _localSettings.Values[NavigationPanePinnedKey] = value;
+    }
+
+    public bool KeepWindowOnTop
+    {
+        get => GetBoolean(KeepWindowOnTopKey, defaultValue: false);
+        set => _localSettings.Values[KeepWindowOnTopKey] = value;
     }
 
     public bool AdvancedWarningAcknowledged
