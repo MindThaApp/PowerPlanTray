@@ -99,7 +99,7 @@ public sealed partial class SettingsWindow : Window
         GaugeMetricComboBox.ItemsSource = new[] { L("GaugeMetricCpu"), L("GaugeMetricMemory"), L("GaugeMetricDisk"), L("GaugeMetricNetwork"), L("GaugeMetricGpu") };
         PopupSizeComboBox.ItemsSource = SettingsWindowSizeComboBox.ItemsSource = PopupTextSizeComboBox.ItemsSource = new[] { L("Small"), L("Medium"), L("Large") };
         AppTriggerTypeComboBox.SelectionChanged += OnAppTriggerTypeChanged;
-        WindowRoot.Loaded += (_, _) => ApplyPinnedPaneState();
+        WindowRoot.Loaded += (_, _) => { ApplyPinnedPaneState(); ApplyKeepOnTopState(); };
         SettingsNavigationView.PaneOpening += OnNavigationPaneOpening;
         SettingsNavigationView.PaneClosing += OnNavigationPaneClosing;
         SettingsNavigationView.PaneClosed += OnNavigationPaneClosed;
@@ -255,6 +255,32 @@ public sealed partial class SettingsWindow : Window
         SettingsNavigationView.IsPaneToggleButtonVisible = true;
         SettingsNavigationView.IsPaneOpen = pinned;
         ToolTipService.SetToolTip(PinPaneToggle, pinned ? L("UnpinNavigationPane") : L("PinNavigationPaneOpen"));
+    }
+
+    private void OnKeepOnTopClick(object sender, RoutedEventArgs e)
+    {
+        bool keepOnTop = KeepOnTopToggle.IsChecked == true;
+        _appSettingsService.KeepWindowOnTop = keepOnTop;
+        SetAlwaysOnTop(keepOnTop);
+        ToolTipService.SetToolTip(KeepOnTopToggle, keepOnTop ? L("DontKeepWindowOnTop") : L("KeepWindowOnTop"));
+    }
+
+    private void ApplyKeepOnTopState()
+    {
+        bool keepOnTop = _appSettingsService.KeepWindowOnTop;
+        KeepOnTopToggle.IsChecked = keepOnTop;
+        SetAlwaysOnTop(keepOnTop);
+        ToolTipService.SetToolTip(KeepOnTopToggle, keepOnTop ? L("DontKeepWindowOnTop") : L("KeepWindowOnTop"));
+    }
+
+    private void SetAlwaysOnTop(bool alwaysOnTop)
+    {
+        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        AppWindow appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(hwnd));
+        if (appWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsAlwaysOnTop = alwaysOnTop;
+        }
     }
 
     private void OnNavigationPaneOpening(NavigationView sender, object args)

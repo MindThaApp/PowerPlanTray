@@ -10,9 +10,14 @@
     </Grid>
     <NavigationView x:Name="SettingsNavigationView" Grid.Row="1" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" IsPaneToggleButtonVisible="True" PaneDisplayMode="LeftCompact" CompactPaneLength="48" OpenPaneLength="176" Background="Transparent" SelectionChanged="OnNavigationSelectionChanged">
       <NavigationView.PaneHeader>
-        <ToggleButton x:Name="PinPaneToggle" Click="OnPinPaneClick" Width="40" Height="40" HorizontalAlignment="Left">
-          <FontIcon Glyph="" FontSize="16" />
-        </ToggleButton>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+          <ToggleButton x:Name="PinPaneToggle" Click="OnPinPaneClick" Width="40" Height="40" HorizontalAlignment="Left">
+            <FontIcon Glyph="" FontSize="16" />
+          </ToggleButton>
+          <ToggleButton x:Name="KeepOnTopToggle" Click="OnKeepOnTopClick" Width="40" Height="40" HorizontalAlignment="Left">
+            <FontIcon Glyph="&#xE840;" FontSize="16" />
+          </ToggleButton>
+        </StackPanel>
       </NavigationView.PaneHeader>
       <NavigationView.MenuItems>
         <NavigationViewItem x:Uid="NavGeneral" Icon="Setting" Tag="General" IsSelected="True" />
