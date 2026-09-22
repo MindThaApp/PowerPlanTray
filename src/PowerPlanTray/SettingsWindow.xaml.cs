@@ -851,6 +851,20 @@ public sealed partial class SettingsWindow : Window
         AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    // WinUI 3 NumberBox bug: with SpinButtonPlacementMode="Compact", the spin buttons can get
+    // stuck visible after focus/pointer leaves (the control's internal PointerOver/Focused visual
+    // state doesn't always re-evaluate back to Normal, e.g. after LostFocus revalidates the value).
+    // Toggling the placement mode off and back on forces the control to recompute the spin-button
+    // visual state from scratch.
+    private void OnCompactSpinButtonNumberBoxLostFocus(object sender, RoutedEventArgs e)
+    {
+        if (sender is NumberBox numberBox)
+        {
+            numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Hidden;
+            numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact;
+        }
+    }
+
     private void OnAppTriggerTypeChanged(object sender, SelectionChangedEventArgs e)
     {
         bool visible = AppTriggerTypeComboBox.SelectedIndex == 1;
