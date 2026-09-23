@@ -3,6 +3,9 @@ namespace PowerPlanTray.Core.Models;
 public sealed class AdvancedSettingsProfile
 {
     public string Name { get; set; } = string.Empty;
+    public bool IsAutoSaved { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public string DisplayName => IsAutoSaved ? $"Auto-saved — {Name}" : Name;
     public DateTime SavedAt { get; set; }
     public List<AdvancedSettingSnapshot> Settings { get; set; } = new();
 }
