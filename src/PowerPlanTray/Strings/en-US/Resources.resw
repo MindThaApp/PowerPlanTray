@@ -148,9 +148,6 @@ Some of these settings can meaningfully change performance or power draw if set 
   <data name="CpuPercentage" xml:space="preserve">
     <value>CPU percentage</value>
   </data>
-  <data name="CpuBoostPremiumNote.Text" xml:space="preserve">
-    <value>Toggling this also sets the active plan's Processor performance boost mode (Advanced page) to match, not just Maximum processor state — both are real Windows Advanced Power Settings values, not an app-local flag. This is a Premium feature in the free Lite edition.</value>
-  </data>
   <data name="Gauge" xml:space="preserve">
     <value>Gauge</value>
   </data>
@@ -422,7 +419,7 @@ Some of these settings can meaningfully change performance or power draw if set 
     <value>30 min</value>
   </data>
   <data name="ThisReflectsTheActivePowerPlan.Text" xml:space="preserve">
-    <value>This checkbox reflects the active plan's Maximum processor state, not an app setting: 99% or lower disables CPU boost; 100% enables it. It updates when you switch plans or edit that value on the Advanced page.</value>
+    <value>Sets the active plan's Windows Advanced Power Settings: Maximum processor state and Processor performance boost mode — 99% or lower disables CPU boost; 100% enables it. Premium feature in the free Lite edition.</value>
   </data>
   <data name="TimedSwitches.Text" xml:space="preserve">
     <value>Timed switches</value>
