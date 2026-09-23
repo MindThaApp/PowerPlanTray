@@ -42,7 +42,6 @@
             </StackPanel>
             <StackPanel Spacing="6">
               <TextBlock x:Uid="ThisReflectsTheActivePowerPlan" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-              <TextBlock x:Uid="CpuBoostPremiumNote" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
               <TextBlock x:Name="CpuBoostStatusText" TextWrapping="Wrap" />
             </StackPanel>
             <ComboBox x:Uid="ActivePowerPlan" x:Name="GeneralPlanComboBox" DisplayMemberPath="Name" MinWidth="320" HorizontalAlignment="Left" SelectionChanged="OnGeneralPlanSelectionChanged" />
@@ -97,8 +96,8 @@
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <ComboBox x:Uid="Condition" x:Name="SystemCpuDirectionComboBox" Width="110" SelectedIndex="0">
                 </ComboBox>
-                <NumberBox x:Name="SystemCpuThresholdNumberBox" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" x:Uid="CpuPercent" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
-                <NumberBox x:Name="SystemCpuSustainedSecondsNumberBox" Width="110" Minimum="1" Maximum="999" Value="9" SpinButtonPlacementMode="Compact" x:Uid="SustainedSecondsLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
+                <NumberBox x:Name="SystemCpuThresholdNumberBox" Width="110" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" x:Uid="CpuPercent" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
+                <NumberBox x:Name="SystemCpuSustainedSecondsNumberBox" Width="110" Minimum="1" Maximum="999" Value="9" SpinButtonPlacementMode="Compact" x:Uid="SustainedSecondsLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
                 <ComboBox x:Uid="PowerPlan" x:Name="SystemCpuPlanComboBox" Width="210" DisplayMemberPath="Name" />
                 <Button x:Uid="Add" VerticalAlignment="Bottom" Click="OnAddSystemCpuRuleClick" />
               </StackPanel>
@@ -121,11 +120,11 @@
                 </ComboBox>
                 <ComboBox x:Uid="Condition" x:Name="AppCpuDirectionComboBox" Width="120" SelectedIndex="0" Visibility="Collapsed">
                 </ComboBox>
-                <NumberBox x:Name="AppCpuThresholdNumberBox" Width="120" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" Visibility="Collapsed" x:Uid="CpuPercent" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
+                <NumberBox x:Name="AppCpuThresholdNumberBox" Width="120" Minimum="0" Maximum="100" Value="15" SpinButtonPlacementMode="Compact" Visibility="Collapsed" x:Uid="CpuPercent" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
               </StackPanel>
               <StackPanel x:Name="AppRunningExtraConditionsPanel" Orientation="Horizontal" Spacing="8">
-                <NumberBox x:Name="AppMinRunningSecondsNumberBox" Width="150" Minimum="0" Maximum="999" Value="0" SpinButtonPlacementMode="Compact" x:Uid="MinRunningSecondsLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
-                <NumberBox x:Name="AppRunningCpuThresholdNumberBox" Width="150" Minimum="0" Maximum="100" Value="0" SpinButtonPlacementMode="Compact" x:Uid="OptionalAppCpuPercentLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
+                <NumberBox x:Name="AppMinRunningSecondsNumberBox" Width="150" Minimum="0" Maximum="999" Value="0" SpinButtonPlacementMode="Compact" x:Uid="MinRunningSecondsLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
+                <NumberBox x:Name="AppRunningCpuThresholdNumberBox" Width="150" Minimum="0" Maximum="100" Value="0" SpinButtonPlacementMode="Compact" x:Uid="OptionalAppCpuPercentLabel" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
               </StackPanel>
               <TextBlock x:Uid="AppRunningExtraConditionsHint" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
               <StackPanel Orientation="Horizontal" Spacing="8">
@@ -143,8 +142,8 @@
               <Button x:Uid="Apply" HorizontalAlignment="Left" Click="OnApplyTimedSwitchClick" />
               <TextBlock x:Uid="CustomDuration" FontWeight="SemiBold" />
               <StackPanel Orientation="Horizontal" Spacing="8">
-                <NumberBox x:Name="CustomHoursNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Hours" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
-                <NumberBox x:Name="CustomMinutesNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Minutes" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" />
+                <NumberBox x:Name="CustomHoursNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Hours" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
+                <NumberBox x:Name="CustomMinutesNumberBox" Width="120" Minimum="0" Value="0" SpinButtonPlacementMode="Compact" x:Uid="Minutes" LostFocus="OnCompactSpinButtonNumberBoxLostFocus" PointerExited="OnCompactSpinButtonNumberBoxPointerExited" />
                 <Button x:Uid="ApplyCustomDuration" VerticalAlignment="Bottom" Click="OnApplyCustomTimedSwitchClick" />
               </StackPanel>
               <TextBlock x:Name="TimedSwitchErrorText" Foreground="{ThemeResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />

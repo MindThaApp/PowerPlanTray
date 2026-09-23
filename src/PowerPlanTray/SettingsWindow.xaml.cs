@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using PowerPlanTray.Core.Services;
 using PowerPlanTray.Core;
 using PowerPlanTray.Core.Models;
@@ -75,6 +76,9 @@ public sealed partial class SettingsWindow : Window
         _licensingService = licensingService;
 #endif
         InitializeComponent();
+        // Observe clicks even when an internal TextBox, button, or other child handles them.
+        WindowRoot.AddHandler(UIElement.PointerPressedEvent,
+            new PointerEventHandler(OnWindowRootPointerPressed), handledEventsToo: true);
 #if LITE_EDITION
         BatteryAcPremiumBadge.Visibility = Visibility.Visible;
         SystemCpuPremiumBadge.Visibility = Visibility.Visible;
@@ -877,18 +881,55 @@ public sealed partial class SettingsWindow : Window
         AutomationSettingsChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    // WinUI 3 NumberBox bug: with SpinButtonPlacementMode="Compact", the spin buttons can get
-    // stuck visible after focus/pointer leaves (the control's internal PointerOver/Focused visual
-    // state doesn't always re-evaluate back to Normal, e.g. after LostFocus revalidates the value).
-    // Toggling the placement mode off and back on forces the control to recompute the spin-button
-    // visual state from scratch.
+    private IEnumerable<NumberBox> CompactSpinButtonNumberBoxes => new[]
+    {
+        SystemCpuThresholdNumberBox, SystemCpuSustainedSecondsNumberBox,
+        AppCpuThresholdNumberBox, AppMinRunningSecondsNumberBox,
+        AppRunningCpuThresholdNumberBox, CustomHoursNumberBox, CustomMinutesNumberBox
+    };
+
+    private static NumberBox? FindNumberBoxAncestor(object? source)
+    {
+        for (var node = source as DependencyObject; node != null;
+            // Prefer the logical parent so popup spin buttons lead back to their owner.
+            node = (node as FrameworkElement)?.Parent ?? VisualTreeHelper.GetParent(node))
+        {
+            if (node is NumberBox numberBox) return numberBox;
+        }
+        return null;
+    }
+
+    private void OnWindowRootPointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        var clickedNumberBox = FindNumberBoxAncestor(e.OriginalSource);
+        var focusedNumberBox = FindNumberBoxAncestor(FocusManager.GetFocusedElement(WindowRoot.XamlRoot));
+        foreach (var numberBox in CompactSpinButtonNumberBoxes)
+        {
+            if (numberBox == clickedNumberBox) continue;
+
+            // Blank space and headings do not take focus. Compact's popup closes on
+            // LostFocus, so release any lingering focus as well as resetting placement.
+            if (numberBox == focusedNumberBox && SettingsNavigationView.SelectedItem is Control navigationItem)
+                navigationItem.Focus(FocusState.Programmatic);
+
+            ResetCompactSpinButtons(numberBox);
+        }
+    }
+
+    private static void ResetCompactSpinButtons(NumberBox numberBox)
+    {
+        numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Hidden;
+        numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact;
+    }
+
+    private void OnCompactSpinButtonNumberBoxPointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is NumberBox numberBox) ResetCompactSpinButtons(numberBox);
+    }
+
     private void OnCompactSpinButtonNumberBoxLostFocus(object sender, RoutedEventArgs e)
     {
-        if (sender is NumberBox numberBox)
-        {
-            numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Hidden;
-            numberBox.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact;
-        }
+        if (sender is NumberBox numberBox) ResetCompactSpinButtons(numberBox);
     }
 
     private void OnAppTriggerTypeChanged(object sender, SelectionChangedEventArgs e)
