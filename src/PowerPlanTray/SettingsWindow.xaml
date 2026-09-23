@@ -196,7 +196,7 @@
               <ListView.ItemTemplate>
                 <DataTemplate>
                   <StackPanel Padding="4" Spacing="2">
-                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" />
                     <TextBlock Text="{Binding SavedAt}" Opacity="0.7" />
                   </StackPanel>
                 </DataTemplate>

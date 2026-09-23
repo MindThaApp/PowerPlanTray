@@ -42,6 +42,7 @@ public partial class App : Application
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
+        await _appSettingsService.RestoreFromBackupIfNeededAsync();
         _hiddenWindow = new Window { Title = "PowerPlanTray background host" };
         _trayPopup = new TrayPopupWindow(
             _powerSchemeService, _appSettingsService, _powerSourceMonitor, _automationRuleEngine, SwitchScheme,

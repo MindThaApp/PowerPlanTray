@@ -1654,6 +1654,8 @@ public sealed partial class SettingsWindow : Window
             RefreshCpuBoostState();
             AdvancedStatusText.Text = string.Join(" ", new[] { visibilityFailure, valueFailure }.Where(message => message.Length > 0));
         }
+        if ((visibilitySucceeded && visibilityChanges.Length > 0) || valueChanges.Length > valueFailures)
+            await UpdateAutoSavedProfileAsync();
     }
 
     private async Task<bool> EnsureProAccessAsync()
@@ -1781,13 +1783,35 @@ public sealed partial class SettingsWindow : Window
         };
     }
 
+    private async Task UpdateAutoSavedProfileAsync()
+    {
+        try
+        {
+            AdvancedSettingsProfile profile = CaptureProfile(
+                (AdvancedPlanComboBox.SelectedItem as PowerScheme)?.Name ?? "Advanced settings");
+            profile.IsAutoSaved = true;
+            // Profiles may not have been opened yet: preserve persisted manual saves.
+            var profiles = await _appSettingsService.GetAdvancedSettingsProfilesAsync();
+            profiles.RemoveAll(existing => existing.IsAutoSaved);
+            profiles.Insert(0, profile);
+            await _appSettingsService.SetAdvancedSettingsProfilesAsync(profiles);
+            _advancedProfiles = profiles;
+            AdvancedProfileComboBox.ItemsSource = null;
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+        }
+        catch (Exception ex)
+        {
+            AdvancedStatusText.Text += $" Couldn't auto-save profile: {ex.Message}";
+        }
+    }
+
     private async Task InitializeProfilesAsync()
     {
         try
         {
             ProfilesStatusText.Text = "Loading profiles...";
             _advancedProfiles = await _appSettingsService.GetAdvancedSettingsProfilesAsync();
-            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles.OrderByDescending(profile => profile.IsAutoSaved).ToList();
 
             if (_allAdvancedSettings.Count == 0 && AdvancedPlanComboBox.SelectedItem is PowerScheme scheme)
             {
@@ -1821,11 +1845,11 @@ public sealed partial class SettingsWindow : Window
         try
         {
             AdvancedSettingsProfile profile = CaptureProfile(name);
-            _advancedProfiles.RemoveAll(existing => string.Equals(existing.Name, name, StringComparison.OrdinalIgnoreCase));
+            _advancedProfiles.RemoveAll(existing => !existing.IsAutoSaved && string.Equals(existing.Name, name, StringComparison.OrdinalIgnoreCase));
             _advancedProfiles.Add(profile);
             await _appSettingsService.SetAdvancedSettingsProfilesAsync(_advancedProfiles);
             AdvancedProfileComboBox.ItemsSource = null;
-            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles.OrderByDescending(profile => profile.IsAutoSaved).ToList();
             AdvancedProfileComboBox.SelectedItem = profile;
             ProfilesStatusText.Text = $"Saved profile '{name}' with {profile.Settings.Count} settings.";
         }
@@ -1846,12 +1870,18 @@ public sealed partial class SettingsWindow : Window
             return;
         }
 
+        if (profile.IsAutoSaved)
+        {
+            ProfilesStatusText.Text = "The auto-saved profile can't be deleted.";
+            return;
+        }
+
         try
         {
             _advancedProfiles.Remove(profile);
             await _appSettingsService.SetAdvancedSettingsProfilesAsync(_advancedProfiles);
             AdvancedProfileComboBox.ItemsSource = null;
-            AdvancedProfileComboBox.ItemsSource = _advancedProfiles;
+            AdvancedProfileComboBox.ItemsSource = _advancedProfiles.OrderByDescending(profile => profile.IsAutoSaved).ToList();
             ProfilesStatusText.Text = $"Deleted profile '{profile.Name}'.";
         }
         catch (Exception ex) { ProfilesStatusText.Text = $"Couldn't delete profile: {ex.Message}"; }
