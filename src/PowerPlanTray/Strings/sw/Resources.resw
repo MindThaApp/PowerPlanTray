@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Dakika</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>Ruhusa ya msimamizi ilighairiwa.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Onyo la mipangilio ya hali ya juu</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>Kichupo cha Hali ya Juu kinaonyesha mipangilio ya usimamizi wa nguvu ya Windows ya kiwango cha chini ambayo kwa kawaida haionekani katika jopo la kudhibiti Chaguzi za Nguvu za Windows au UI ya Mipangilio. Kubadilisha mipangilio hii kunaweza kuathiri utendakazi, utulivu, maisha ya betri, na tabia ya vifaa vya mfumo wako (ikiwa ni pamoja na joto na tabia ya feni). Unafanya mabadiliko haya kwa hatari yako mwenyewe kabisa.
+
+Kuonyesha mpangilio hapa ni mabadiliko ya kweli ya kudumu ya kiwango cha mfumo: inafanya mpangilio huo uonekane katika jopo la kudhibiti Chaguzi za Nguvu za Windows na UI ya Mipangilio pia, si ndani ya programu hii tu. Si upendeleo uliozuiwa ndani ya programu, na utabaki ukiwa wazi katika mfumo mzima mpaka uuficha tena.
+
+Baadhi ya mipangilio hii inaweza kubadilisha kwa kiasi kikubwa utendakazi au matumizi ya nguvu ikiwa imewekwa vibaya. Badilisha mipangilio hapa tu ukijua inachofanya. Ikiwa huna uhakika, iacha katika chaguo-msingi lake.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Ninaelewa na kukubaliana</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Rudi nyuma</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Tafuta mipangilio ya hali ya juu...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Jumuisha mipangilio ya hali ya juu iliyofichwa</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Tafuta maelezo pia</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} kati ya {1} mipangilio inafanana</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Haikuwezekana kuunda mpango wa nguvu.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Unda</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Unda mpango mpya wa nguvu...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Unda mpango mpya wa nguvu</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Kipimo</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Kipimo cha kipimo</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Kumbukumbu</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Diski</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Mtandao</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Usibaki dirisha juu</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Baki dirisha juu</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Jina la mpango mpya</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Wakati wa uzinduzi wa mwongozo</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Wakati wa kuanza Windows</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Nakala</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>Mpango wa nguvu uliundwa.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Sekunde</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Kiwango cha chini cha uendeshaji (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (hiari)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Acha zote kwa 0 kubadilisha mara tu programu inapoanza (chaguo-msingi la leo). Weka sekunde tu kusubiri muda huo kabla ya kubadilisha. Pia weka CPU % ili kuhitaji matumizi ya CPU ya programu yenyewe kubaki juu ya asilimia hiyo kwa sekunde hizo.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Kiolezo cha mpango wa nguvu</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro -- {0} {1:0}%, {2}</value>
+  </data>
 </root>

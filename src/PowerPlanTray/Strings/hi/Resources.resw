@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>मिनट</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>व्यवस्थापक अनुमति रद्द कर दी गई।</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>उन्नत सेटिंग्स चेतावनी</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>उन्नत टैब निम्न-स्तरीय Windows पावर प्रबंधन सेटिंग्स को उजागर करता है जो सामान्य रूप से मानक Windows पावर विकल्प कंट्रोल पैनल या सेटिंग्स UI में नहीं दिखाई जाती हैं। इन सेटिंग्स को बदलने से आपके सिस्टम के प्रदर्शन, स्थिरता, बैटरी जीवन और हार्डवेयर व्यवहार (तापीय और पंखे के व्यवहार सहित) पर असर पड़ सकता है। आप ये परिवर्तन पूरी तरह से अपने जोखिम पर कर रहे हैं।
+
+यहाँ किसी सेटिंग को अनहाइड करना एक वास्तविक, स्थायी सिस्टम-स्तरीय परिवर्तन है: यह उस सेटिंग को OS-स्तरीय Windows पावर विकल्प कंट्रोल पैनल और सेटिंग्स UI में भी दिखाता है, न केवल इस ऐप के अंदर। यह एक सैंडबॉक्सड, इन-ऐप-ओनली प्राथमिकता नहीं है, और यह सिस्टम-वाइड अनहिडन रहेगी जब तक आप इसे फिर से हाइड नहीं करते।
+
+इनमें से कुछ सेटिंग्स गलत तरीके से सेट किए जाने पर प्रदर्शन या पावर खपत को महत्वपूर्ण रूप से बदल सकती हैं। यहाँ केवल तभी सेटिंग्स बदलें जब आप समझते हों कि वे क्या करती हैं। यदि आप अनिश्चित हैं, तो उन्हें उनके डिफ़ॉल्ट पर छोड़ दें।</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>मैं समझता/समझती हूँ और सहमत हूँ</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>वापस जाएं</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>उन्नत सेटिंग्स खोजें...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>छुपी उन्नत सेटिंग्स शामिल करें</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>विवरण में भी खोजें</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{1} में से {0} सेटिंग्स मेल खाती हैं</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>पावर प्लान नहीं बनाया जा सका।</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>बनाएं</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>नया पावर प्लान बनाएं...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>नया पावर प्लान बनाएं</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>गेज</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>गेज मेट्रिक</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>विंडो को शीर्ष पर न रखें</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>विंडो को शीर्ष पर रखें</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>नए प्लान का नाम</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>मैन्युअल लॉन्च पर</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Windows स्टार्टअप पर</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - प्रतिलिपि</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>पावर प्लान बनाया गया।</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>सेकंड</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>न्यूनतम चलने का समय (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (वैकल्पिक)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>जैसे ही ऐप शुरू हो तब स्विच करने के लिए दोनों को 0 पर छोड़ें (आज का डिफ़ॉल्ट)। केवल सेकंड सेट करें तो स्विच करने से पहले उतना समय प्रतीक्षा करें। CPU % भी सेट करें तो ऐप का अपना CPU उपयोग उतने सेकंड के लिए उस प्रतिशत से ऊपर रहना आवश्यक होगा।</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>टेम्पलेट पावर प्लान</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro -- {0} {1:0}%, {2}</value>
+  </data>
 </root>

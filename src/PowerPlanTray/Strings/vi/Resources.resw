@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Phút</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>Quyền quản trị viên đã bị hủy.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Cảnh báo cài đặt nâng cao</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>Tab Nâng cao hiển thị các cài đặt quản lý nguồn điện Windows cấp thấp thường không được hiển thị trong Bảng điều khiển Tùy chọn nguồn điện Windows tiêu chuẩn hoặc giao diện người dùng Cài đặt. Thay đổi các cài đặt này có thể ảnh hưởng đến hiệu suất, độ ổn định, tuổi thọ pin và hành vi phần cứng của hệ thống (bao gồm nhiệt độ và hành vi quạt). Bạn đang thực hiện những thay đổi này hoàn toàn theo rủi ro của riêng mình.
+
+Hiển thị một cài đặt ở đây là thay đổi thực sự, liên tục ở cấp hệ thống: nó làm cho cài đặt đó xuất hiện trong Bảng điều khiển Tùy chọn nguồn điện Windows cấp độ hệ điều hành và giao diện người dùng Cài đặt, không chỉ bên trong ứng dụng này. Đây không phải là tùy chọn chỉ dành cho ứng dụng trong hộp cát, và nó sẽ vẫn không bị ẩn trên toàn hệ thống cho đến khi bạn ẩn lại.
+
+Một số cài đặt này có thể thay đổi đáng kể hiệu suất hoặc mức tiêu thụ điện nếu cài đặt không chính xác. Chỉ thay đổi cài đặt ở đây nếu bạn hiểu chúng làm gì. Nếu không chắc chắn, hãy để chúng ở mặc định.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Tôi hiểu và đồng ý</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Tìm kiếm cài đặt nâng cao...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Bao gồm cài đặt nâng cao đã ẩn</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Tìm kiếm trong mô tả</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} trong {1} cài đặt khớp</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Không thể tạo gói nguồn điện.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Tạo</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Tạo gói nguồn điện mới...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Tạo gói nguồn điện mới</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Đồng hồ đo</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Số liệu đồng hồ đo</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Bộ nhớ</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Đĩa</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Mạng</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Không giữ cửa sổ trên cùng</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Giữ cửa sổ trên cùng</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Tên gói mới</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Khi khởi chạy thủ công</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Khi Windows khởi động</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Bản sao</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>Gói nguồn điện đã được tạo.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Giây</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Tối thiểu chạy (giây)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (tùy chọn)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Để cả hai ở 0 để chuyển ngay khi ứng dụng khởi động (mặc định hiện tại). Chỉ đặt giây để chờ đó trước khi chuyển. Cũng đặt CPU % để yêu cầu mức sử dụng CPU của chính ứng dụng phải duy trì trên tỷ lệ phần trăm đó trong nhiều giây đó.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Gói nguồn điện mẫu</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro -- {0} {1:0}%, {2}</value>
+  </data>
 </root>

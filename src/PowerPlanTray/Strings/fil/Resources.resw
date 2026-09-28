@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Minuto</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>Kinansela ang pahintulot ng administrador.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Babala sa mga advanced na setting</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>Ipinapakita ng tab na Advanced ang mga low-level na setting ng pamamahala ng kuryente ng Windows na hindi karaniwang ipinapakita sa karaniwang Windows Power Options control panel o sa Settings UI. Ang pagbabago ng mga setting na ito ay maaaring makaapekto sa pagganap, katatagan, buhay ng baterya, at gawi ng hardware ng iyong system (kasama ang init at gawi ng fan). Ikaw ang ganap na may pananagutan sa mga pagbabagong ito.
+
+Ang pagpapakita ng isang setting dito ay isang tunay at permanenteng pagbabago sa antas ng system: ginagawa nitong lumabas ang setting na iyon sa Windows Power Options control panel at Settings UI din, hindi lamang sa loob ng app na ito. Hindi ito isang sandboxed na kagustuhan na para lamang sa app, at mananatiling nakita sa buong system hanggang sa itago mo ito ulit.
+
+Ang ilang mga setting na ito ay maaaring makabuluhang baguhin ang pagganap o paggamit ng kuryente kung hindi maayos na itinakda. Baguhin lamang ang mga setting dito kung naiintindihan mo kung ano ang ginagawa ng mga ito. Kung hindi ka sigurado, iwanan ang mga ito sa kanilang mga default.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Naiintindihan ko at sumasang-ayon</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Bumalik</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Hanapin ang mga advanced na setting...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Isama ang mga nakatagong advanced na setting</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Hanapin din sa mga paglalarawan</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} sa {1} na setting ang tumugma</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Hindi nagawa ang power plan.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Lumikha</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Lumikha ng bagong power plan...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Lumikha ng bagong power plan</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Gauge</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Sukatan ng gauge</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Huwag panatilihing nasa ibabaw ang window</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Panatilihing nasa ibabaw ang window</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Pangalan ng bagong plano</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Sa mano-manong paglulunsad</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Sa pagsisimula ng Windows</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Kopya</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>Nagawa ang power plan.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Segundo</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Min. oras ng pagpapatakbo (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (opsyonal)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Iwanan ang pareho sa 0 para lumipat kaagad pagkapagsimula ng app (kasalukuyang default). Itakda lamang ang segundo para maghintay nang ganoon katagal bago lumipat. Magtakda rin ng CPU % para sa halip ay kailanganin na ang sariling paggamit ng CPU ng app ay manatiling mas mataas sa porsyentong iyon sa loob ng gayon karaming segundo.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Template na power plan</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0} {1:0}%, {2}</value>
+  </data>
 </root>

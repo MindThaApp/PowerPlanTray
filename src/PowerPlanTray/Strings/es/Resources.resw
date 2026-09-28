@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Minutos</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>El permiso de administrador fue cancelado.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Advertencia de configuración avanzada</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>La pestaña Avanzado expone configuraciones de administración de energía de bajo nivel de Windows que normalmente no se muestran en el Panel de control de opciones de energía estándar ni en la interfaz de usuario de Configuración. Cambiar estas configuraciones puede afectar el rendimiento, la estabilidad, la duración de la batería y el comportamiento del hardware del sistema (incluido el comportamiento térmico y del ventilador). Realizas estos cambios completamente bajo tu propia responsabilidad.
+
+Mostrar una configuración aquí es un cambio real y persistente a nivel del sistema: hace que esa configuración aparezca también en el Panel de control de opciones de energía de Windows y en la interfaz de Configuración, no solo dentro de esta aplicación. No es una preferencia aislada solo de la aplicación, y permanecerá visible en todo el sistema hasta que la ocultes de nuevo.
+
+Algunas de estas configuraciones pueden cambiar significativamente el rendimiento o el consumo de energía si se establecen incorrectamente. Solo cambia configuraciones aquí si entiendes lo que hacen. Si no estás seguro, déjalas en sus valores predeterminados.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Entiendo y acepto</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Buscar configuraciones avanzadas...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Incluir configuraciones avanzadas ocultas</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Buscar también en descripciones</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} de {1} configuraciones coinciden</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>No se pudo crear el plan de energía.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Crear nuevo plan de energía...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Crear nuevo plan de energía</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Indicador</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Métrica del indicador</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>No mantener la ventana encima</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Mantener la ventana encima</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Nombre del nuevo plan</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Al iniciar manualmente</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Al iniciar Windows</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Copia</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>El plan de energía fue creado.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Segundos</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Tiempo mínimo de ejecución (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (opcional)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Deja ambos en 0 para cambiar tan pronto como inicie la aplicación (valor predeterminado actual). Establece solo los segundos para esperar ese tiempo antes de cambiar. Establece también un % de CPU para requerir que el uso propio de CPU de la aplicación permanezca por encima de ese porcentaje durante esa cantidad de segundos.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Plan de energía de plantilla</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0} {1:0}%, {2}</value>
+  </data>
 </root>

@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>মিনিট</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>প্রশাসকের অনুমতি বাতিল করা হয়েছে।</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>উন্নত সেটিংস সতর্কতা</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>উন্নত ট্যাবটি নিম্ন-স্তরের উইন্ডোজ পাওয়ার ম্যানেজমেন্ট সেটিংস প্রকাশ করে যা সাধারণত স্ট্যান্ডার্ড উইন্ডোজ পাওয়ার অপশন কন্ট্রোল প্যানেল বা সেটিংস UI-তে দেখানো হয় না। এই সেটিংস পরিবর্তন করলে আপনার সিস্টেমের কর্মক্ষমতা, স্থিতিশীলতা, ব্যাটারির আয়ু এবং হার্ডওয়্যার আচরণ প্রভাবিত হতে পারে (তাপীয় ও পাখার আচরণ সহ)। আপনি সম্পূর্ণ নিজের ঝুঁকিতে এই পরিবর্তনগুলি করছেন।
+
+এখানে একটি সেটিং দৃশ্যমান করা একটি বাস্তব, স্থায়ী সিস্টেম-স্তরের পরিবর্তন: এটি সেই সেটিংটি OS-স্তরের উইন্ডোজ পাওয়ার অপশন কন্ট্রোল প্যানেল এবং সেটিংস UI-তেও দেখায়, শুধু এই অ্যাপের মধ্যে নয়। এটি একটি স্যান্ডবক্সড, শুধুমাত্র অ্যাপ-ভিত্তিক পছন্দ নয়, এবং আপনি এটি আবার লুকানো না পর্যন্ত এটি সিস্টেম-ব্যাপী দৃশ্যমান থাকবে।
+
+এই সেটিংগুলির মধ্যে কিছু ভুলভাবে সেট করলে কর্মক্ষমতা বা পাওয়ার ড্র উল্লেখযোগ্যভাবে পরিবর্তন করতে পারে। এখানে শুধুমাত্র সেই সেটিংস পরিবর্তন করুন যদি আপনি বোঝেন যে সেগুলি কী করে। যদি আপনি নিশ্চিত না হন, তাহলে সেগুলো তাদের ডিফল্টে রেখে দিন।</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>আমি বুঝি এবং সম্মত আছি</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>ফিরে যান</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>উন্নত সেটিংস অনুসন্ধান করুন...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>লুকানো উন্নত সেটিংস অন্তর্ভুক্ত করুন</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>বিবরণেও অনুসন্ধান করুন</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{1}টি সেটিংসের মধ্যে {0}টি মিলেছে</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>পাওয়ার প্ল্যানটি তৈরি করা যায়নি।</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>তৈরি করুন</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>নতুন পাওয়ার প্ল্যান তৈরি করুন...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>নতুন পাওয়ার প্ল্যান তৈরি করুন</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>গেজ</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>গেজ মেট্রিক</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>উইন্ডোটি সবার উপরে রাখবেন না</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>উইন্ডোটি সবার উপরে রাখুন</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>নতুন প্ল্যানের নাম</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>ম্যানুয়াল লঞ্চে</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>উইন্ডোজ স্টার্টআপে</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - কপি</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>পাওয়ার প্ল্যানটি তৈরি হয়েছে।</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>সেকেন্ড</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>সর্বনিম্ন চলার সময় (সে)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (ঐচ্ছিক)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>অ্যাপ শুরু হওয়ার সাথে সাথে স্যুইচ করতে উভয়ই 0 রাখুন (আজকের ডিফল্ট)। শুধু সেকেন্ড সেট করুন স্যুইচ করার আগে সেই সময় অপেক্ষা করতে। এছাড়াও একটি CPU % সেট করুন পরিবর্তে অ্যাপের নিজস্ব CPU ব্যবহার সেই সংখ্যক সেকেন্ডের জন্য সেই শতাংশের উপরে থাকার প্রয়োজন করতে।</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>টেমপ্লেট পাওয়ার প্ল্যান</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0} {1:0}%, {2}</value>
+  </data>
 </root>

@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Minutes</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>La permission administrateur a été annulée.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Avertissement des paramètres avancés</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>L'onglet Avancé expose des paramètres de gestion d'alimentation Windows de bas niveau qui ne sont normalement pas affichés dans le panneau de configuration Windows Options d'alimentation standard ou l'interface des paramètres. La modification de ces paramètres peut affecter les performances, la stabilité, l'autonomie de la batterie et le comportement matériel de votre système (y compris les paramètres thermiques et le comportement du ventilateur). Vous effectuez ces modifications entièrement à vos propres risques.
+
+Afficher un paramètre ici est une modification réelle et persistante au niveau du système : elle fait apparaître ce paramètre dans le panneau de configuration Windows Options d'alimentation au niveau du système d'exploitation et dans l'interface des paramètres, pas seulement dans cette application. Il ne s'agit pas d'une préférence sandboxée propre à l'application, et elle restera visible à l'échelle du système jusqu'à ce que vous la masquiez à nouveau.
+
+Certains de ces paramètres peuvent modifier significativement les performances ou la consommation d'énergie s'ils sont mal configurés. Ne modifiez ces paramètres que si vous comprenez ce qu'ils font. En cas de doute, laissez-les à leurs valeurs par défaut.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Je comprends et j'accepte</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Retour</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Rechercher dans les paramètres avancés...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Inclure les paramètres avancés masqués</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Rechercher dans les descriptions également</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} sur {1} paramètres correspondent</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Impossible de créer le plan d'alimentation.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Créer un nouveau plan d'alimentation...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Créer un nouveau plan d'alimentation</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Jauge</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Métrique de jauge</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Mémoire</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disque</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Réseau</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Ne pas garder la fenêtre au premier plan</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Garder la fenêtre au premier plan</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Nom du nouveau plan</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Au lancement manuel</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Au démarrage de Windows</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Copie</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>Le plan d'alimentation a été créé.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Secondes</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Durée min. d'exécution (s)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (optionnel)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Laissez les deux à 0 pour basculer dès que l'application démarre (comportement par défaut actuel). Définissez uniquement les secondes pour attendre ce délai avant de basculer. Définissez également un % CPU pour exiger que l'utilisation CPU de l'application reste au-dessus de ce pourcentage pendant ce nombre de secondes.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Plan d'alimentation modèle</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro -- {0} {1:0}%, {2}</value>
+  </data>
 </root>

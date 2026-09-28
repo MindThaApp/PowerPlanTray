@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>Menit</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>Izin administrator dibatalkan.</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>Peringatan pengaturan lanjutan</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>Tab Lanjutan mengekspos pengaturan manajemen daya Windows tingkat rendah yang biasanya tidak ditampilkan di panel kontrol Windows Power Options standar atau UI Pengaturan. Mengubah pengaturan ini dapat memengaruhi performa, stabilitas, masa pakai baterai, dan perilaku perangkat keras sistem Anda (termasuk termal dan perilaku kipas). Anda membuat perubahan ini sepenuhnya dengan risiko Anda sendiri.
+
+Menampilkan kembali pengaturan di sini adalah perubahan tingkat sistem yang nyata dan persisten: ini membuat pengaturan tersebut muncul di panel kontrol Windows Power Options tingkat OS dan UI Pengaturan juga, tidak hanya di dalam aplikasi ini. Ini bukan preferensi yang disandbox hanya dalam aplikasi, dan akan tetap tidak tersembunyi di seluruh sistem hingga Anda menyembunyikannya kembali.
+
+Beberapa pengaturan ini dapat mengubah performa atau konsumsi daya secara signifikan jika diatur dengan tidak benar. Hanya ubah pengaturan di sini jika Anda memahami apa yang dilakukannya. Jika Anda tidak yakin, biarkan pada nilai defaultnya.</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>Saya mengerti dan setuju</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>Kembali</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>Cari pengaturan lanjutan...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>Sertakan pengaturan lanjutan yang tersembunyi</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>Cari deskripsi juga</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} dari {1} pengaturan cocok</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>Tidak dapat membuat rencana daya.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Buat</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>Buat rencana daya baru...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>Buat rencana daya baru</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>Pengukur</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>Metrik pengukur</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>Jangan simpan jendela di atas</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>Simpan jendela di atas</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>Nama rencana baru</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>Saat peluncuran manual</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>Saat startup Windows</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - Salinan</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>Rencana daya telah dibuat.</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>Detik</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>Mín. berjalan (d)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (opsional)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>Biarkan keduanya di 0 untuk beralih segera setelah aplikasi dimulai (default saat ini). Atur hanya detik untuk menunggu selama itu sebelum beralih. Atur juga CPU % untuk mengharuskan penggunaan CPU aplikasi itu sendiri tetap di atas persentase tersebut selama detik tersebut.</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>Template rencana daya</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro -- {0} {1:0}%, {2}</value>
+  </data>
 </root>

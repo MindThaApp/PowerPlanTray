@@ -378,4 +378,107 @@
   <data name="Minutes.Header" xml:space="preserve">
     <value>ደቂቃዎች</value>
   </data>
+  <data name="AdministratorPermissionWasCancelled" xml:space="preserve">
+    <value>የአስተዳዳሪ ፈቃድ ተሰርዟል።</value>
+  </data>
+  <data name="AdvancedWarningTitle" xml:space="preserve">
+    <value>የላቁ ቅንብሮች ማስጠንቀቂያ</value>
+  </data>
+  <data name="AdvancedWarningContent" xml:space="preserve">
+    <value>የ«የላቀ» ትሩፍ ቅጽበቱ በዊንዶውስ ኃይል አስተዳደር ውስጥ ባሉ ዝቅ ደረጃ ቅንብሮችን ያሳያል፣ እነዚህ ቅንብሮች ብዙ ጊዜ በዊንዶውስ ኃይል አማራጮች ቁጥጥር ፓኔል ወይም ቅንብሮች UI ውስጥ አይታዩም። እነዚህን ቅንብሮች መቀየር የስርዓቱን አፈጻጸም፣ ጊዜያዊነት፣ የባትሪ ዕድሜ እና የሃርድዌር ባህሪ (ሙቀትና የነፋስ ማሽን ባህሪ ጨምሮ) ሊጎዳ ይችላል። ይህን ሙሉ ለሙሉ በራስዎ አደጋ ላይ ያደርጋሉ።
+
+ቅንብርን እዚህ ማሳየት ትክክለኛ፣ ዘለቄታዊ የስርዓት ደረጃ ለውጥ ነው፦ ቅንብሩ የዊንዶውስ ኃይል አማራጮች ቁጥጥር ፓኔልና ቅንብሮች UI ውስጥም እንዲታይ ያደርጋል፣ ይህ ብቻ ሳይሆን ከዚህ መተግበሪያ ውጭም ጭምር። ይህ መተግበሪያ ውስጥ ብቻ የሚሰራ የተያዘ ቅንብር አይደለም፣ እና ዳግም እስኪደበቅ ድረስ ስርዓት-ሰፊ ሆኖ ይቀጥላል።
+
+አንዳንድ ቅንብሮች ስህተት ከተቀናጁ አፈጻጸምን ወይም የኃይል ፍጆታ ሊቀይሩ ይችላሉ። እዚህ ቅንብሮችን ብቻ ቀይሩ ምን እንደሚሰሩ ከተረዱ። ካልተረዱ፣ ነባሪዎቻቸው ላይ ይተዋቸው።</value>
+  </data>
+  <data name="AdvancedWarningAgree" xml:space="preserve">
+    <value>ተረዳለሁ እና እስማማለሁ</value>
+  </data>
+  <data name="AdvancedWarningDecline" xml:space="preserve">
+    <value>ተመለስ</value>
+  </data>
+  <data name="AdvancedSearchBox.PlaceholderText" xml:space="preserve">
+    <value>የላቁ ቅንብሮችን ፈልግ...</value>
+  </data>
+  <data name="AdvancedSearchIncludeHidden.Content" xml:space="preserve">
+    <value>የተደበቁ የላቁ ቅንብሮችን አካትት</value>
+  </data>
+  <data name="AdvancedSearchDescriptions.Content" xml:space="preserve">
+    <value>መግለጫዎችንም ፈልግ</value>
+  </data>
+  <data name="AdvancedSearchMatchStatus" xml:space="preserve">
+    <value>{0} ከ {1} ቅንብሮች ይዛመዳሉ</value>
+  </data>
+  <data name="CouldntCreatePowerPlan" xml:space="preserve">
+    <value>የኃይል ዕቅዱ መፍጠር አልተቻለም።</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>ፍጠር</value>
+  </data>
+  <data name="CreateNewPowerPlan.Content" xml:space="preserve">
+    <value>አዲስ የኃይል ዕቅድ ፍጠር...</value>
+  </data>
+  <data name="CreateNewPowerPlanDialogTitle" xml:space="preserve">
+    <value>አዲስ የኃይል ዕቅድ ፍጠር</value>
+  </data>
+  <data name="Gauge" xml:space="preserve">
+    <value>መለኪያ</value>
+  </data>
+  <data name="GaugeMetric.Header" xml:space="preserve">
+    <value>የመለኪያ ልኬት</value>
+  </data>
+  <data name="GaugeMetricCpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="GaugeMetricMemory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="GaugeMetricDisk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="GaugeMetricNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="GaugeMetricGpu" xml:space="preserve">
+    <value>GPU</value>
+  </data>
+  <data name="DontKeepWindowOnTop" xml:space="preserve">
+    <value>መስኮቱን ሁልጊዜ ላይ አታቆይ</value>
+  </data>
+  <data name="KeepWindowOnTop" xml:space="preserve">
+    <value>መስኮቱን ሁልጊዜ ላይ አቆይ</value>
+  </data>
+  <data name="NewPowerPlanName" xml:space="preserve">
+    <value>የአዲሱ ዕቅድ ስም</value>
+  </data>
+  <data name="OnManualLaunch.Text" xml:space="preserve">
+    <value>በእጅ ሲጀምሩ</value>
+  </data>
+  <data name="OnWindowsStartup.Text" xml:space="preserve">
+    <value>ዊንዶውስ ሲጀምር</value>
+  </data>
+  <data name="PowerPlanCopyName" xml:space="preserve">
+    <value>{0} - ቅጂ</value>
+  </data>
+  <data name="PowerPlanCreated" xml:space="preserve">
+    <value>የኃይል ዕቅዱ ተፈጥሯል።</value>
+  </data>
+  <data name="SustainedSecondsLabel.Header" xml:space="preserve">
+    <value>ሰከንዶች</value>
+  </data>
+  <data name="MinRunningSecondsLabel.Header" xml:space="preserve">
+    <value>ዝቅተኛ የሩጫ ጊዜ (ሰ)</value>
+  </data>
+  <data name="OptionalAppCpuPercentLabel.Header" xml:space="preserve">
+    <value>CPU % (አማራጭ)</value>
+  </data>
+  <data name="AppRunningExtraConditionsHint.Text" xml:space="preserve">
+    <value>ሁለቱንም 0 ላይ ተዋቸው አፕሊኬሽኑ እንደጀመረ ወዲያውኑ ለመቀየር (አሁን ያለው ነባሪ)። ሰከንዶችን ብቻ አዘጋጁ ከመቀየርዎ በፊት ያን ያህል ለመጠበቅ። እንዲሁም CPU % ያዘጋጁ የመተግበሪያው የሲፒዩ አጠቃቀም ያን ያህል ሰከንዶች ከዚያ መቶኛ በላይ እንዲቆይ ለመጠየቅ።</value>
+  </data>
+  <data name="TemplatePowerPlan" xml:space="preserve">
+    <value>ቀዳሚ የኃይል ዕቅድ</value>
+  </data>
+  <data name="TrayTooltipGauge" xml:space="preserve">
+    <value>Power Plan Manager Pro — {0} {1:0}%, {2}</value>
+  </data>
 </root>
